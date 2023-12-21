@@ -1,6 +1,15 @@
 NAME = exe
 LIBFT = libft.a
-SRCS = cmd_exe.c execute.c pathname.c
+SRCS = 	single_cmd/cmd_exe.c \
+		single_cmd/child_process.c \
+		pipex/pipex_bonus.c \
+		pipex/create_pipes_bonus.c \
+		pipex/child_process_bonus.c \
+		pipex/utils_bonus.c \
+		pipex/display_error.c \
+		pipex/free_arr.c \
+		pipex/path_name.c \
+		pipex/execute.c
 OBJS = ${SRCS:.c=.o}
 FLAGS = -Wall -Werror -Wextra
 CC = cc
