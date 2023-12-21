@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 15:04:56 by jcaro             #+#    #+#             */
-/*   Updated: 2023/12/21 16:23:18 by jcaro            ###   ########.fr       */
+/*   Updated: 2023/12/21 16:34:29 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	cmd_exe(char **argv, char **envp)
 	display_error(pid, "fork");
 	if (pid == 0)
 		execute(argv, envp);
-	close(fd);
+	close(fd[0]);
+	close(fd[1]);
 	waitpid(pid, &status, 0);
 	exit(status);
 }

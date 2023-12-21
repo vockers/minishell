@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 16:23:40 by jcaro             #+#    #+#             */
-/*   Updated: 2023/12/21 16:23:42 by jcaro            ###   ########.fr       */
+/*   Updated: 2023/12/21 16:35:29 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@
 void	cmd_exe(char **argv, char **envp);
 void	execute(char **argv, char **envp);
 char	*pathname(char *cmd, char **envp);
+char	*free_arr(char **arr);
 
 #endif
