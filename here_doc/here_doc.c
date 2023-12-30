@@ -1,35 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child_process.c                                    :+:      :+:    :+:   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juliacaro <juliacaro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/21 15:30:14 by jcaro             #+#    #+#             */
-/*   Updated: 2023/12/30 14:21:28 by juliacaro        ###   ########.fr       */
+/*   Created: 2023/12/30 14:23:48 by juliacaro         #+#    #+#             */
+/*   Updated: 2023/12/30 15:03:02 by juliacaro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute.h"
 #include "../libft/libft.h"
 
-void	child_process(char **argv, char **envp)
+t_list	*here_doc_handler(char *delimiter)
 {
-	char	*cmd_path;
-	char	*msg;
+	char	*line;
+	t_list	*here_doc_input;
+	t_list	*new;
 
-	cmd_path = pathname(argv[0], envp);
-	if (execve(cmd_path, argv, envp) == -1)
+	if (!delimiter)
 	{
-		msg = error_msg(argv[0]);
-		if (!msg)
-			perror("minishell");
-		else
-		{
-			ft_putstr_fd(msg, STDERR_FILENO);
-			free(msg);
-		}
-		free(cmd_path);
-		exit(EXIT_FAILURE);
+		printf("minishell: parse error near `\\n'\n");
+		return (NULL);
 	}
+	here_doc_input = NULL;
+	line = readline("heredoc> ");
+	while (ft_strcmp(line, delimiter))
+	{
+		new = ft_lstnew(line);
+		if (!new)
+		{
+			ft_lstclear(&here_doc_input, free);
+			return (NULL);
+		}
+		ft_lstadd_back(&here_doc_input, ft_lstnew(line));
+		line = readline("heredoc> ");
+	}
+	return (here_doc_input);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
+/*   By: juliacaro <juliacaro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 16:23:40 by jcaro             #+#    #+#             */
-/*   Updated: 2023/12/21 18:43:13 by jcaro            ###   ########.fr       */
+/*   Updated: 2023/12/30 15:11:18 by juliacaro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <string.h>
 # include <stdio.h>
 # include <sys/wait.h>
+# include <readline/readline.h>
+# include "libft/list/libft_list.h"
 
 void	cmd_exe(char **argv, char **envp);
 void	child_process(char **argv, char **envp);
@@ -40,5 +42,6 @@ void	exec_child_process(char **argv, char **envp, int **fds, int i);
 void	close_all(int **fds, int pipe_num);
 void	close_except(int **fds, int n);
 char	*error_msg(char *cmd);
+t_list	*here_doc_handler(char *delimiter);
 
 #endif

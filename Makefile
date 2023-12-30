@@ -1,6 +1,7 @@
 NAME = exe
 LIBFT = libft.a
-SRCS = 	single_cmd/cmd_exe.c \
+SRCS = 	main.c \
+		single_cmd/cmd_exe.c \
 		single_cmd/child_process.c \
 		pipex/pipex_bonus.c \
 		pipex/create_pipes_bonus.c \
@@ -9,7 +10,8 @@ SRCS = 	single_cmd/cmd_exe.c \
 		pipex/display_error.c \
 		pipex/free_arr.c \
 		pipex/path_name.c \
-		pipex/execute.c
+		pipex/execute.c \
+		here_doc/here_doc.c
 OBJS = ${SRCS:.c=.o}
 FLAGS = -Wall -Werror -Wextra
 CC = cc
@@ -21,7 +23,7 @@ HEADER = execute.h
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) $(HEADER)
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME) -L./libft/build -lft
+	$(CC) $(FLAGS) $(OBJS) -o $(NAME) -lreadline -L./libft/build -lft
 
 $(LIBFT):
 	$(MAKE) -C libft -f Makefile

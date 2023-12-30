@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
+/*   By: juliacaro <juliacaro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 15:04:56 by jcaro             #+#    #+#             */
-/*   Updated: 2023/12/21 18:50:47 by jcaro            ###   ########.fr       */
+/*   Updated: 2023/12/30 15:09:23 by juliacaro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,4 @@ void	cmd_exe(char **argv, char **envp)
 	close(fd[1]);
 	waitpid(pid, &status, 0);
 	exit(status);
-}
-
-int	main(int ac, char *argv[], char **envp)
-{
-	if (ac == 1)
-		return (0);
-	else
-		cmd_exe(argv + 1, envp);
-	// if (ac < 5)
-	// 	exit(EXIT_FAILURE);
-	// pipex_bonus(ac - 3, argv, envp);
-	return (0);
 }

@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child_process.c                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juliacaro <juliacaro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/21 15:30:14 by jcaro             #+#    #+#             */
-/*   Updated: 2023/12/30 14:21:28 by juliacaro        ###   ########.fr       */
+/*   Created: 2023/12/30 15:04:05 by juliacaro         #+#    #+#             */
+/*   Updated: 2023/12/30 15:11:39 by juliacaro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../execute.h"
-#include "../libft/libft.h"
+#include "execute.h"
+#include "libft/libft.h"
 
-void	child_process(char **argv, char **envp)
+int	main(int ac, char *argv[], char **envp)
 {
-	char	*cmd_path;
-	char	*msg;
+	t_list	*here_doc_input;
 
-	cmd_path = pathname(argv[0], envp);
-	if (execve(cmd_path, argv, envp) == -1)
+	if (ac == 1)
+		return (0);
+	else if (ft_strcmp(argv[1], "<<") == 0)
 	{
-		msg = error_msg(argv[0]);
-		if (!msg)
-			perror("minishell");
-		else
-		{
-			ft_putstr_fd(msg, STDERR_FILENO);
-			free(msg);
-		}
-		free(cmd_path);
-		exit(EXIT_FAILURE);
+		here_doc_input = here_doc_handler(argv[2]);
+		ft_lstclear(&here_doc_input, free);
 	}
+	else
+		cmd_exe(argv + 1, envp);
+	// if (ac < 5)
+	// 	exit(EXIT_FAILURE);
+	// pipex_bonus(ac - 3, argv, envp);
+	return (0);
 }
