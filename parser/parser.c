@@ -13,20 +13,21 @@ static t_token	parser_eat(t_parser *parser, enum e_token token_type)
 	{
 		ft_printf("Unexpected end of input, expected: %d\n", token_type);
 		exit(1);
-	}	
+	}
 	if (current_token.type != token_type)
 	{
 		ft_printf("Unexpected token, expected: %d\n", token_type);
 		exit(1);
-	}	
+	}
 	parser->next_token = get_next_token(NULL);
-	return current_token;
+	return (current_token);
 }
 
 /**
  * Arguments
  *	: ARG
  *	| ARG Arguments
+ * 	;
 */
 static t_ast	*parse_arguments(t_parser *parser)
 {
@@ -43,6 +44,14 @@ static t_ast	*parse_arguments(t_parser *parser)
 	return (node);
 }
 
+/**
+ * RedirectOperator
+ * 	: '>'
+ * 	| '<'
+ * 	| '>>'
+ * 	| '<<'
+ * 	;
+*/
 static t_ast	*parse_redirect_operator(t_parser *parser)
 {
 	t_ast	*node;
@@ -152,5 +161,5 @@ t_parser	*parser_init(char *line)
 
 t_ast	*parser_parse(t_parser *parser)
 {
-	return parse_pipe(parser);
+	return (parse_pipe(parser));
 }

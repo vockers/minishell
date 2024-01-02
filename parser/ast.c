@@ -16,7 +16,7 @@ t_ast	*ast_new(enum e_ast type)
 	return (ast);
 }
 
-void ast_destroy(t_ast *ast)
+void	ast_destroy(t_ast *ast)
 {
 	if (ast == NULL)
 		return ;
