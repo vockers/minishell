@@ -43,13 +43,7 @@ static t_ast	*parse_arguments(t_parser *parser)
 	return (node);
 }
 
-/**
- * Redirect
- * 	: '>' ARG
- * 	| '>' ARG Redirect
- *
-*/
-static t_ast	*parse_redirect(t_parser *parser)
+static t_ast	*parse_redirect_operator(t_parser *parser)
 {
 	t_ast	*node;
 	t_token	token;
@@ -66,12 +60,28 @@ static t_ast	*parse_redirect(t_parser *parser)
 	if (node == NULL)
 		return (NULL);
 	node->value = token.str;
-	node->left = ast_new(AST_ARG);
-	if (node == NULL)
-		return (NULL);
+	return (node);
+}
+
+/**
+ * Redirect
+ * 	: RedirectOperator ARG
+ * 	| RedirectOperator ARG Redirect
+ * 	;
+ *
+*/
+static t_ast	*parse_redirect(t_parser *parser)
+{
+	t_ast	*node;
+	t_token	token;
+
+	node = parse_redirect_operator(parser);
 	token = parser_eat(parser, T_ARG);
+	node->left = ast_new(AST_ARG);
+	if (node->left == NULL)
+		return (NULL);
 	node->left->value = token.str;
-	if (lexer_is_redirect(parser->next_token.type))
+	if (token_is_redirect(parser->next_token.type))
 		node->right = parse_redirect(parser);
 	return (node);
 }
@@ -82,6 +92,7 @@ static t_ast	*parse_redirect(t_parser *parser)
  * 	| Arguments Redirect
  * 	| Redirect Arguments
  * 	| Redirect Arguments Redirect
+ * 	;
 */
 static t_ast	*parse_command(t_parser *parser)
 {
@@ -89,11 +100,11 @@ static t_ast	*parse_command(t_parser *parser)
 	t_ast	*redirect_node;
 
 	redirect_node = NULL;
-	if (lexer_is_redirect(parser->next_token.type))
+	if (token_is_redirect(parser->next_token.type))
 		redirect_node = parse_redirect(parser);
 	node = parse_arguments(parser);
 	node->right = redirect_node;
-	if (lexer_is_redirect(parser->next_token.type))
+	if (token_is_redirect(parser->next_token.type))
 	{
 		redirect_node = node;
 		while (redirect_node->right)
@@ -107,6 +118,7 @@ static t_ast	*parse_command(t_parser *parser)
  * Pipe
  * 	: Command
  * 	| Command '|' Pipe
+ * 	;
 */
 static t_ast	*parse_pipe(t_parser *parser)
 {

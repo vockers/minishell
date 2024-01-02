@@ -2,18 +2,6 @@
 
 #include <stdbool.h>
 
-bool lexer_is_redirect(enum e_token type)
-{
-	return (type == T_GRT || type == T_LSR || type == T_D_GRT || type == T_D_LSR);
-}
-
-static char	*skip_whitespaces(char *line)
-{
-	while (ft_isspace(*line))
-		line++;
-	return (line);
-}
-
 static char	*match_arg(char *str)
 {
 	size_t	i;
@@ -79,7 +67,7 @@ t_token	get_next_token(char *line)
 
 	if (line != NULL)
 		saved = line;
-	saved = skip_whitespaces(saved);
+	saved = lexer_skip_spaces(saved);
 	if (*saved == '\0')
 		return ((t_token){T_NONE, NULL});
 	i = 0;
