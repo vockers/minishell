@@ -2,13 +2,6 @@
 
 #include <stdbool.h>
 
-static bool	is_whitespace(char c)
-{
-	if ((c >= 9 && c <= 13) || c == ' ')
-		return (true);
-	return (false);
-}
-
 bool lexer_is_redirect(enum e_token type)
 {
 	return (type == T_GRT || type == T_LSR || type == T_D_GRT || type == T_D_LSR);
@@ -16,7 +9,7 @@ bool lexer_is_redirect(enum e_token type)
 
 static char	*skip_whitespaces(char *line)
 {
-	while (is_whitespace(*line))
+	while (ft_isspace(*line))
 		line++;
 	return (line);
 }
@@ -26,7 +19,7 @@ static char	*match_arg(char *str)
 	size_t	i;
 
 	i = 0;
-	while (str[i] && !is_whitespace(str[i]))
+	while (str[i] && !ft_isspace(str[i]))
 	{
 		if (!ft_isalnum(str[i]))
 			return (NULL);
