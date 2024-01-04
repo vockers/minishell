@@ -1,28 +1,29 @@
 NAME = exe
 LIBFT = libft.a
-SRCS = 	main.c \
-		single_cmd/cmd_exe.c \
-		single_cmd/child_process.c \
-		pipex/pipex_bonus.c \
-		pipex/create_pipes_bonus.c \
-		pipex/child_process_bonus.c \
-		pipex/utils_bonus.c \
-		pipex/display_error.c \
-		pipex/free_arr.c \
-		pipex/path_name.c \
-		pipex/execute.c \
-		here_doc/here_doc.c
+SRCS = 	parser/ast.c \
+		parser/lexer_utils.c \
+		parser/lexer.c \
+		parser/parser.c \
+		execute/exe_line.c \
+		execute/test.c \
+		execute/here_doc.c \
+		execute/pipex.c \
+		execute/display_error.c \
+		execute/execute.c \
+		execute/free_arr.c \
+		execute/path_name.c \
+		execute/file_handler.c
+
 OBJS = ${SRCS:.c=.o}
 FLAGS = -Wall -Werror -Wextra
 CC = cc
-HEADER = execute.h
 
 %o:%c
 	$(CC) $(FLAGS) -c $< -o $@
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(HEADER)
+$(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME) -lreadline -L./libft/build -lft
 
 $(LIBFT):

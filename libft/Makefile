@@ -17,6 +17,7 @@ SRC			= \
 	ctype/ft_isascii.c \
 	ctype/ft_isdigit.c \
 	ctype/ft_isprint.c \
+	ctype/ft_isspace.c \
 	ctype/ft_tolower.c \
 	ctype/ft_toupper.c \
 	dict/ft_dict.c \
@@ -89,6 +90,6 @@ $(OBJ_DIR)/%.o: %.c
 clean:
 	-rm -rf $(BUILD_DIR)
 
-re: fclean all
+re: clean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean re
