@@ -10,6 +10,7 @@ void	single_cmdx(t_ast *ast, char **envp)
 	display_error(pid, "fork");
 	if (pid == 0)
 	{
+		infile_handler(ast->right);
 		outfile_handler(ast->right);
 		here_doc_handler(ast->right);
 		execute(ast->value, envp);

@@ -5,12 +5,12 @@ char	*error_msg(char *cmd)
 	size_t	len;
 	char	*msg;
 
-	len = ft_strlen("minishell: command not found: \n");
+	len = ft_strlen("ms: command not found: \n");
 	len += ft_strlen(cmd);
 	msg = (char *)malloc(len + 1);
 	if (!msg)
 		return (NULL);
-	ft_strlcpy(msg, "minishell: command not found: ", len + 1);
+	ft_strlcpy(msg, "ms: command not found: ", len + 1);
 	ft_strlcat(msg, cmd, len + 1);
 	ft_strlcat(msg, "\n", len + 1);
 	return (msg);

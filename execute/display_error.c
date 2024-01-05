@@ -15,12 +15,12 @@ char	*create_msg(char *error, char *file)
 	char	*msg;
 	char	c[2];
 
-	len = ft_strlen("minishell: : \n");
+	len = ft_strlen("ms: : \n");
 	len += ft_strlen(error) + ft_strlen(file);
 	msg = (char *)malloc(len + 1);
 	if (!msg)
 		return (NULL);
-	ft_strlcpy(msg, "minishell: ", len + 1);
+	ft_strlcpy(msg, "ms: ", len + 1);
 	c[0] = ft_tolower(error[0]);
 	c[1] = '\0';
 	ft_strlcat(msg, c, len + 1);

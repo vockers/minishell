@@ -21,6 +21,7 @@ void	child_process_right(t_ast *ast, char **envp, int *fds)
 	close(fds[0]);
 	if (ast->type == 1)
 	{
+		infile_handler(ast->right);
 		outfile_handler(ast->right);
 		execute(ast->value, envp);
 	}
