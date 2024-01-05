@@ -7,12 +7,8 @@ static char	*match_arg(char *str)
 	size_t	i;
 
 	i = 0;
-	while (str[i] && !ft_isspace(str[i]))
-	{
-		if (!ft_isalnum(str[i]))
-			return (NULL);
+	while (str[i] && !lexer_is_delimiter(str[i]))
 		i++;
-	}
 	return (ft_strndup(str, i));
 }
 
@@ -57,12 +53,12 @@ t_token	get_next_token(char *line)
 	int							i;
 	char						*value;
 	const static t_match_spec	specs[TOKEN_COUNT] = {
-	{match_arg, T_ARG},
 	{match_pipe, T_PIPE},
 	{match_greater, T_GRT},
 	{match_less, T_LSR},
 	{match_dgreater, T_D_GRT},
 	{match_dless, T_D_LSR},
+	{match_arg, T_ARG}
 	};
 
 	if (line != NULL)

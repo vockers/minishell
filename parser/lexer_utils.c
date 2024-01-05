@@ -14,3 +14,8 @@ char	*lexer_skip_spaces(char *line)
 		line++;
 	return (line);
 }
+
+bool	lexer_is_delimiter(char c)
+{
+	return (c == '|' || c == '<' || c == '>' || ft_isspace(c));
+}
