@@ -32,5 +32,6 @@ t_token	get_next_token(char *line);
 
 bool	token_is_redirect(enum e_token type);
 char	*lexer_skip_spaces(char *line);
+bool	lexer_is_delimiter(char c);
 
 #endif
