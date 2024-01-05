@@ -11,6 +11,7 @@ void	single_cmdx(t_ast *ast, char **envp)
 	if (pid == 0)
 	{
 		outfile_handler(ast->right);
+		here_doc_handler(ast->right);
 		execute(ast->value, envp);
 	}
 	close(fd[0]);
