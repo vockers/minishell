@@ -2,7 +2,7 @@
 
 #include <stdbool.h>
 
-static t_token match_token(char *str)
+static t_token	match_token(char *str)
 {
 	size_t	i;
 
