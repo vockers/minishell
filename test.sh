@@ -2,7 +2,7 @@
 
 case $1 in
 	"lexer")
-	cc tests/lexer_tests.c parser/lexer.c parser/lexer_utils.c libft/build/libft.a -I./libft -I./parser
+	cc tests/lexer_tests.c parser/lexer.c parser/lexer_utils.c libft/build/libft.a -I./libft -I./parser -g
 	./a.out
 	;;
 	"parser")
