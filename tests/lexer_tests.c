@@ -18,6 +18,6 @@ void	test_lexer(char *line)
 int	main(void)
 {
 	test_lexer("\"Hello\" | world|echo>test.txt>>$test<< ...");
-	test_lexer("\" hello\t\" | '\"world\"'");
+	test_lexer("\" hello\t\" | '\"world\"' > \"'\"");
 	return (0);
 }
