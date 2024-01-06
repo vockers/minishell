@@ -2,10 +2,9 @@
 
 #include "lexer.h"
 
-int main()
+void	test_lexer(char *line)
 {
 	t_token	t;
-	char *line = "\"Hello\" | world|echo>test.txt>>$test<< ...";
 
 	t = get_next_token(line);
 	while (t.type != T_NONE)
@@ -13,6 +12,12 @@ int main()
 		ft_printf("%s\n", t.str);
 		t = get_next_token(NULL);
 	}
-	
-	return 0;
+	ft_printf("-------------------\n");
+}
+
+int	main(void)
+{
+	test_lexer("\"Hello\" | world|echo>test.txt>>$test<< ...");
+	test_lexer("\" hello\t\" | '\"world\"'");
+	return (0);
 }
