@@ -3,10 +3,13 @@
 static void	child_process_left(t_ast *ast, char **envp, int *fds, int infd)
 {
 	close(fds[0]);
-	dup2(infd, STDIN_FILENO);
-	close(infd);
+	if (infd != STDIN_FILENO)
+	{
+		dup2(infd, STDIN_FILENO);
+		close(infd);
+	}
 	infile_handler(ast->right);
-	here_doc_handler(ast->right);
+	here_doc_handler(ast->right, 1);
 	dup2(fds[1], STDOUT_FILENO);
 	close(fds[1]);
 	execute(ast, envp);

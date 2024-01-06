@@ -6,6 +6,7 @@ void	outfile_handler(t_ast *ast)
 
 	if (ast && (ast->type == AST_GRT || ast->type == AST_APPEND))
 	{
+		fd_outfile = -1;
 		outfile_error(ast->left->value);
 		if (ast->type == AST_GRT)
 			fd_outfile = open(ast->left->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -37,9 +38,10 @@ int	infile_handler(t_ast *ast)
 	return (0);
 }
 
-static int	write_temp_file(char *delimiter)
+static int	write_temp_file(char *delimiter, int is_pipe)
 {
 	char	*line;
+	char	*msg;
 	int		fd;
 
 	if (!delimiter)
@@ -50,23 +52,27 @@ static int	write_temp_file(char *delimiter)
 	fd = open("tmp_file", O_WRONLY|O_CREAT|O_EXCL|O_TRUNC, 0600);
 	if (fd == -1)
 		return (-1);
-	line = readline("heredoc> ");
+	if (is_pipe)
+		msg = "pipe heredoc> ";
+	else
+		msg = "heredoc> ";
+	line = readline(msg);
 	while (ft_strcmp(line, delimiter))
 	{
 		write(fd, line, ft_strlen(line) + 1);
-		line = readline("heredoc> ");
+		line = readline(msg);
 	}
 	close(fd);
 	return (fd);
 }
 
-void	here_doc_handler(t_ast *ast)
+void	here_doc_handler(t_ast *ast, int is_pipe)
 {
 	int		fd;
 
 	if (ast && ast->type == AST_HEREDOC)
 	{
-		fd = write_temp_file(ast->left->value);
+		fd = write_temp_file(ast->left->value, is_pipe);
 		if (fd == -1)
 			return ;
 		fd = open("tmp_file", O_RDONLY);

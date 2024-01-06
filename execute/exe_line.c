@@ -12,7 +12,7 @@ void	single_cmdx(t_ast *ast, char **envp)
 	{
 		infile_handler(ast->right);
 		outfile_handler(ast->right);
-		here_doc_handler(ast->right);
+		here_doc_handler(ast->right, 0);
 		execute(ast, envp);
 	}
 	close(fd[0]);

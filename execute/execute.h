@@ -22,6 +22,6 @@ void	outfile_error(char *file);
 void	infile_error(char *file);
 void	outfile_handler(t_ast *ast);
 int		infile_handler(t_ast *ast);
-void	here_doc_handler(t_ast *ast);
+void	here_doc_handler(t_ast *ast, int is_pipe);
 
 #endif
