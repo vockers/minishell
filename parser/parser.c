@@ -38,6 +38,7 @@ static t_ast	*parse_arguments(t_parser *parser)
 	if (node == NULL)
 		return (NULL);
 	token = parser_eat(parser, T_ARG);
+	token.str = expand_argument(token.str);
 	node->value = token.str;
 	if (parser->next_token.type == T_ARG)
 		node->left = parse_arguments(parser);

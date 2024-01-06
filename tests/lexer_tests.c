@@ -46,7 +46,7 @@ int	main(void)
 {
 	// test_lexer("\"Hello\" | world|echo>test.txt>>$test<< ...");
 	// test_lexer("\" hello\t\" | '\"world\"' > \"'\"");
-	assert_lexer("\" hello\t\" | '\"world\"' > \"'\"", " hello\t", "|", "\"world\"", ">", "'");
+	assert_lexer("\" hello\t\" | '\"world\"' > \"'\"", "\" hello\t\"", "|", "'\"world\"'", ">", "\"'\"");
 	ft_printf("All tests passed!\n");
 	return (0);
 }
