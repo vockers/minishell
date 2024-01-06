@@ -16,19 +16,54 @@ char	*error_msg(char *cmd)
 	return (msg);
 }
 
-void	execute(char *cmd, char **envp)
+size_t	get_size_args(t_ast *ast)
+{
+	size_t	size;
+
+	size = 0;
+	while (ast)
+	{
+		ast = ast->left;
+		size++;
+	}
+	return (size);
+}
+
+char	**get_args(t_ast *ast)
+{
+	char	**args;
+	int		i;
+
+	args = (char **)malloc((get_size_args(ast) + 1) * sizeof(char *));
+	if (!args)
+		return (NULL);
+	i = 0;
+	while (ast)
+	{
+		args[i] = (char *)malloc((ft_strlen(ast->value) + 1) * sizeof(char));
+		if (!args[i])
+			return (free_arr_i(args, i));
+		args[i] = ft_strcpy(args[i], ast->value);
+		i++;
+		ast = ast->left;
+	}
+	args[i] = NULL;
+	return (args);
+}
+
+void	execute(t_ast *ast, char **envp)
 {
 	char	**args;
 	char	*cmd_path;
 	char	*msg;
 
-	args = ft_split(cmd, ' ');
+	args = get_args(ast);
 	if (!args)
 		exit(EXIT_FAILURE);
 	cmd_path = pathname(args[0], envp);
 	if (execve(cmd_path, args, envp) == -1)
 	{
-		msg = error_msg(cmd);
+		msg = error_msg(args[0]);
 		if (msg)
 		{
 			ft_putstr_fd(msg, STDERR_FILENO);

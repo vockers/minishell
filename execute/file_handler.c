@@ -4,22 +4,27 @@ void	outfile_handler(t_ast *ast)
 {
 	int	fd_outfile;
 
-	if (ast && ast->type == 2)
+	if (ast && (ast->type == AST_GRT || ast->type == AST_APPEND))
 	{
 		outfile_error(ast->left->value);
-		fd_outfile = open(ast->left->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (ast->type == AST_GRT)
+			fd_outfile = open(ast->left->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (ast->type == AST_APPEND)
+			fd_outfile = open(ast->left->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd_outfile == -1)
 			exit(EXIT_FAILURE);
 		dup2(fd_outfile, STDOUT_FILENO);
 		close(fd_outfile);
 	}
+	else if (ast)
+		outfile_handler(ast->right);
 }
 
 int	infile_handler(t_ast *ast)
 {
 	int	fd_infile;
 
-	if (ast && ast->type == 3)
+	if (ast && ast->type == AST_LSR)
 	{
 		infile_error(ast->left->value);
 		fd_infile = open(ast->left->value, O_RDONLY, 0644);
@@ -32,7 +37,7 @@ int	infile_handler(t_ast *ast)
 	return (0);
 }
 
-int	write_temp_file(char *delimiter)
+static int	write_temp_file(char *delimiter)
 {
 	char	*line;
 	int		fd;
@@ -59,7 +64,7 @@ void	here_doc_handler(t_ast *ast)
 {
 	int		fd;
 
-	if (ast && ast->type == 5)
+	if (ast && ast->type == AST_HEREDOC)
 	{
 		fd = write_temp_file(ast->left->value);
 		if (fd == -1)

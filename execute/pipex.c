@@ -1,31 +1,28 @@
 #include "execute.h"
 
-void	child_process_left(t_ast *ast, char **envp, int *fds, int infd)
+static void	child_process_left(t_ast *ast, char **envp, int *fds, int infd)
 {
-	int	fd_infile;
-
 	close(fds[0]);
 	dup2(infd, STDIN_FILENO);
 	close(infd);
+	infile_handler(ast->right);
+	here_doc_handler(ast->right);
 	dup2(fds[1], STDOUT_FILENO);
 	close(fds[1]);
-	execute(ast->value, envp);
+	execute(ast, envp);
 }
 
-void	child_process_right(t_ast *ast, char **envp, int *fds)
+static void	child_process_right(t_ast *ast, char **envp, int *fds)
 {
-	int	fd_outfile;
-
 	close(fds[1]);
 	dup2(fds[0], STDIN_FILENO);
 	close(fds[0]);
-	if (ast->type == 1)
+	if (ast->type == AST_ARG)
 	{
-		infile_handler(ast->right);
 		outfile_handler(ast->right);
-		execute(ast->value, envp);
+		execute(ast, envp);
 	}
-	else if (ast->type == 0)
+	else if (ast->type == AST_PIPE)
 		pipex(ast, envp, fds[0]);
 }
 

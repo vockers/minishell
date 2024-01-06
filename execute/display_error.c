@@ -9,7 +9,7 @@ void	display_error(int fd, char *error)
 	}
 }
 
-char	*create_msg(char *error, char *file)
+static char	*create_msg(char *error, char *file)
 {
 	size_t	len;
 	char	*msg;

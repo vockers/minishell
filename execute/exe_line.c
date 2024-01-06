@@ -13,7 +13,7 @@ void	single_cmdx(t_ast *ast, char **envp)
 		infile_handler(ast->right);
 		outfile_handler(ast->right);
 		here_doc_handler(ast->right);
-		execute(ast->value, envp);
+		execute(ast, envp);
 	}
 	close(fd[0]);
 	close(fd[1]);
@@ -22,9 +22,9 @@ void	single_cmdx(t_ast *ast, char **envp)
 
 void	exe_line(t_ast *ast, char **envp, int infd)
 {
-	if (ast->type == 0)
+	if (ast->type == AST_PIPE)
 		pipex(ast, envp, infd);
-	else if (ast->type == 1)
+	else if (ast->type == AST_ARG)
 	{
 		single_cmdx(ast, envp);
 	}

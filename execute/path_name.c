@@ -1,6 +1,6 @@
 #include "execute.h"
 
-char	*get_paths(char **envp)
+static char	*get_paths(char **envp)
 {
 	char	*paths;
 	char	**env_vars;
@@ -28,7 +28,7 @@ char	*get_paths(char **envp)
 	return (paths);
 }
 
-char	**get_path_list(char *paths)
+static char	**get_path_list(char *paths)
 {
 	char	**path_list;
 
@@ -41,7 +41,7 @@ char	**get_path_list(char *paths)
 	return (path_list);
 }
 
-char	*get_pathname(char **path_list, char *cmd)
+static char	*get_pathname(char **path_list, char *cmd)
 {
 	int		i;
 	char	*pathname;
