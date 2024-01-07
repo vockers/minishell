@@ -9,14 +9,15 @@ static char	*expand_env(char *str, size_t i)
 	size_t	new_len;
 
 	name_len = i;
-	while (str[name_len] && !lexer_is_delimiter(str[name_len]))
+	while (str[name_len] && !lexer_is_delimiter(str[name_len]) && \
+		str[name_len] != '\'' && str[name_len] != '"')
 		name_len++;
 	name_len = name_len - i;
 	name = ft_strndup(str + i, name_len);
 	value = getenv(name);
 	if (value == NULL)
 		return (str);
-	new_len = ft_strlen(str) - name_len + ft_strlen(value) - 1;
+	new_len = ft_strlen(str) - name_len + ft_strlen(value);
 	new_str = ft_calloc(new_len + 1, sizeof(char));
 	if (new_str == NULL)
 		return (NULL);
@@ -50,7 +51,7 @@ char	*expand_argument(char *str)
 		}
 		else
 		{
-			if (str[i] == '$')
+			if (str[i] == '$' && !inside_quote)
 				str = expand_env(str, i + 1);
 			i++;
 		}
