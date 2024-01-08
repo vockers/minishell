@@ -1,1 +1,1 @@
-NAME	= ms
+NAME = ms
