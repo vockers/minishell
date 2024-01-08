@@ -1,6 +1,6 @@
 #include "execute.h"
 
-int	main(int ac, char *argv[], char **envp)
+int	main(int ac, char *argv[])
 {
 	t_parser	*parser;
 	t_ast		*ast;
@@ -9,7 +9,7 @@ int	main(int ac, char *argv[], char **envp)
 		return (0);
 	parser = parser_init(argv[1]);	
 	ast = parser_parse(parser);
-	exe_line(ast, envp, STDIN_FILENO);
+	exe_line(ast, STDIN_FILENO);
 	ast_destroy(ast);
 	free(parser);
 	return (0);

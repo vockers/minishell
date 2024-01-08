@@ -51,7 +51,7 @@ char	**get_args(t_ast *ast)
 	return (args);
 }
 
-void	execute(t_ast *ast, char **envp)
+void	execute(t_ast *ast)
 {
 	char	**args;
 	char	*cmd_path;
@@ -60,8 +60,8 @@ void	execute(t_ast *ast, char **envp)
 	args = get_args(ast);
 	if (!args)
 		exit(EXIT_FAILURE);
-	cmd_path = pathname(args[0], envp);
-	if (execve(cmd_path, args, envp) == -1)
+	cmd_path = pathname(args[0]);
+	if (execve(cmd_path, args, NULL) == -1)
 	{
 		msg = error_msg(args[0]);
 		if (msg)

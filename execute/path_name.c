@@ -1,33 +1,5 @@
 #include "execute.h"
 
-static char	*get_paths(char **envp)
-{
-	char	*paths;
-	char	**env_vars;
-	int		i;
-	int		len;
-
-	i = 0;
-	paths = NULL;
-	while (envp[i] != NULL)
-	{
-		env_vars = ft_split(envp[i], '=');
-		if (!env_vars)
-			return (NULL);
-		len = ft_strlen(env_vars[0]);
-		if (len == 4 && ft_strncmp("PATH", env_vars[0], 4) == 0)
-		{
-			paths = ft_strdup(env_vars[1]);
-			break ;
-			if (!paths)
-				return (free_arr(env_vars));
-		}
-		free_arr(env_vars);
-		i++;
-	}
-	return (paths);
-}
-
 static char	**get_path_list(char *paths)
 {
 	char	**path_list;
@@ -35,7 +7,6 @@ static char	**get_path_list(char *paths)
 	if (!paths)
 		return (NULL);
 	path_list = ft_split(paths, ':');
-	free(paths);
 	if (!path_list)
 		return (NULL);
 	return (path_list);
@@ -68,12 +39,12 @@ static char	*get_pathname(char **path_list, char *cmd)
 	return (free_arr(path_list));
 }
 
-char	*pathname(char *cmd, char **envp)
+char	*pathname(char *cmd)
 {
 	char	**path_list;
 	char	*pathname;
 
-	path_list = get_path_list(get_paths(envp));
+	path_list = get_path_list(getenv("PATH"));
 	if (!path_list)
 		return (NULL);
 	pathname = get_pathname(path_list, cmd);
