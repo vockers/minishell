@@ -11,11 +11,11 @@
 
 # include "../parser/parser.h"
 
-void	exe_line(t_ast *ast, char **envp, int infd);
-void	pipex(t_ast *ast, char **envp, int infd);
+void	exe_line(t_ast *ast, int infd);
+void	pipex(t_ast *ast, int infd);
 void	display_error(int fd, char *error);
-char	*pathname(char *cmd, char **envp);
-void	execute(t_ast *ast, char **envp);
+char	*pathname(char *cmd);
+void	execute(t_ast *ast);
 char	*free_arr(char **arr);
 char	**free_arr_i(char **arr, int i);
 void	outfile_error(char *file);
