@@ -15,6 +15,7 @@ static char	*expand_env(char *str, size_t i)
 	name_len = name_len - i;
 	name = ft_strndup(str + i, name_len);
 	value = getenv(name);
+	free(name);
 	if (value == NULL)
 		return (str);
 	new_len = ft_strlen(str) - name_len + ft_strlen(value);
@@ -50,11 +51,8 @@ char	*expand_argument(char *str)
 			ft_strcpy(str + i, str + i + 1);
 		}
 		else
-		{
-			if (str[i] == '$' && !inside_quote)
-				str = expand_env(str, i + 1);
-			i++;
-		}
+			if (str[i++] == '$' && !inside_quote)
+				str = expand_env(str, i);
 	}
 	return (str);
 }
