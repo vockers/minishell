@@ -20,17 +20,17 @@ int	builtin_echo(char **args)
 			newline = false;
 		else
 		{
-			ft_printf("%s", *args++);
+			printf("%s", *args++);
 			break;
 		}
 		args++;
 	}
 	while (*args)
 	{
-		ft_printf("%s", *args);
+		printf("%s", *args);
 		args++;
 		if (*args)
-			ft_printf(" ");
+			ft_putchar_fd(' ', STDOUT_FILENO);
 	}
 	if (newline)
 		ft_putchar_fd('\n', STDOUT_FILENO);
