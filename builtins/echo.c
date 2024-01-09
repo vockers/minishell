@@ -9,28 +9,21 @@ int	builtin_echo(char **args)
 	bool	newline;
 
 	newline = true;
-	if (*args != NULL)
+	if (*(++args) != NULL)
 	{
-		while (*args && (*args)[0] == '-')
+		while (*args && ft_strcmp(*args, "-n") == 0)
 		{
-			if ((*args)[1] == 'n' && (*args)[2] == '\0')
-				newline = false;
-			else
-			{
-				ft_putstr_fd(*args++, STDOUT_FILENO);
-				break;
-			}
+			newline = false;
 			args++;
 		}
 		while (*args)
 		{
-			ft_putstr_fd(*args, STDOUT_FILENO);
-			args++;
+			ft_putstr_fd(*args++, STDOUT_FILENO);
 			if (*args)
 				ft_putchar_fd(' ', STDOUT_FILENO);
 		}
 	}
 	if (newline)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	return (0);
+	return (EXIT_SUCCESS);
 }
