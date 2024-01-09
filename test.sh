@@ -10,4 +10,8 @@ case $1 in
 	cc tests/parser_tests.c parser/ast.c parser/lexer.c parser/lexer_utils.c parser/parser.c parser/expansion.c libft/build/libft.a -I./libft -I./parser -fsanitize=address -g
 	./a.out
 	;;
+	"builtins")
+	cc tests/builtins_tests.c builtins/echo.c libft/build/libft.a -I./libft -I./builtins -fsanitize=address -g
+	./a.out
+	;;
 esac
