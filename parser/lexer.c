@@ -2,37 +2,6 @@
 
 #include <stdbool.h>
 
-static char	*expand_arg(char *str)
-{
-	bool	inside_quote;
-	bool	inside_dquote;
-	size_t	i;
-
-	inside_quote = false;
-	inside_dquote = false;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'' && !inside_dquote)
-		{
-			inside_quote = !inside_quote;
-			ft_strcpy(str + i, str + i + 1);
-		}
-		else if (str[i] == '"' && !inside_quote)
-		{
-			inside_dquote = !inside_dquote;
-			ft_strcpy(str + i, str + i + 1);
-		}
-		else
-		{
-			// if (str[i] == '$')
-			// 
-			i++;
-		}
-	}
-	return (str);
-}
-
 static t_token	scan_arg(char *str)
 {
 	bool	inside_quote;
@@ -86,7 +55,5 @@ t_token	get_next_token(char *line)
 		return ((t_token){T_NONE, NULL});
 	token = scan_token(saved);
 	saved += ft_strlen(token.str);
-	if (token.type == T_ARG)
-		token.str = expand_arg(token.str);
 	return (token);
 }

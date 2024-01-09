@@ -185,6 +185,50 @@ int main()
 		AST_ARG, "test1"
 	);
 
+	test_ast("'hello' \">\" \"'world'\"",
+		AST_ARG, "hello",
+		AST_ARG, ">",
+		AST_ARG, "'world'"
+	);
+
+	test_ast("$TEST_VAR",
+		AST_ARG, "h3ll0_w0rld"
+	);
+
+	test_ast("hello $TEST_VAR world",
+		AST_ARG, "hello",
+		AST_ARG, "h3ll0_w0rld",
+		AST_ARG, "world"
+	);
+
+	test_ast("\"hello $TEST_VAR world\"",
+		AST_ARG, "hello h3ll0_w0rld world"
+	);
+
+	test_ast("hello '$TEST_VAR' world",
+		AST_ARG, "hello",
+		AST_ARG, "$TEST_VAR",
+		AST_ARG, "world"
+	);
+
+	test_ast("hello '$TEST_VAR test' world",
+		AST_ARG, "hello",
+		AST_ARG, "$TEST_VAR test",
+		AST_ARG, "world"
+	);
+
+	test_ast("hello \"'$TEST_VAR'\" world",
+		AST_ARG, "hello",
+		AST_ARG, "'h3ll0_w0rld'",
+		AST_ARG, "world"
+	);
+
+	test_ast("hello \"'$TEST_VAR test'\" world",
+		AST_ARG, "hello",
+		AST_ARG, "'h3ll0_w0rld test'",
+		AST_ARG, "world"
+	);
+
 	ft_printf("All tests passed!\n");
 	
 	return (0);

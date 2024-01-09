@@ -22,6 +22,7 @@ void	test_lexer(char *line)
 	while (t.type != T_NONE)
 	{
 		ft_printf("%s\n", t.str);
+		free(t.str);
 		t = get_next_token(NULL);
 	}
 	ft_printf("-------------------\n");
@@ -37,6 +38,7 @@ void	assert_lexer(char *line, ...)
 	while (t.type != T_NONE)
 	{
 		ft_assert_str(line, t.str, va_arg(ap, char *));
+		free(t.str);
 		t = get_next_token(NULL);
 	}
 	va_end(ap);
@@ -46,7 +48,8 @@ int	main(void)
 {
 	// test_lexer("\"Hello\" | world|echo>test.txt>>$test<< ...");
 	// test_lexer("\" hello\t\" | '\"world\"' > \"'\"");
-	assert_lexer("\" hello\t\" | '\"world\"' > \"'\"", " hello\t", "|", "\"world\"", ">", "'");
+	assert_lexer("\" hello\t\" | '\"world\"' > \"'\"", "\" hello\t\"", "|", "'\"world\"'", ">", "\"'\"");
+	assert_lexer("\"hello|world\"", "\"hello|world\"");
 	ft_printf("All tests passed!\n");
 	return (0);
 }
