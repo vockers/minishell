@@ -9,28 +9,26 @@ int	builtin_echo(char **args)
 	bool	newline;
 
 	newline = true;
-	if (*args == NULL)
+	if (*args != NULL)
 	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		return (0);
-	}
-	while (*args && (*args)[0] == '-')
-	{
-		if ((*args)[1] == 'n' && (*args)[2] == '\0')
-			newline = false;
-		else
+		while (*args && (*args)[0] == '-')
 		{
-			printf("%s", *args++);
-			break;
+			if ((*args)[1] == 'n' && (*args)[2] == '\0')
+				newline = false;
+			else
+			{
+				ft_putstr_fd(*args++, STDOUT_FILENO);
+				break;
+			}
+			args++;
 		}
-		args++;
-	}
-	while (*args)
-	{
-		printf("%s", *args);
-		args++;
-		if (*args)
-			ft_putchar_fd(' ', STDOUT_FILENO);
+		while (*args)
+		{
+			ft_putstr_fd(*args, STDOUT_FILENO);
+			args++;
+			if (*args)
+				ft_putchar_fd(' ', STDOUT_FILENO);
+		}
 	}
 	if (newline)
 		ft_putchar_fd('\n', STDOUT_FILENO);
