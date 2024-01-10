@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int	builtins_echo(char **envp)
+int	run_echo(char **envp)
 {
 	while (*envp)
 	{

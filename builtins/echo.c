@@ -4,7 +4,7 @@
 
 #include "libft.h"
 
-int	builtin_echo(char **args)
+int	run_echo(char **args)
 {
 	bool	newline;
 
