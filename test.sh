@@ -11,7 +11,7 @@ case $1 in
 	./a.out
 	;;
 	"builtins")
-	cc tests/builtins_tests.c builtins/echo.c libft/build/libft.a -I./libft -I./builtins -fsanitize=address -g
+	cc tests/builtins_tests.c builtins/echo.c builtins/pwd.c libft/build/libft.a -I./libft -I./builtins -fsanitize=address -g
 	./a.out
 	;;
 esac
