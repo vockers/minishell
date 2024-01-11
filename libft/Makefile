@@ -60,6 +60,7 @@ SRC			= \
 	string/ft_strcmp.c \
 	string/ft_strcpy.c \
 	string/ft_strdup.c \
+	string/ft_strisnum.c \
 	string/ft_striteri.c \
 	string/ft_strjoin.c \
 	string/ft_strnjoin.c \
