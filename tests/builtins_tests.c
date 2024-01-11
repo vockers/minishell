@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-int	main(int argc, char *argv[])
+int	main(int argc, char *argv[], char *envp[])
 {
 	char *args_1[] = { "echo", "hello", "world", NULL };
 	run_echo(args_1);
@@ -21,7 +21,9 @@ int	main(int argc, char *argv[])
 	char *args_8[] = { "echo", "two", "", "spaces", NULL };
 	run_echo(args_8);
 
-	run_pwd();
+	// run_pwd();
+	char	*envp_test[] = {"hello=world", "zest=test", "ZSH_PATH=~/.zshrc", "PATH=/home/test", "a=b", NULL};
+	run_export(envp_test, (char*[]){ "export", NULL });
 
 	return (0);
 }
