@@ -5,6 +5,20 @@
 
 #include "libft.h"
 
+static bool	is_valid_env(const char *env)
+{
+	if (ft_isdigit(*env) || *env == '=')
+		return (false);
+	env++;
+	while (*env && *env != '=')
+	{
+		if (!ft_isalnum(*env))
+			return (false);
+		env++;
+	}
+	return (true);
+}
+
 static char	**sort_envp(char **envp)
 {
 	char	*tmp;
@@ -56,11 +70,17 @@ static void	print_sorted_env(char **envp)
 	free(sorted_env);
 }
 
-int	run_export(char **envp, char **args)
+int	run_export(char ***envp, char **args)
 {
 	if (!args[1])
 	{
-		print_sorted_env(envp);
+		print_sorted_env(*envp);
 		return (EXIT_SUCCESS);
 	}
+	if (!is_valid_env(args[1]))
+	{
+		printf("minishell: export: '%s': not a valid identifier\n", args[1]);
+		return (1);
+	}
+	return (EXIT_SUCCESS);
 }

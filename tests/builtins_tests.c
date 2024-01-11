@@ -22,8 +22,11 @@ int	main(int argc, char *argv[], char *envp[])
 	run_echo(args_8);
 
 	// run_pwd();
-	char	*envp_test[] = {"hello=world", "zest=test", "ZSH_PATH=~/.zshrc", "PATH=/home/test", "a=b", NULL};
-	run_export(envp_test, (char*[]){ "export", NULL });
+	// char	*envp_test[] = {"hello=world", "zest=test", "ZSH_PATH=~/.zshrc", "PATH=/home/test", "a=b", NULL};
+	// run_export(envp_test, (char*[]){ "export", NULL });
+
+	run_export(&envp, (char*[]){ "export", "=hello", NULL});
+	run_export(&envp, (char*[]){ "export", "1abc=hello", NULL});
 
 	return (0);
 }
