@@ -50,6 +50,7 @@ static void	print_sorted_env(char **envp)
 	char	**sorted_env;
 	size_t	env_len;
 	size_t	i;
+	size_t	j;
 
 	env_len = 0;
 	while (envp[env_len])
@@ -58,15 +59,23 @@ static void	print_sorted_env(char **envp)
 	if (sorted_env == NULL)
 		return ;
 	i = 0;
-	while (envp[i])
-	{
-		sorted_env[i] = envp[i];
-		i++;
-	}
+	while (*envp)
+		sorted_env[i++] = *envp++;
 	sorted_env = sort_envp(sorted_env);
 	i = 0;
 	while (i < env_len)
-		printf("export %s\n", sorted_env[i++]);
+	{
+		ft_printf("export ");
+		j = 0;
+		while (sorted_env[i][j])
+		{
+			ft_putchar_fd(sorted_env[i][j], STDOUT_FILENO);
+			if (sorted_env[i][j++] == '=')
+				ft_putchar_fd('"', STDOUT_FILENO);
+		}
+		ft_printf("\"\n");
+		i++;
+	}
 	free(sorted_env);
 }
 
