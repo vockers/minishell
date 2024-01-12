@@ -8,10 +8,11 @@
 # include <stdio.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
+# include "../signals/signals.h"
 
 # include "../parser/parser.h"
 
-void	exe_line(t_ast *ast, int infd);
+void	exe_line(t_ast *ast);
 void	pipex(t_ast *ast, int infd);
 void	display_error(int fd, char *error);
 char	*pathname(char *cmd);
@@ -22,6 +23,6 @@ void	outfile_error(char *file);
 void	infile_error(char *file);
 void	outfile_handler(t_ast *ast);
 int		infile_handler(t_ast *ast);
-void	here_doc_handler(t_ast *ast, int is_pipe);
+int		here_doc_handler(t_ast *ast, int is_pipe);
 
 #endif

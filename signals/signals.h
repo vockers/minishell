@@ -7,7 +7,13 @@
 # include <signal.h>
 # include <termios.h>
 # include <readline/readline.h>
+# include <stdlib.h>
+# include <sys/ioctl.h>
 
-void	signal_handler_init();
+extern int gl_sig;
+
+void	signal_handler();
+void	signal_handler_child();
+void	signal_handler_heredoc();
 
 #endif

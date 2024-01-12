@@ -9,7 +9,8 @@ static void	child_process_left(t_ast *ast, int *fds, int infd)
 		close(infd);
 	}
 	infile_handler(ast->right);
-	here_doc_handler(ast->right, 1);
+	if (here_doc_handler(ast->right, 1) == 2)
+		exit(EXIT_SUCCESS);
 	dup2(fds[1], STDOUT_FILENO);
 	close(fds[1]);
 	execute(ast);

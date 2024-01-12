@@ -12,7 +12,8 @@ void	single_cmdx(t_ast *ast)
 	{
 		infile_handler(ast->right);
 		outfile_handler(ast->right);
-		here_doc_handler(ast->right, 0);
+		if (here_doc_handler(ast->right, 0) == 2)
+			exit(EXIT_SUCCESS);
 		execute(ast);
 	}
 	close(fd[0]);
@@ -20,10 +21,11 @@ void	single_cmdx(t_ast *ast)
 	waitpid(pid, NULL, 0);
 }
 
-void	exe_line(t_ast *ast, int infd)
+void	exe_line(t_ast *ast)
 {
+	signal_handler_child();
 	if (ast->type == AST_PIPE)
-		pipex(ast, infd);
+		pipex(ast, STDIN_FILENO);
 	else if (ast->type == AST_ARG)
 	{
 		single_cmdx(ast);

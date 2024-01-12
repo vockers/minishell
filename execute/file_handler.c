@@ -38,6 +38,23 @@ int	infile_handler(t_ast *ast)
 	return (0);
 }
 
+static int	read_loop(char *line, char *delimiter, char *msg, int fd)
+{
+	while (line && ft_strcmp(line, delimiter))
+	{
+		free(line);
+		if (gl_sig != -1)
+			break;
+		write(fd, line, ft_strlen(line) + 1);
+		rl_catch_signals = 0;
+		line = readline(msg);
+	}
+	if (!line)
+		gl_sig = 1;
+	close (fd);
+	return (fd);
+}
+
 static int	write_temp_file(char *delimiter, int is_pipe)
 {
 	char	*line;
@@ -56,17 +73,13 @@ static int	write_temp_file(char *delimiter, int is_pipe)
 		msg = "pipe heredoc> ";
 	else
 		msg = "heredoc> ";
+	signal_handler_heredoc();
+	rl_catch_signals = 0;
 	line = readline(msg);
-	while (ft_strcmp(line, delimiter))
-	{
-		write(fd, line, ft_strlen(line) + 1);
-		line = readline(msg);
-	}
-	close(fd);
-	return (fd);
+	return (read_loop(line, delimiter, msg, fd));
 }
 
-void	here_doc_handler(t_ast *ast, int is_pipe)
+int	here_doc_handler(t_ast *ast, int is_pipe)
 {
 	int		fd;
 
@@ -74,7 +87,7 @@ void	here_doc_handler(t_ast *ast, int is_pipe)
 	{
 		fd = write_temp_file(ast->left->value, is_pipe);
 		if (fd == -1)
-			return ;
+			return (-1);
 		fd = open("tmp_file", O_RDONLY);
 		if (fd != -1)
 		{
@@ -83,4 +96,5 @@ void	here_doc_handler(t_ast *ast, int is_pipe)
 			close(fd);
 		}
 	}
+	return (gl_sig);
 }

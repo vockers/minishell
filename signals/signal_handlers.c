@@ -1,6 +1,6 @@
 #include "signals.h"
 
-void    suppress_output(void)
+static void	suppress_output(void)
 {
     struct termios    new_settings;
 
@@ -11,19 +11,74 @@ void    suppress_output(void)
         perror("tcsetattr");
 }
 
-void	ctrl_c_handler(int signum)
+static void	signal_handler_init(void (*f)(int), int sig_type)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = f;
+	sa.sa_flags = SA_RESTART;
+	sigaction(sig_type, &sa, NULL);
+}
+
+/// PARENT HANDLERS ///
+
+static void	sigint_handler(int signum)
 {
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_redisplay();
 }
 
-void	signal_handler_init()
+static void	sigquit_handler(int signum)
 {
-	struct sigaction	sa;
+	rl_on_new_line();
+	rl_redisplay();
+}
 
+void	signal_handler()
+{
 	suppress_output();
-	sa.sa_handler = &ctrl_c_handler;
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
+	signal_handler_init(&sigint_handler, SIGINT);
+	signal_handler_init(&sigquit_handler, SIGQUIT);
+}
+
+/// CHILD HANDLERS ///
+
+static void	sigint_handler_child(int signum)
+{
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+}
+
+static void	sigquit_handler_child(int signum)
+{
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+}
+
+void	signal_handler_child()
+{
+	suppress_output();
+	signal_handler_init(&sigint_handler_child, SIGINT);
+	signal_handler_init(&sigquit_handler_child, SIGQUIT);
+}
+
+/// HEREDOC SIGNAL HANDLERS ///
+
+static void	sigint_heredoc(int signum)
+{
+	gl_sig = signum;
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+}
+
+static void	sigquit_heredoc(int signum)
+{
+
+}
+
+void	signal_handler_heredoc()
+{
+	suppress_output();
+	signal_handler_init(&sigint_heredoc, SIGINT);
+	signal_handler_init(&sigquit_heredoc, SIGQUIT);
 }
