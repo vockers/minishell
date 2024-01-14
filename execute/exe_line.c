@@ -12,8 +12,9 @@ void	single_cmdx(t_ast *ast)
 	{
 		infile_handler(ast->right);
 		outfile_handler(ast->right);
-		if (here_doc_handler(ast->right, 0) == 2)
-			exit(EXIT_SUCCESS);
+		here_doc_handler(ast->right, 0);
+		if (gl_sig == SIGINT)
+			exit(130);
 		execute(ast);
 	}
 	close(fd[0]);

@@ -12,7 +12,6 @@ int	main(int ac, char *argv[])
 	while (1)
 	{
 		signal_handler();
-		rl_catch_signals = 0;
 		line = readline("ms> ");
 		if (!line)
 			return (0);
