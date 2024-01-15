@@ -14,4 +14,8 @@ case $1 in
 	cc tests/builtins_tests.c builtins/echo.c builtins/pwd.c builtins/export.c libft/build/libft.a -I./libft -I./builtins -fsanitize=address -g
 	./a.out
 	;;
+	"env")
+	cc tests/env_tests.c env/env.c libft/build/libft.a -I./libft -I./env -fsanitize=address -g
+	./a.out
+	;;
 esac
