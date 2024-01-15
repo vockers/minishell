@@ -46,3 +46,29 @@ void	env_append(t_env **env, char *value)
 	else
 		*env = new;
 }
+
+char	**env_to_strs(t_env *env)
+{
+	t_env	*iter;
+	size_t	i;
+	char	**new;
+
+	iter = env;
+	i = 0;
+	while (iter)
+	{
+		i++;
+		iter = iter->next;
+	}
+	new = (char **)ft_calloc(i + 1, sizeof(char *));
+	if (new == NULL)
+		return (NULL);
+	iter = env;
+	i = 0;
+	while (iter)
+	{
+		new[i++] = iter->value;
+		iter = iter->next;
+	}
+	return (new);
+}

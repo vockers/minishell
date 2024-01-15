@@ -15,7 +15,7 @@ case $1 in
 	./a.out
 	;;
 	"env")
-	cc tests/env_tests.c env/env.c libft/build/libft.a -I./libft -I./env -fsanitize=address -g
+	cc tests/env_tests.c builtins/env.c env/env.c libft/build/libft.a -I./libft -I./builtins -I./env -fsanitize=address -g
 	./a.out
 	;;
 esac

@@ -3,11 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int	run_echo(char **envp)
+int	run_env(char **envp)
 {
 	while (*envp)
 	{
-		printf("%s", *envp);
+		printf("%s\n", *envp);
 		envp++;
 	}
 	return (EXIT_SUCCESS);
