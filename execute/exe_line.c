@@ -12,7 +12,7 @@ void	single_cmdx(t_ast *ast)
 	{
 		infile_handler(ast->right);
 		outfile_handler(ast->right);
-		here_doc_handler(ast->right, 0);
+		here_doc_handler(ast->right);
 		if (gl_sig == SIGINT)
 			exit(130);
 		execute(ast);

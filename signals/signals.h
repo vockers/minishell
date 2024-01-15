@@ -15,5 +15,6 @@ extern int gl_sig;
 void	signal_handler();
 void	signal_handler_child();
 void	signal_handler_heredoc();
+void	suppress_output(void);
 
 #endif

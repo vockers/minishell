@@ -1,15 +1,15 @@
 #include "signals.h"
 
-// static void	suppress_output(void)
-// {
-// 	struct termios	new_settings;
+void	suppress_output(void)
+{
+	struct termios	new_settings;
 
-// 	if (tcgetattr(0, &new_settings))
-// 		perror("tcsetattr");
-// 	new_settings.c_lflag &= ~ECHOCTL;
-// 	if (tcsetattr(0, 0, &new_settings))
-// 		perror("tcsetattr");
-// }
+	if (tcgetattr(0, &new_settings))
+		perror("tcsetattr");
+	new_settings.c_lflag &= ~ECHOCTL;
+	if (tcsetattr(0, 0, &new_settings))
+		perror("tcsetattr");
+}
 
 static void	signal_handler_init(void (*f)(int), int sig_type)
 {
@@ -31,11 +31,9 @@ static void	sigint_handler(int signum)
 
 static void	sigquit_handler(int signum)
 {
-	rl_on_new_line();
-	rl_redisplay();
 }
 
-void	signal_handler()
+void	signal_handler(void)
 {
 	signal_handler_init(&sigint_handler, SIGINT);
 	signal_handler_init(&sigquit_handler, SIGQUIT);
@@ -71,7 +69,6 @@ static void	sigint_heredoc(int signum)
 
 static void	sigquit_heredoc(int signum)
 {
-
 }
 
 void	signal_handler_heredoc()

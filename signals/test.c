@@ -3,15 +3,27 @@
 
 int	gl_sig = -1;
 
+void	print_ast(t_ast *ast)
+{
+	if (ast)
+		printf("%s\n", ast->value);
+	if (ast->left)
+		print_ast(ast->left);
+	if (ast->right)
+		print_ast(ast->right);
+}
+
 int	main(int ac, char *argv[])
 {
 	char		*line;
 	t_parser	*parser;
 	t_ast		*ast;
 
+	suppress_output();
 	while (1)
 	{
 		signal_handler();
+		rl_catch_signals = 0;
 		line = readline("ms> ");
 		if (!line)
 			return (0);

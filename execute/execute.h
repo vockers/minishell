@@ -23,6 +23,9 @@ void	outfile_error(char *file);
 void	infile_error(char *file);
 void	outfile_handler(t_ast *ast);
 int		infile_handler(t_ast *ast);
-int		here_doc_handler(t_ast *ast, int is_pipe);
+void	here_doc_handler(t_ast *ast);
+void	read_loop(char *line, char *delimiter, int fd, char *msg);
+void	heredoc_pipe_read(t_ast *ast, t_list **hdoc_fds, int i);
+void	redirec_heredoc(t_ast *ast, t_list *hdoc_fds);
 
 #endif
