@@ -10,6 +10,7 @@ void	single_cmdx(t_ast *ast)
 	display_error(pid, "fork");
 	if (pid == 0)
 	{
+		signal_handler_cmd();
 		infile_handler(ast->right);
 		outfile_handler(ast->right);
 		here_doc_handler(ast->right);

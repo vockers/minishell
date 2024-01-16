@@ -11,6 +11,7 @@ static void	child_process_left(t_ast *ast, int *fds, int infd)
 	infile_handler(ast->right);
 	dup2(fds[1], STDOUT_FILENO);
 	close(fds[1]);
+	signal_handler_cmd();
 	execute(ast);
 }
 
@@ -22,6 +23,7 @@ static void	child_process_right(t_ast *ast, int *fds)
 	if (ast->type == AST_ARG)
 	{
 		outfile_handler(ast->right);
+		signal_handler_cmd();
 		execute(ast);
 	}
 	else if (ast->type == AST_PIPE)

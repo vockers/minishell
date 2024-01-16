@@ -17,7 +17,11 @@ static void	signal_handler_init(void (*f)(int), int sig_type)
 
 	sa.sa_handler = f;
 	sa.sa_flags = SA_RESTART;
-	sigaction(sig_type, &sa, NULL);
+	if (sigaction(sig_type, &sa, NULL) == -1)
+	{
+		perror("sigaction");
+		exit(EXIT_FAILURE);
+	}
 }
 
 /// PARENT HANDLERS ///
@@ -43,20 +47,36 @@ void	signal_handler(void)
 
 static void	sigint_handler_child(int signum)
 {
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
 }
 
 static void	sigquit_handler_child(int signum)
 {
+}
+
+void	signal_handler_child(void)
+{
+	signal_handler_init(&sigint_handler_child, SIGINT);
+	signal_handler_init(&sigquit_handler_child, SIGQUIT);
+}
+
+/// CMD HANDLERS ///
+
+static void	sigint_handler_cmd(int signum)
+{
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 }
 
-void	signal_handler_child()
+static void	sigquit_handler_cmd(int signum)
 {
-	signal_handler_init(&sigint_handler_child, SIGINT);
-	signal_handler_init(&sigquit_handler_child, SIGQUIT);
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+}
+
+void	signal_handler_cmd(void)
+{
+	signal_handler_init(&sigint_handler_cmd, SIGINT);
+	signal_handler_init(&sigquit_handler_cmd, SIGQUIT);
 }
 
 /// HEREDOC SIGNAL HANDLERS ///
@@ -71,7 +91,7 @@ static void	sigquit_heredoc(int signum)
 {
 }
 
-void	signal_handler_heredoc()
+void	signal_handler_heredoc(void)
 {
 	signal_handler_init(&sigint_heredoc, SIGINT);
 	signal_handler_init(&sigquit_heredoc, SIGQUIT);

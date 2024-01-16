@@ -3,16 +3,6 @@
 
 int	gl_sig = -1;
 
-void	print_ast(t_ast *ast)
-{
-	if (ast)
-		printf("%s\n", ast->value);
-	if (ast->left)
-		print_ast(ast->left);
-	if (ast->right)
-		print_ast(ast->right);
-}
-
 int	main(int ac, char *argv[])
 {
 	char		*line;
@@ -27,6 +17,11 @@ int	main(int ac, char *argv[])
 		line = readline("ms> ");
 		if (!line)
 			return (0);
+		if (ft_strcmp(line, "exit") == 0)
+		{
+			free(line);
+			return (0);
+		}
 		if (ft_strcmp(line, "") == 0)
 		{
 			free(line);
