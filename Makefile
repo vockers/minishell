@@ -6,6 +6,7 @@ SRCS = 	parser/ast.c \
 		parser/parser.c \
 		execute/exe_line.c \
 		execute/heredoc_pipe.c \
+		execute/heredoc_pipe_utils.c \
 		signals/test.c \
 		execute/pipex.c \
 		execute/display_error.c \
@@ -13,7 +14,8 @@ SRCS = 	parser/ast.c \
 		execute/free_arr.c \
 		execute/path_name.c \
 		execute/file_handler.c \
-		signals/signal_handlers.c
+		signals/signal_handlers.c \
+		signals/signal_utils.c
 
 OBJS = ${SRCS:.c=.o}
 FLAGS = -Wall -Werror -Wextra

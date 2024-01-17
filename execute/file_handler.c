@@ -38,23 +38,34 @@ int	infile_handler(t_ast *ast)
 	return (0);
 }
 
-void	read_loop(char *line, char *delimiter, int fd, char *msg)
+int	read_loop(char *delimiter, int fd, char *msg)
 {
+	int		status;
+	char	*line;
+
+	status = 1;
+	rl_catch_signals = 0;
+	line = readline(msg);
 	while (line && ft_strcmp(line, delimiter))
 	{
 		if (gl_sig != -1)
+		{
+			status = 0;
 			break;
+		}
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
 		line = readline(msg);
 	}
+	if (line)
+		free(line);
 	close (fd);
+	return (status);
 }
 
 static int	write_temp_file(char *delimiter)
 {
-	char	*line;
 	int		fd;
 
 	if (!delimiter)
@@ -65,9 +76,7 @@ static int	write_temp_file(char *delimiter)
 	fd = open("tmp_file", O_WRONLY|O_CREAT|O_EXCL|O_TRUNC, 0600);
 	if (fd == -1)
 		return (-1);
-	rl_catch_signals = 0;
-	line = readline("heredoc> ");
-	read_loop(line, delimiter, fd, "heredoc> ");
+	read_loop(delimiter, fd, "heredoc> ");
 	return (fd);
 }
 

@@ -1,36 +1,7 @@
 #include "execute.h"
 
-static t_list	**add_fd(t_list **fds, char *file_name)
-{
-	t_list	*new;
-
-	if (!file_name)
-		return (NULL);
-	new = ft_lstnew(file_name);
-	if (!new)
-	{
-		ft_lstclear(fds, free);
-		return (NULL);
-	}
-	ft_lstadd_back(fds, new);
-	return (fds);
-}
-
-static char	*create_file_name(int i)
-{
-	char	*name;
-
-	name = (char *)malloc(sizeof(char) * 14);
-	if (!name)
-		return (NULL);
-	ft_strlcpy(name, "tmp_file_", 14);
-	ft_strlcat(name, ft_itoa(i), 14);
-	return (name);
-}
-
 static char	*write_temp_file(char *delimiter, int i)
 {
-	char	*line;
 	int		fd;
 	char	*name;
 
@@ -48,26 +19,38 @@ static char	*write_temp_file(char *delimiter, int i)
 		free(name);
 		return (NULL);
 	}
-	line = readline("pipe heredoc> ");
-	read_loop(line, delimiter, fd, "pipe heredoc> ");
+	if (!read_loop(delimiter, fd, "pipe heredoc> "))
+	{
+		unlink(name);
+		free(name);
+		return (NULL);
+	}
 	return (name);
 }
 
-void	heredoc_pipe_read(t_ast *ast, t_list **hdoc_fd, int i)
+int	heredoc_pipe_read(t_ast *ast, t_list **hdoc_fd, int i)
 {
 	int		fd;
 	char	*file_name;
+	int		status;
 
+	status = 1;
 	if (ast && ast->type == AST_HEREDOC)
 	{
+		signal_handler_heredoc();
 		file_name = write_temp_file(ast->left->value, i);
 		if (!add_fd(hdoc_fd, file_name))
-			exit(EXIT_FAILURE);
+		{
+			delete_files(hdoc_fd);
+			ft_lstclear(hdoc_fd, free);
+			status = 0;
+		}
 	}
-	if (ast->left)
-		heredoc_pipe_read(ast->left, hdoc_fd, i);
-	if (ast->right)
-		heredoc_pipe_read(ast->right, hdoc_fd, i + 1);
+	if (ast->left && status)
+		status = heredoc_pipe_read(ast->left, hdoc_fd, i);
+	if (ast->right && status)
+		status = heredoc_pipe_read(ast->right, hdoc_fd, i + 1);
+	return (status);
 }
 
 int	redirec_heredoc(t_ast *ast, t_list *hdoc_fd)

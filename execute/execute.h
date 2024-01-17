@@ -25,8 +25,11 @@ void	infile_error(char *file);
 void	outfile_handler(t_ast *ast);
 int		infile_handler(t_ast *ast);
 void	here_doc_handler(t_ast *ast);
-void	read_loop(char *line, char *delimiter, int fd, char *msg);
-void	heredoc_pipe_read(t_ast *ast, t_list **hdoc_fd, int i);
+int		read_loop(char *delimiter, int fd, char *msg);
+int		heredoc_pipe_read(t_ast *ast, t_list **hdoc_fd, int i);
 int		redirec_heredoc(t_ast *ast, t_list *hdoc_fd);
+t_list	**add_fd(t_list **fds, char *file_name);
+char	*create_file_name(int i);
+void	delete_files(t_list **hdoc_fd);
 
 #endif

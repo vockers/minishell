@@ -40,7 +40,11 @@ void	exe_line(t_ast *ast)
 	if (ast->type == AST_PIPE)
 	{
 		hdoc_fd = NULL;
-		heredoc_pipe_read(ast, &hdoc_fd, 0);
+		if (!heredoc_pipe_read(ast, &hdoc_fd, 0))
+		{
+			gl_sig = -1;
+			return ;
+		}
 		pipex(ast, STDIN_FILENO, hdoc_fd);
 		ft_lstclear(&hdoc_fd, free);
 	}
