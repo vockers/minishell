@@ -59,26 +59,6 @@ void	signal_handler_child(void)
 	signal_handler_init(&sigquit_handler_child, SIGQUIT);
 }
 
-/// CMD HANDLERS ///
-
-static void	sigint_handler_cmd(int signum)
-{
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-}
-
-static void	sigquit_handler_cmd(int signum)
-{
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-}
-
-void	signal_handler_cmd(void)
-{
-	signal_handler_init(&sigint_handler_cmd, SIGINT);
-	signal_handler_init(&sigquit_handler_cmd, SIGQUIT);
-}
-
 /// HEREDOC SIGNAL HANDLERS ///
 
 static void	sigint_heredoc(int signum)

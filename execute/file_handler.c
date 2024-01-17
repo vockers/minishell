@@ -59,7 +59,7 @@ static int	write_temp_file(char *delimiter)
 
 	if (!delimiter)
 	{
-		printf("ms: parse error near `\\n'\n");
+		printf("msh: parse error near `\\n'\n");
 		return (-1);
 	}
 	fd = open("tmp_file", O_WRONLY|O_CREAT|O_EXCL|O_TRUNC, 0600);

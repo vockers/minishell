@@ -36,7 +36,7 @@ static char	*write_temp_file(char *delimiter, int i)
 
 	if (!delimiter)
 	{
-		printf("ms: parse error near `\\n'\n");
+		printf("msh: parse error near `\\n'\n");
 		return (NULL);
 	}
 	name = create_file_name(i);
@@ -53,7 +53,7 @@ static char	*write_temp_file(char *delimiter, int i)
 	return (name);
 }
 
-void	heredoc_pipe_read(t_ast *ast, t_list **hdoc_fds, int i)
+void	heredoc_pipe_read(t_ast *ast, t_list **hdoc_fd, int i)
 {
 	int		fd;
 	char	*file_name;
@@ -61,16 +61,16 @@ void	heredoc_pipe_read(t_ast *ast, t_list **hdoc_fds, int i)
 	if (ast && ast->type == AST_HEREDOC)
 	{
 		file_name = write_temp_file(ast->left->value, i);
-		if (!add_fd(hdoc_fds, file_name))
+		if (!add_fd(hdoc_fd, file_name))
 			exit(EXIT_FAILURE);
 	}
 	if (ast->left)
-		heredoc_pipe_read(ast->left, hdoc_fds, i);
+		heredoc_pipe_read(ast->left, hdoc_fd, i);
 	if (ast->right)
-		heredoc_pipe_read(ast->right, hdoc_fds, i + 1);
+		heredoc_pipe_read(ast->right, hdoc_fd, i + 1);
 }
 
-void	redirec_heredoc(t_ast *ast, t_list *hdoc_fd)
+int	redirec_heredoc(t_ast *ast, t_list *hdoc_fd)
 {
 	int		fd;
 
@@ -88,5 +88,9 @@ void	redirec_heredoc(t_ast *ast, t_list *hdoc_fd)
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 		}
+		else
+			exit(EXIT_FAILURE);
+		return (1);
 	}
+	return (0);
 }
