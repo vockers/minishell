@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-#include "../libft/libft.h"
+#include "libft.h"
 
 static t_token	parser_eat(t_parser *parser, enum e_token token_type)
 {
