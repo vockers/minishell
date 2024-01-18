@@ -33,6 +33,9 @@ static char	**sort_envp(char **envp)
 
 static void	print_env(char **envp)
 {
+	bool	in_quote;
+
+	in_quote = false;
 	while (*envp)
 	{
 		ft_printf("export ");
@@ -40,10 +43,16 @@ static void	print_env(char **envp)
 		{
 			ft_putchar_fd(**envp, STDOUT_FILENO);
 			if (**envp == '=')
+			{
 				ft_putchar_fd('"', STDOUT_FILENO);
+				in_quote = true;
+			}
 			(*envp)++;
 		}
-		ft_printf("\"\n");
+		if (in_quote)
+			ft_putchar_fd('"', STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		in_quote = false;
 		envp++;
 	}
 }
@@ -51,13 +60,12 @@ static void	print_env(char **envp)
 static void	print_sorted_env(char **envp)
 {
 	char	**sorted_env;
-	size_t	env_len;
 	size_t	i;
 
-	env_len = 0;
-	while (envp[env_len])
-		env_len++;
-	sorted_env = (char **)ft_calloc(env_len + 1, sizeof(char *));
+	i = 0;
+	while (envp[i])
+		i++;
+	sorted_env = (char **)ft_calloc(i + 1, sizeof(char *));
 	if (sorted_env == NULL)
 		return ;
 	i = 0;

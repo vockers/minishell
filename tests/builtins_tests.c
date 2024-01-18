@@ -29,8 +29,9 @@ int	main(int argc, char *argv[], char *envp[])
 	// char	**envp_test = {"hello=world", "zest=test", "ZSH_PATH=~/.zshrc", "PATH=/home/test", "a=b", NULL};
 	env = env_init(envp);
 	envp = env_to_strs(env);
-	run_export(&env, &envp, (char*[]){ "export", NULL });
 	run_export(&env, &envp, (char*[]){ "export", "hello=test", NULL });
+	run_export(&env, &envp, (char*[]){ "export", "world=test", NULL });
+	run_export(&env, &envp, (char*[]){ "export", "abczyx", NULL });
 	run_export(&env, &envp, (char*[]){ "export", NULL });
 
 	// run_export(&envp, (char*[]){ "export", "=hello", NULL});
