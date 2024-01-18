@@ -229,6 +229,28 @@ int main()
 		AST_ARG, "world"
 	);
 
+	test_ast("<< EOF",
+		AST_HEREDOC, "<<",
+		AST_ARG, "EOF"
+	);
+
+	test_ast("> test",
+		AST_GRT, ">",
+		AST_ARG, "test"
+	);
+
+	test_ast("< test",
+		AST_LSR, "<",
+		AST_ARG, "test"
+	);
+
+	test_ast("<< EOF > test",
+		AST_HEREDOC, "<<",
+		AST_ARG, "EOF",
+		AST_GRT, ">",
+		AST_ARG, "test"
+	);
+
 	ft_printf("All tests passed!\n");
 	
 	return (0);
