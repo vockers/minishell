@@ -38,41 +38,56 @@ int	infile_handler(t_ast *ast)
 	return (0);
 }
 
-static int	write_temp_file(char *delimiter, int is_pipe)
+int	read_loop(char *delimiter, int fd, char *msg)
 {
+	int		status;
 	char	*line;
-	char	*msg;
+
+	status = 1;
+	rl_catch_signals = 0;
+	line = readline(msg);
+	while (line && ft_strcmp(line, delimiter))
+	{
+		if (gl_sig != -1)
+		{
+			status = 0;
+			break;
+		}
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+		line = readline(msg);
+	}
+	if (line)
+		free(line);
+	close (fd);
+	return (status);
+}
+
+static int	write_temp_file(char *delimiter)
+{
 	int		fd;
 
 	if (!delimiter)
 	{
-		printf("ms: parse error near `\\n'\n");
+		printf("msh: parse error near `\\n'\n");
 		return (-1);
 	}
 	fd = open("tmp_file", O_WRONLY|O_CREAT|O_EXCL|O_TRUNC, 0600);
 	if (fd == -1)
 		return (-1);
-	if (is_pipe)
-		msg = "pipe heredoc> ";
-	else
-		msg = "heredoc> ";
-	line = readline(msg);
-	while (ft_strcmp(line, delimiter))
-	{
-		write(fd, line, ft_strlen(line) + 1);
-		line = readline(msg);
-	}
-	close(fd);
+	read_loop(delimiter, fd, "heredoc> ");
 	return (fd);
 }
 
-void	here_doc_handler(t_ast *ast, int is_pipe)
+void	here_doc_handler(t_ast *ast)
 {
 	int		fd;
 
 	if (ast && ast->type == AST_HEREDOC)
 	{
-		fd = write_temp_file(ast->left->value, is_pipe);
+		signal_handler_heredoc();
+		fd = write_temp_file(ast->left->value);
 		if (fd == -1)
 			return ;
 		fd = open("tmp_file", O_RDONLY);

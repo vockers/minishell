@@ -71,6 +71,6 @@ void	execute(t_ast *ast)
 		}
 		free_arr(args);
 		free(cmd_path);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 }
