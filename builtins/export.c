@@ -35,9 +35,9 @@ static void	print_env(char **envp)
 {
 	bool	in_quote;
 
-	in_quote = false;
 	while (*envp)
 	{
+		in_quote = false;
 		ft_printf("export ");
 		while (**envp)
 		{
@@ -52,7 +52,6 @@ static void	print_env(char **envp)
 		if (in_quote)
 			ft_putchar_fd('"', STDOUT_FILENO);
 		ft_putchar_fd('\n', STDOUT_FILENO);
-		in_quote = false;
 		envp++;
 	}
 }
@@ -78,18 +77,27 @@ static void	print_sorted_env(char **envp)
 
 int	run_export(t_env **env, char ***envp, char **args)
 {
+	int	ret;
+
+	ret = EXIT_SUCCESS;
 	if (!args[1])
 	{
 		print_sorted_env(*envp);
-		return (EXIT_SUCCESS);
+		return (ret);
 	}
-	if (!is_valid_env(args[1]))
+	while (args[1])
 	{
-		printf("minishell: export: '%s': not a valid identifier\n", args[1]);
-		return (1);
+		if (is_valid_env(args[1]))
+			env_update(env, args[1]);
+		else
+		{
+			printf("minishell: export: '%s': "
+				"not a valid identifier\n", args[1]);
+			ret = 1;
+		}
+		args++;
 	}
-	env_append(env, args[1]);
 	free(*envp);
 	*envp = env_to_strs(*env);
-	return (EXIT_SUCCESS);
+	return (ret);
 }

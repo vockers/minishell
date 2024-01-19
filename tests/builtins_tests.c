@@ -31,7 +31,12 @@ int	main(int argc, char *argv[], char *envp[])
 	envp = env_to_strs(env);
 	run_export(&env, &envp, (char*[]){ "export", "hello=test", NULL });
 	run_export(&env, &envp, (char*[]){ "export", "world=test", NULL });
+	run_export(&env, &envp, (char*[]){ "export", "world=hoi", NULL });
+	run_export(&env, &envp, (char*[]){ "export", "world", NULL });
+	run_export(&env, &envp, (char*[]){ "export", "hello=", NULL });
 	run_export(&env, &envp, (char*[]){ "export", "abczyx", NULL });
+	run_export(&env, &envp, (char*[]){ "export", "hello world", NULL });
+	run_export(&env, &envp, (char*[]){ "export", "hello'world", NULL });
 	run_export(&env, &envp, (char*[]){ "export", NULL });
 
 	// run_export(&envp, (char*[]){ "export", "=hello", NULL});

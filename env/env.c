@@ -47,6 +47,33 @@ void	env_append(t_env **env, char *value)
 		*env = new;
 }
 
+void	env_update(t_env **env, char *value)
+{
+	t_env	*iter;
+	size_t	value_len;
+
+	if (env == NULL)
+		return ;
+	iter = *env;
+	while (iter)
+	{
+		value_len = 0;
+		while (iter->value[value_len] && iter->value[value_len] != '=')
+			value_len++;
+		if (ft_strncmp(iter->value, value, value_len) == 0)
+		{
+			if (value[value_len] == '=')
+			{
+				free(iter->value);
+				iter->value = ft_strdup(value);
+			}
+			return ;
+		}
+		iter = iter->next;
+	}
+	env_append(env, value);
+}
+
 char	**env_to_strs(t_env *env)
 {
 	t_env	*iter;
