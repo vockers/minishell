@@ -1,11 +1,9 @@
 #include "execute.h"
 
-void	exit_handler(t_ast *ast, int status)
+void	exit_handler(int status)
 {
-	if (status == 2)
+	if (status == 2 || status == 131)
 		write(STDOUT_FILENO, "\n", 1);
-	else if (status == 131)
-		printf("msh: quit (core dumped)  %s\n", ast->value);
 }
 
 void	single_cmdx(t_ast *ast)
@@ -29,7 +27,7 @@ void	single_cmdx(t_ast *ast)
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid, &status, 0);
-	exit_handler(ast, status);
+	exit_handler(status);
 }
 
 void	exe_line(t_ast *ast)

@@ -14,7 +14,7 @@ int	main(int ac, char *argv[])
 	{
 		signal_handler();
 		rl_catch_signals = 0;
-		line = readline("ms> ");
+		line = readline("msh> ");
 		if (!line)
 			return (0);
 		if (ft_strcmp(line, "exit") == 0)
