@@ -44,6 +44,7 @@ void	pipex(t_ast *ast, int infd, t_list *hdoc_fd)
 {
 	int		fds[2];
 	pid_t	pid[2];
+	int		status[2];
 
 	display_error(pipe(fds), "pipe");
 	pid[0] = fork();
@@ -56,6 +57,8 @@ void	pipex(t_ast *ast, int infd, t_list *hdoc_fd)
 		child_process_right(ast->right, fds, hdoc_fd);
 	close(fds[0]);
 	close(fds[1]);
-	waitpid(pid[0], NULL, 0);
-	waitpid(pid[1], NULL, 0);
+	waitpid(pid[0], &status[0], 0);
+	waitpid(pid[1], &status[1], 0);
+	exit_handler(status[0]);
+	exit_handler(status[1]);
 }
