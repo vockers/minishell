@@ -99,6 +99,7 @@ static t_ast	*parse_redirect(t_parser *parser)
 /**
  * Command
  * 	: Arguments
+ * 	| Redirect
  * 	| Arguments Redirect
  * 	| Redirect Arguments
  * 	| Redirect Arguments Redirect
@@ -112,6 +113,8 @@ static t_ast	*parse_command(t_parser *parser)
 	redirect_node = NULL;
 	if (token_is_redirect(parser->next_token.type))
 		redirect_node = parse_redirect(parser);
+	if (parser->next_token.type != T_ARG)
+		return (redirect_node);
 	node = parse_arguments(parser);
 	node->right = redirect_node;
 	if (token_is_redirect(parser->next_token.type))
