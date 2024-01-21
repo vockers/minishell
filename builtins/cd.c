@@ -22,32 +22,18 @@ static void	update_oldpwd(t_env **env, char ***envp)
 	free(old_pwd);
 }
 
-static int	go_oldpwd(t_env **env, char ***envp)
+static int	go_to_env(t_env **env, char ***envp, char *name)
 {
-	char	*oldpwd;
+	char	*path;
 
-	oldpwd = getenv("OLDPWD");
-	if (oldpwd == NULL)
+	path = getenv(name);
+	if (path == NULL)
 	{
-		ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
+		ft_dprintf(STDERR_FILENO, "minishell: cd: %s not set", name);
 		return (1);
 	}
 	update_oldpwd(env, envp);
-	return (chdir(oldpwd));
-}
-
-static int	go_home(t_env **env, char ***envp)
-{
-	char	*home_path;
-
-	update_oldpwd(env, envp);
-	home_path = getenv("HOME");
-	if (home_path == NULL)
-	{
-		ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
-		return (1);
-	}
-	return (chdir(home_path));
+	return (chdir(path));
 }
 
 int	run_cd(char **args, t_env **env, char ***envp)
@@ -55,9 +41,9 @@ int	run_cd(char **args, t_env **env, char ***envp)
 	int	ret;
 
 	if (!args[1])
-		return (go_home(env, envp));
+		return (go_to_env(env, envp, "HOME"));
 	if (ft_strcmp(args[1], "-") == 0)
-		return (go_oldpwd(env, envp));
+		return (go_to_env(env, envp, "OLDPWD"));
 	update_oldpwd(env, envp);
 	ret = chdir(args[1]);
 	if (ret != 0)
@@ -66,7 +52,8 @@ int	run_cd(char **args, t_env **env, char ***envp)
 		if (args[2])
 			ft_dprintf(STDERR_FILENO, "minishell: cd: too many arguments\n");
 		else
-			ft_dprintf(STDERR_FILENO, "minishell: cd: %s: %s\n", strerror(errno), args[1]);
+			ft_dprintf(STDERR_FILENO, "minishell: cd: %s: %s\n", \
+				strerror(errno), args[1]);
 	}
 	return (ret);
 }
