@@ -13,7 +13,7 @@
 # include "../parser/parser.h"
 
 int		exe_line(t_ast *ast);
-int		exit_handler(int status);
+void    exit_handler(int status);
 int		pipex(t_ast *ast, int infd, t_list *hdoc_fd);
 void	display_error(int fd, char *error);
 char	*pathname(char *cmd);

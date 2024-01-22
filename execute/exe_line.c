@@ -1,15 +1,9 @@
 #include "execute.h"
 
-int	exit_handler(int status)
+void	exit_handler(int status)
 {
-	if (status == 2 || status == 131)
+	if (status == 130 || status == 131)
 		write(STDOUT_FILENO, "\n", 1);
-	if (status == 2 || status == 33280)
-		return (130);
-	if (status == 256)
-		return (1);
-	else
-		return (status);
 }
 
 int	single_cmdx(t_ast *ast)
@@ -36,7 +30,8 @@ int	single_cmdx(t_ast *ast)
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid, &status, 0);
-	return (exit_handler(status));
+	exit_handler(WEXITSTATUS(status));
+	return (WEXITSTATUS(status));
 }
 
 int	exe_line(t_ast *ast)

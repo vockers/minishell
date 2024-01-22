@@ -51,7 +51,6 @@ int	pipex(t_ast *ast, int infd, t_list *hdoc_fd)
 	int		fds[2];
 	pid_t	pid[2];
 	int		status[2];
-	int		exit_status[2];
 
 	display_error(pipe(fds), "pipe");
 	pid[0] = fork();
@@ -66,10 +65,7 @@ int	pipex(t_ast *ast, int infd, t_list *hdoc_fd)
 	close(fds[1]);
 	waitpid(pid[0], &status[0], 0);
 	waitpid(pid[1], &status[1], 0);
-	exit_status[0] = exit_handler(status[0]);
-	exit_status[1] = exit_handler(status[1]);
-	if (exit_status[0] > exit_status[1])
-		return (exit_status[0]);
-	else
-		return (exit_status[1]);
+	exit_handler(WEXITSTATUS(status[0]));
+	exit_handler(WEXITSTATUS(status[1]));
+	return (WEXITSTATUS(status[1]));
 }
