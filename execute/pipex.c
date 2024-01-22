@@ -65,7 +65,6 @@ int	pipex(t_ast *ast, int infd, t_list *hdoc_fd)
 	close(fds[1]);
 	waitpid(pid[0], &status[0], 0);
 	waitpid(pid[1], &status[1], 0);
-	exit_handler(WEXITSTATUS(status[0]));
-	exit_handler(WEXITSTATUS(status[1]));
-	return (WEXITSTATUS(status[1]));
+	exit_handler(status[0]);
+	return (exit_handler(status[1]));
 }

@@ -26,7 +26,6 @@ int	main(int ac, char *argv[])
 		parser = parser_init(line);	
 		ast = parser_parse(parser);
 		status = exe_line(ast);
-		printf("final status = %d\n", status);
 		ast_destroy(ast);
 		free(parser);
 		free(line);
