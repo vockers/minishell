@@ -254,6 +254,14 @@ int main()
 		AST_ARG, "42"
 	);
 
+	test_ast("\"hello $? world\"",
+		AST_ARG, "hello 42 world"
+	);
+
+	test_ast("\"hello $ASJDLKJADKhKJHSAKJDH world\"",
+		AST_ARG, "hello  world"
+	);
+
 	ft_printf("All tests passed!\n");
 	
 	return (0);

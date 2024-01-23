@@ -16,14 +16,13 @@ static char	*expand_env(char *str, size_t i)
 	name = ft_strndup(str + i, name_len);
 	value = getenv(name);
 	free(name);
-	if (value == NULL)
-		return (str);
 	new_len = ft_strlen(str) - name_len + ft_strlen(value);
 	new_str = ft_calloc(new_len + 1, sizeof(char));
 	if (new_str == NULL)
 		return (NULL);
 	ft_strlcpy(new_str, str, i);
-	ft_strlcat(new_str, value, new_len);
+	if (value != NULL)
+		ft_strlcat(new_str, value, new_len);
 	ft_strlcat(new_str, str + i + name_len, new_len);
 	free(str);
 	return (new_str);
@@ -37,7 +36,7 @@ static char	*expand_status(char *str, size_t i, int status)
 
 	arg = ft_itoa(status);
 	if (arg == NULL)
-		return (NULL);
+		return (str);
 	new_len = ft_strlen(str) - 1 + ft_strlen(arg);
 	new_str = (char *)ft_calloc(new_len, sizeof(char));
 	if (new_str == NULL)
