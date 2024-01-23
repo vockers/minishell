@@ -48,7 +48,7 @@ void	env_append(t_envlst **env, char *value)
 void	env_update(t_env *env, char *value)
 {
 	t_envlst	*iter;
-	size_t	value_len;
+	size_t		value_len;
 
 	if (env == NULL)
 		return ;
@@ -77,7 +77,7 @@ void	env_remove(t_env *env, char *value)
 {
 	t_envlst	*iter;
 	t_envlst	*prev;
-	size_t	value_len;
+	size_t		value_len;
 
 	if (env == NULL)
 		return ;
