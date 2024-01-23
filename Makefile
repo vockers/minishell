@@ -5,6 +5,7 @@ SRCS = 	parser/ast.c \
 		parser/lexer.c \
 		parser/parser.c \
 		parser/expansion.c \
+		execute/builtin_exe.c \
 		execute/exe_line.c \
 		execute/heredoc_pipe.c \
 		execute/heredoc_pipe_utils.c \

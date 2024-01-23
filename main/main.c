@@ -5,7 +5,7 @@ int	gl_sig = -1;
 int	main(int ac, char *argv[], char **envp)
 {
 	t_mini		ms;
-	t_parser	*parser;
+	t_parser	parser;
 	char		*line;
 
 	if (!mini_init(&ms, envp))
@@ -23,11 +23,10 @@ int	main(int ac, char *argv[], char **envp)
 			free(line);
 			continue;
 		}
-		parser = parser_init(line);	
-		parser_parse(parser);
-		exe_line(parser->ast);
-		ast_destroy(parser->ast);
-		free(parser);
+		parser.next_token = get_next_token(line);	
+		parser_parse(&parser);
+		ms.status = exe_line(parser.ast);
+		ast_destroy(parser.ast);
 		free(line);
 	}
 	mini_cleanup(&ms);
