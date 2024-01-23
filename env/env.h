@@ -21,7 +21,7 @@ void	env_append(t_envlst **env, char *value);
 void	env_update(t_env *env, char *value);
 void	env_remove(t_env *env, char *value);
 char	*get_env_value(t_env *env, char *name);
-char	**env_to_strs(t_envlst *env);
+void	env_to_strs(t_env *env);
 
 bool	is_valid_env(const char *env);
 

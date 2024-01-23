@@ -37,15 +37,15 @@ char	*get_env_value(t_env *env, char *name)
 	return (NULL);
 }
 
-char	**env_to_strs(t_envlst *env)
+void	env_to_strs(t_env *env)
 {
 	t_envlst	*iter;
 	size_t		i;
 	char		**new;
 
 	if (env == NULL)
-		return (NULL);
-	iter = env;
+		return ;
+	iter = env->head;
 	i = 0;
 	while (iter)
 	{
@@ -54,13 +54,14 @@ char	**env_to_strs(t_envlst *env)
 	}
 	new = (char **)ft_calloc(i + 1, sizeof(char *));
 	if (new == NULL)
-		return (NULL);
-	iter = env;
+		return ;
+	iter = env->head;
 	i = 0;
 	while (iter)
 	{
 		new[i++] = iter->value;
 		iter = iter->next;
 	}
-	return (new);
+	free(env->strs);
+	env->strs = new;
 }

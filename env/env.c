@@ -10,7 +10,7 @@ void	env_init(t_env *env, char **envp)
 		env_append(&(env->head), *envp);
 		envp++;
 	}
-	env->strs = env_to_strs(env->head);
+	env_to_strs(env);
 }
 
 void	env_free(t_envlst *env)
@@ -70,8 +70,7 @@ void	env_update(t_env *env, char *value)
 		iter = iter->next;
 	}
 	env_append(&(env->head), value);
-	free(env->strs);
-	env->strs = env_to_strs(env->head);
+	env_to_strs(env);
 }
 
 void	env_remove(t_env *env, char *value)
