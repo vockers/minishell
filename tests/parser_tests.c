@@ -43,18 +43,17 @@ void vassert_ast(char *line, t_ast *ast, va_list ap)
 void test_ast(char *line, ...)
 {
 	va_list		ap;
-	t_parser	*parser;
-	t_ast		*ast;
+	t_parser	parser;
 
-	parser = parser_init(line);	
-	ast = parser_parse(parser);
+	parser.next_token = get_next_token(line);	
+	parser.status = 42;
+	parser_parse(&parser);
 	va_start(ap, line);
 
-	vassert_ast(line, ast, ap);
+	vassert_ast(line, parser.ast, ap);
 
 	va_end(ap);
-	ast_destroy(ast);
-	free(parser);
+	ast_destroy(parser.ast);
 }
 
 int main()
@@ -249,6 +248,10 @@ int main()
 		AST_ARG, "EOF",
 		AST_GRT, ">",
 		AST_ARG, "test"
+	);
+
+	test_ast("$?",
+		AST_ARG, "42"
 	);
 
 	ft_printf("All tests passed!\n");

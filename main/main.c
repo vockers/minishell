@@ -11,6 +11,7 @@ int	main(int ac, char *argv[], char **envp)
 	if (!mini_init(&ms, envp))
 		return (1);
 	suppress_output();
+	parser.status = 0;
 	while (1)
 	{
 		signal_handler();
@@ -25,7 +26,7 @@ int	main(int ac, char *argv[], char **envp)
 		}
 		parser.next_token = get_next_token(line);	
 		parser_parse(&parser);
-		ms.status = exe_line(parser.ast);
+		parser.status = exe_line(parser.ast);
 		ast_destroy(parser.ast);
 		free(line);
 	}

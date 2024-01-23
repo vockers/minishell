@@ -29,7 +29,28 @@ static char	*expand_env(char *str, size_t i)
 	return (new_str);
 }
 
-char	*expand_argument(char *str)
+static char	*expand_status(char *str, size_t i, int status)
+{
+	char	*arg;
+	char	*new_str;
+	size_t	new_len;
+
+	arg = ft_itoa(status);
+	if (arg == NULL)
+		return (NULL);
+	new_len = ft_strlen(str) - 1 + ft_strlen(arg);
+	new_str = (char *)ft_calloc(new_len, sizeof(char));
+	if (new_str == NULL)
+		return (NULL);
+	ft_strlcpy(new_str, str, i);
+	ft_strlcat(new_str, arg, new_len);
+	ft_strlcat(new_str, str + i + 1, new_len);
+	free(str);
+	free(arg);
+	return (new_str);
+}
+
+char	*expand_argument(char *str, int status)
 {
 	bool	inside_quote;
 	bool	inside_dquote;
@@ -52,7 +73,12 @@ char	*expand_argument(char *str)
 		}
 		else
 			if (str[i++] == '$' && !inside_quote)
-				str = expand_env(str, i);
+			{
+				if (str[i] == '?')
+					str = expand_status(str, i, status);
+				else
+					str = expand_env(str, i);
+			}
 	}
 	return (str);
 }

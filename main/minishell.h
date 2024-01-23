@@ -12,7 +12,6 @@ typedef struct s_mini
 	t_env		*env;
 	char		**envp;
 	bool		exit;
-	int			status;
 }	t_mini;
 
 int		mini_init(t_mini *ms, char **envp);
