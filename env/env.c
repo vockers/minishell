@@ -74,28 +74,31 @@ void	env_update(t_env **env, char *value)
 	env_append(env, value);
 }
 
-char	**env_to_strs(t_env *env)
+void	env_remove(t_env **env, char *value)
 {
 	t_env	*iter;
-	size_t	i;
-	char	**new;
+	t_env	*prev;
+	size_t	value_len;
 
-	iter = env;
-	i = 0;
+	if (env == NULL)
+		return ;
+	iter = *env;
+	prev = NULL;
 	while (iter)
 	{
-		i++;
+		value_len = 0;
+		while (iter->value[value_len] && iter->value[value_len] != '=')
+			value_len++;
+		if (ft_strncmp(iter->value, value, value_len) == 0)
+		{
+			if (prev != NULL)
+				prev->next = iter->next;
+			else
+				*env = iter->next;
+			free(iter->value);
+			return (free(iter));
+		}
+		prev = iter;
 		iter = iter->next;
 	}
-	new = (char **)ft_calloc(i + 1, sizeof(char *));
-	if (new == NULL)
-		return (NULL);
-	iter = env;
-	i = 0;
-	while (iter)
-	{
-		new[i++] = iter->value;
-		iter = iter->next;
-	}
-	return (new);
 }
