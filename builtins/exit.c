@@ -1,6 +1,6 @@
 #include "builtins.h"
 
-#include "../libft/libft.h"
+#include "libft.h"
 
 int	run_exit(char **args)
 {

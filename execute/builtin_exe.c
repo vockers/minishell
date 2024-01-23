@@ -32,10 +32,10 @@ void	builtin_exec(t_ast *ast, int last)
 	status = EXIT_SUCCESS;
 	if (!ft_strcmp("echo", ast->value))
 		status = run_echo(args);
-	else if (last && !ft_strcmp("exit", ast->value))
-		status = run_exit(args);
 	else if (!ft_strcmp("pwd", ast->value))
 		status = run_pwd();
+	else if (last && !ft_strcmp("exit", ast->value))
+		status = run_exit(args);
 	free(args);
 	exit(status);
 }

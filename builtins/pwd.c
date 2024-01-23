@@ -2,7 +2,7 @@
 
 #include <linux/limits.h>
 
-#include "../libft/libft.h"
+#include "libft.h"
 
 int	run_pwd(void)
 {

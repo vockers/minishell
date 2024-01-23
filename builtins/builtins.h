@@ -1,7 +1,7 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include "../env/env.h"
+# include "env.h"
 
 int	run_cd(char **args, t_env **env, char ***envp);
 int	run_echo(char **args);

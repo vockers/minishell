@@ -2,7 +2,7 @@
 
 #include <stdbool.h>
 
-#include "../libft/libft.h"
+#include "libft.h"
 
 int	run_echo(char **args)
 {
