@@ -16,12 +16,35 @@ bool	is_valid_env(const char *env)
 	return (true);
 }
 
+char	*get_env(t_env *env, char *name)
+{
+	t_env	*iter;
+	size_t	value_len;
+
+	iter = env;
+	while (iter)
+	{
+		value_len = 0;
+		while (iter->value[value_len] && iter->value[value_len] != '=')
+			value_len++;
+		if (ft_strncmp(iter->value, name, value_len) == 0)
+		{
+			if (name[value_len] == '=')
+				return (iter->value + value_len);
+		}
+		iter = iter->next;
+	}
+	return (NULL);
+}
+
 char	**env_to_strs(t_env *env)
 {
 	t_env	*iter;
 	size_t	i;
 	char	**new;
 
+	if (env == NULL)
+		return (NULL);
 	iter = env;
 	i = 0;
 	while (iter)

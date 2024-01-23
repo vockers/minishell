@@ -7,10 +7,11 @@
 typedef struct s_parser
 {
 	t_token	next_token;
+	t_ast	*ast;
 }	t_parser;
 
 t_parser	*parser_init(char *line);
-t_ast		*parser_parse(t_parser *parser);
+void		parser_parse(t_parser *parser);
 
 char		*expand_argument(char *str);
 

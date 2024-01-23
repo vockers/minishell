@@ -14,6 +14,7 @@ void	env_free(t_env *env);
 void	env_append(t_env **env, char *value);
 void	env_update(t_env **env, char *value);
 void	env_remove(t_env **env, char *value);
+char	*get_env(t_env *env, char *name);
 char	**env_to_strs(t_env *env);
 
 bool	is_valid_env(const char *env);

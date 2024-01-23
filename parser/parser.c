@@ -163,7 +163,7 @@ t_parser	*parser_init(char *line)
 	return (parser);
 }
 
-t_ast	*parser_parse(t_parser *parser)
+void	parser_parse(t_parser *parser)
 {
-	return (parse_pipe(parser));
+	parser->ast = parse_pipe(parser);
 }

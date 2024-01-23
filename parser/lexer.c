@@ -45,7 +45,6 @@ static t_token	scan_token(char *str)
 t_token	get_next_token(char *line)
 {
 	t_token		token;
-	char		*value;
 	static char	*saved = NULL;
 
 	if (line != NULL)
