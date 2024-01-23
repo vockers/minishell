@@ -1,6 +1,6 @@
 #include "parser.h"
 
-static char	*expand_env(char *str, size_t i)
+static char	*expand_env(char *str, size_t i, t_env *env)
 {
 	char	*name;
 	char	*value;
@@ -14,7 +14,7 @@ static char	*expand_env(char *str, size_t i)
 		name_len++;
 	name_len = name_len - i;
 	name = ft_strndup(str + i, name_len);
-	value = getenv(name);
+	value = get_env(env, name);
 	free(name);
 	new_len = ft_strlen(str) - name_len + ft_strlen(value);
 	new_str = ft_calloc(new_len + 1, sizeof(char));
@@ -49,7 +49,7 @@ static char	*expand_status(char *str, size_t i, int status)
 	return (new_str);
 }
 
-char	*expand_argument(char *str, int status)
+char	*expand_argument(char *str, int status, t_env *env)
 {
 	bool	inside_quote;
 	bool	inside_dquote;
@@ -76,7 +76,7 @@ char	*expand_argument(char *str, int status)
 				if (str[i] == '?')
 					str = expand_status(str, i, status);
 				else
-					str = expand_env(str, i);
+					str = expand_env(str, i, env);
 			}
 	}
 	return (str);

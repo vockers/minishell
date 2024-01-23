@@ -12,6 +12,7 @@ int	main(int ac, char *argv[], char **envp)
 		return (1);
 	suppress_output();
 	parser.status = 0;
+	parser.env = &(ms.env);
 	while (1)
 	{
 		signal_handler();
