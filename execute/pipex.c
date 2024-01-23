@@ -16,7 +16,10 @@ static void	child_process_left(t_ast *ast, int *fds, int infd, t_list *hdoc_fd)
 	infile_handler(ast->right);
 	dup2(fds[1], STDOUT_FILENO);
 	close(fds[1]);
-	execute(ast);
+	if (is_builtin(ast->value))
+		builtin_exec(ast, 0);
+	else
+		execute(ast);
 }
 
 static void	child_process_right(t_ast *ast, int *fds, t_list *hdoc_fd)
@@ -30,7 +33,10 @@ static void	child_process_right(t_ast *ast, int *fds, t_list *hdoc_fd)
 	if (ast->type == AST_ARG)
 	{
 		outfile_handler(ast->right);
-		execute(ast);
+		if (is_builtin(ast->value))
+			builtin_exec(ast, 1);
+		else
+			execute(ast);
 	}
 	else if (ast->type == AST_PIPE)
 	{
@@ -40,7 +46,7 @@ static void	child_process_right(t_ast *ast, int *fds, t_list *hdoc_fd)
 	}
 }
 
-void	pipex(t_ast *ast, int infd, t_list *hdoc_fd)
+int	pipex(t_ast *ast, int infd, t_list *hdoc_fd)
 {
 	int		fds[2];
 	pid_t	pid[2];
@@ -60,5 +66,5 @@ void	pipex(t_ast *ast, int infd, t_list *hdoc_fd)
 	waitpid(pid[0], &status[0], 0);
 	waitpid(pid[1], &status[1], 0);
 	exit_handler(status[0]);
-	exit_handler(status[1]);
+	return (exit_handler(status[1]));
 }

@@ -1,12 +1,18 @@
 #include "execute.h"
 
-void	exit_handler(int status)
+int	exit_handler(int status)
 {
 	if (status == 2 || status == 131)
 		write(STDOUT_FILENO, "\n", 1);
+	if (status == 2 || status == 33280)
+		return (130);
+	else if (status == 32512)
+		return (127);
+	else
+		return (status);
 }
 
-void	single_cmdx(t_ast *ast)
+int	single_cmdx(t_ast *ast)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -22,17 +28,21 @@ void	single_cmdx(t_ast *ast)
 		here_doc_handler(ast->right);
 		if (gl_sig == SIGINT)
 			exit(130);
-		execute(ast);
+		if (is_builtin(ast->value))
+			builtin_exec(ast, 1);
+		else
+			execute(ast);
 	}
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid, &status, 0);
-	exit_handler(status);
+	return (exit_handler(status));
 }
 
-void	exe_line(t_ast *ast)
+int	exe_line(t_ast *ast)
 {
 	t_list	*hdoc_fd;
+	int		status;
 
 	signal_handler_child();
 	if (ast->type == AST_PIPE)
@@ -41,13 +51,15 @@ void	exe_line(t_ast *ast)
 		if (!heredoc_pipe_read(ast, &hdoc_fd, 0))
 		{
 			gl_sig = -1;
-			return ;
+			return (130);
 		}
-		pipex(ast, STDIN_FILENO, hdoc_fd);
+		status = pipex(ast, STDIN_FILENO, hdoc_fd);
 		ft_lstclear(&hdoc_fd, free);
+		return (status);
 	}
 	else if (ast->type == AST_ARG)
 	{
-		single_cmdx(ast);
+		return (single_cmdx(ast));
 	}
+	return (0);
 }

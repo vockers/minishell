@@ -12,11 +12,12 @@
 
 # include "../parser/parser.h"
 
-void	exe_line(t_ast *ast);
-void	exit_handler(int status);
-void	pipex(t_ast *ast, int infd, t_list *hdoc_fd);
+int		exe_line(t_ast *ast);
+int		exit_handler(int status);
+int		pipex(t_ast *ast, int infd, t_list *hdoc_fd);
 void	display_error(int fd, char *error);
 char	*pathname(char *cmd);
+char	**get_args(t_ast *ast);
 void	execute(t_ast *ast);
 char	*free_arr(char **arr);
 char	**free_arr_i(char **arr, int i);
@@ -31,5 +32,7 @@ int		redirec_heredoc(t_ast *ast, t_list *hdoc_fd);
 t_list	**add_fd(t_list **fds, char *file_name);
 char	*create_file_name(int i);
 void	delete_files(t_list **hdoc_fd);
+int		is_builtin(char *cmd);
+void	builtin_exec(t_ast *ast, int last);
 
 #endif

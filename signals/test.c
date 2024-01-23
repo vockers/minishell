@@ -8,6 +8,7 @@ int	main(int ac, char *argv[])
 	char		*line;
 	t_parser	*parser;
 	t_ast		*ast;
+	int			status;
 
 	suppress_output();
 	while (1)
@@ -17,11 +18,6 @@ int	main(int ac, char *argv[])
 		line = readline("msh> ");
 		if (!line)
 			return (0);
-		if (ft_strcmp(line, "exit") == 0)
-		{
-			free(line);
-			return (0);
-		}
 		if (ft_strcmp(line, "") == 0)
 		{
 			free(line);
@@ -29,11 +25,10 @@ int	main(int ac, char *argv[])
 		}
 		parser = parser_init(line);	
 		ast = parser_parse(parser);
-		exe_line(ast);
+		status = exe_line(ast);
 		ast_destroy(ast);
 		free(parser);
 		free(line);
 	}
 	return (0);
 }
-
