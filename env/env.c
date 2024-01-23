@@ -2,20 +2,18 @@
 
 #include "libft.h"
 
-t_env	*env_init(char **envp)
+void	env_init(t_env *env, char **envp)
 {
-	t_env	*head;
-
-	head = NULL;
+	env->head = NULL;
 	while (*envp)
 	{
-		env_append(&head, *envp);
+		env_append(&(env->head), *envp);
 		envp++;
 	}
-	return (head);
+	env->strs = env_to_strs(env->head);
 }
 
-void	env_free(t_env *env)
+void	env_free(t_envlst *env)
 {
 	if (env == NULL)
 		return ;
@@ -25,14 +23,14 @@ void	env_free(t_env *env)
 	free(env);
 }
 
-void	env_append(t_env **env, char *value)
+void	env_append(t_envlst **env, char *value)
 {
-	t_env	*last;
-	t_env	*new;
+	t_envlst	*last;
+	t_envlst	*new;
 
 	if (env == NULL)
 		return ;
-	new = (t_env *)ft_calloc(1, sizeof(t_env));
+	new = (t_envlst *)ft_calloc(1, sizeof(t_envlst));
 	if (new == NULL)
 		return ;
 	new->value = ft_strdup(value);
@@ -47,14 +45,14 @@ void	env_append(t_env **env, char *value)
 		*env = new;
 }
 
-void	env_update(t_env **env, char *value)
+void	env_update(t_env *env, char *value)
 {
-	t_env	*iter;
+	t_envlst	*iter;
 	size_t	value_len;
 
 	if (env == NULL)
 		return ;
-	iter = *env;
+	iter = env->head;
 	while (iter)
 	{
 		value_len = 0;
@@ -71,18 +69,20 @@ void	env_update(t_env **env, char *value)
 		}
 		iter = iter->next;
 	}
-	env_append(env, value);
+	env_append(&(env->head), value);
+	free(env->strs);
+	env->strs = env_to_strs(env->head);
 }
 
-void	env_remove(t_env **env, char *value)
+void	env_remove(t_env *env, char *value)
 {
-	t_env	*iter;
-	t_env	*prev;
+	t_envlst	*iter;
+	t_envlst	*prev;
 	size_t	value_len;
 
 	if (env == NULL)
 		return ;
-	iter = *env;
+	iter = env->head;
 	prev = NULL;
 	while (iter)
 	{
@@ -94,7 +94,7 @@ void	env_remove(t_env **env, char *value)
 			if (prev != NULL)
 				prev->next = iter->next;
 			else
-				*env = iter->next;
+				env->head = iter->next;
 			free(iter->value);
 			return (free(iter));
 		}

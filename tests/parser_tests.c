@@ -4,6 +4,8 @@
 
 #include "parser.h"
 
+t_env		env;
+
 void ft_assert_str(char *line, const char *str1, const char *str2)
 {
 	if (str1 == NULL || str2 == NULL)
@@ -47,6 +49,7 @@ void test_ast(char *line, ...)
 
 	parser.next_token = get_next_token(line);	
 	parser.status = 42;
+	parser.env = &env;
 	parser_parse(&parser);
 	va_start(ap, line);
 
@@ -56,8 +59,10 @@ void test_ast(char *line, ...)
 	ast_destroy(parser.ast);
 }
 
-int main()
+int main(int argc, char *argv[], char **envp)
 {
+	env_init(&env, envp);
+
 	test_ast("test11 test12 test13", 
 		AST_ARG, "test11",
 		AST_ARG, "test12",

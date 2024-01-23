@@ -1,5 +1,8 @@
-NAME = minishell
-LIBFT = libft.a
+NAME	= minishell
+LIBFT	= libft.a
+
+OBJ_DIR	= .obj
+
 SRCS = 	parser/ast.c \
 		parser/lexer_utils.c \
 		parser/lexer.c \
@@ -25,7 +28,7 @@ SRCS = 	parser/ast.c \
 		main/main.c \
 		main/minishell.c \
 
-OBJS = ${SRCS:.c=.o}
+OBJS = ${SRCS:%.c=$(OBJ_DIR)/%.o}
 CFLAGS = -Ilibft -Iparser -Ienv -Ibuiltins -Iexecute -Isignals
 CC = cc
 
@@ -34,15 +37,15 @@ all: $(NAME)
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME) -lreadline -L./libft/build -lft
 
-%o:%c
-	@echo "hello"
-	$(CC) $(FLAGS) $(INC) -c $< -o $@
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c -o $@ $^
 
 $(LIBFT):
 	$(MAKE) -C libft -f Makefile
 
 clean:
-	rm -f $(OBJS)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -f $(NAME)

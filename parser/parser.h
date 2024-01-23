@@ -9,7 +9,7 @@ typedef struct s_parser
 {
 	t_token	next_token;
 	t_ast	*ast;
-	t_env	**env;
+	t_env	*env;
 	int		status;
 }	t_parser;
 

@@ -6,10 +6,9 @@
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	t_env	*env;
+	t_env	env;
 
-	env = env_init(envp);
-	envp = env_to_strs(env);
+	env_init(&env, envp);
 
 	/* echo */
 	// run_echo((char *[]){ "echo", "hello", "world", NULL });
@@ -36,28 +35,26 @@ int	main(int argc, char *argv[], char *envp[])
 	// run_export(&envp, (char*[]){ "export", "1abc=hello", NULL});
 
 	/* cd */
-	run_cd((char*[]){ "cd", NULL }, &env, &envp);
+	run_cd((char*[]){ "cd", NULL }, &env);
 	run_pwd();
-	run_cd((char*[]){ "cd", "-", NULL }, &env, &envp);
+	run_cd((char*[]){ "cd", "-", NULL }, &env);
 	run_pwd();
-	run_cd((char*[]){ "cd", "asdhasd", NULL }, &env, &envp);
-	run_cd((char*[]){ "cd", "test", "asdasd", NULL }, &env, &envp);
-	run_cd((char*[]){ "cd", "tests", NULL }, &env, &envp);
+	run_cd((char*[]){ "cd", "asdhasd", NULL }, &env);
+	run_cd((char*[]){ "cd", "test", "asdasd", NULL }, &env);
+	run_cd((char*[]){ "cd", "tests", NULL }, &env);
 	run_pwd();
-	run_cd((char*[]){ "cd", "..", NULL }, &env, &envp);
+	run_cd((char*[]){ "cd", "..", NULL }, &env);
 	run_pwd();
-	run_cd((char*[]){ "cd", "../../..", NULL }, &env, &envp);
+	run_cd((char*[]){ "cd", "../../..", NULL }, &env);
 	run_pwd();
-	run_cd((char*[]){ "cd", "/tmp", NULL }, &env, &envp);
+	run_cd((char*[]){ "cd", "/tmp", NULL }, &env);
 	run_pwd();
-	run_unset((char*[]){ "unset", "HOME" }, &env, &envp);
-	ft_printf("%s\n", getenv("HOME"));
-	run_cd((char*[]){ "cd", NULL }, &env, &envp);
+	run_unset((char*[]){ "unset", "HOME" }, &env);
+	run_cd((char*[]){ "cd", NULL }, &env);
 	run_pwd();
-	// ft_printf("%s\n", getenv("PWD"));
 
-	env_free(env);
-	free(envp);
+	env_free(env.head);
+	free(env.strs);
 
 	return (0);
 }

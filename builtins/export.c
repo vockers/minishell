@@ -75,14 +75,14 @@ static void	print_sorted_env(char **envp)
 	free(sorted_env);
 }
 
-int	run_export(t_env **env, char ***envp, char **args)
+int	run_export(t_env *env, char **args)
 {
 	int	ret;
 
 	ret = EXIT_SUCCESS;
 	if (!args[1])
 	{
-		print_sorted_env(*envp);
+		print_sorted_env(env->strs);
 		return (ret);
 	}
 	while (args[1])
@@ -97,7 +97,5 @@ int	run_export(t_env **env, char ***envp, char **args)
 		}
 		args++;
 	}
-	free(*envp);
-	*envp = env_to_strs(*env);
 	return (ret);
 }

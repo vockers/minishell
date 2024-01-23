@@ -3,19 +3,25 @@
 
 # include <stdbool.h>
 
-typedef struct s_env
+typedef struct s_envlst
 {
 	char			*value;
-	struct s_env	*next;
+	struct s_envlst	*next;
+}	t_envlst;
+
+typedef struct s_env
+{
+	char		**strs;
+	t_envlst	*head;
 }	t_env;
 
-t_env	*env_init(char **envp);
-void	env_free(t_env *env);
-void	env_append(t_env **env, char *value);
-void	env_update(t_env **env, char *value);
-void	env_remove(t_env **env, char *value);
-char	*get_env(t_env *env, char *name);
-char	**env_to_strs(t_env *env);
+void	env_init(t_env *env, char **envp);
+void	env_free(t_envlst *env);
+void	env_append(t_envlst **env, char *value);
+void	env_update(t_env *env, char *value);
+void	env_remove(t_env *env, char *value);
+char	*get_env_value(t_env *env, char *name);
+char	**env_to_strs(t_envlst *env);
 
 bool	is_valid_env(const char *env);
 

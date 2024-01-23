@@ -14,7 +14,7 @@ static char	*expand_env(char *str, size_t i, t_env *env)
 		name_len++;
 	name_len = name_len - i;
 	name = ft_strndup(str + i, name_len);
-	value = get_env(env, name);
+	value = get_env_value(env, name);
 	free(name);
 	new_len = ft_strlen(str) - name_len + ft_strlen(value);
 	new_str = ft_calloc(new_len + 1, sizeof(char));
