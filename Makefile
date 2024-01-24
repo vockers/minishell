@@ -1,10 +1,14 @@
-NAME = minishell
-LIBFT = libft.a
+NAME	= minishell
+LIBFT	= libft.a
+
+OBJ_DIR	= .obj
+
 SRCS = 	parser/ast.c \
 		parser/lexer_utils.c \
 		parser/lexer.c \
 		parser/parser.c \
 		parser/expansion.c \
+		execute/builtin_exe.c \
 		execute/exe_line.c \
 		execute/heredoc_pipe.c \
 		execute/heredoc_pipe_utils.c \
@@ -24,24 +28,24 @@ SRCS = 	parser/ast.c \
 		main/main.c \
 		main/minishell.c \
 
-OBJS = ${SRCS:.c=.o}
-CFLAGS = -Ilibft -Iparser -Ienv -Ibuiltins -Iexecute -Isignals
+OBJS = ${SRCS:%.c=$(OBJ_DIR)/%.o}
+CFLAGS = -Imain -Ilibft -Iparser -Ienv -Ibuiltins -Iexecute -Isignals -g
 CC = cc
 
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME) -lreadline -L./libft/build -lft
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L./libft/build -lft
 
-%o:%c
-	@echo "hello"
-	$(CC) $(FLAGS) $(INC) -c $< -o $@
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c -o $@ $^
 
 $(LIBFT):
 	$(MAKE) -C libft -f Makefile
 
 clean:
-	rm -f $(OBJS)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -f $(NAME)

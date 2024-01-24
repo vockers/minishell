@@ -38,7 +38,7 @@ static t_ast	*parse_arguments(t_parser *parser)
 	if (node == NULL)
 		return (NULL);
 	token = parser_eat(parser, T_ARG);
-	token.str = expand_argument(token.str);
+	token.str = expand_argument(token.str, parser->status, parser->env);
 	node->value = token.str;
 	if (parser->next_token.type == T_ARG)
 		node->left = parse_arguments(parser);
@@ -152,18 +152,8 @@ static t_ast	*parse_pipe(t_parser *parser)
 	return (ret);
 }
 
-t_parser	*parser_init(char *line)
+void	parser_parse(t_parser *parser, char *line)
 {
-	t_parser	*parser;
-
-	parser = (t_parser *)malloc(sizeof(t_parser));
-	if (parser == NULL)
-		return (NULL);
-	parser->next_token = get_next_token(line);
-	return (parser);
-}
-
-void	parser_parse(t_parser *parser)
-{
+	parser->next_token = get_next_token(line);	
 	parser->ast = parse_pipe(parser);
 }

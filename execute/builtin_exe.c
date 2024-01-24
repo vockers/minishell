@@ -21,7 +21,7 @@ int	is_builtin(char *cmd)
 		return (0);
 }
 
-void	builtin_exec(t_ast *ast, int last)
+void	builtin_exec(t_ast *ast, int last, t_mini *ms)
 {
 	int		status;
 	char	**args;
@@ -35,7 +35,8 @@ void	builtin_exec(t_ast *ast, int last)
 	else if (!ft_strcmp("pwd", ast->value))
 		status = run_pwd();
 	else if (last && !ft_strcmp("exit", ast->value))
-		status = run_exit(args);
+		status = run_exit(args, ms);
+	printf("%d\n", ms->exit);
 	free(args);
 	exit(status);
 }

@@ -4,6 +4,8 @@
 
 #include "parser.h"
 
+t_env		env;
+
 void ft_assert_str(char *line, const char *str1, const char *str2)
 {
 	if (str1 == NULL || str2 == NULL)
@@ -43,22 +45,23 @@ void vassert_ast(char *line, t_ast *ast, va_list ap)
 void test_ast(char *line, ...)
 {
 	va_list		ap;
-	t_parser	*parser;
-	t_ast		*ast;
+	t_parser	parser;
 
-	parser = parser_init(line);	
-	ast = parser_parse(parser);
+	parser.status = 42;
+	parser.env = &env;
+	parser_parse(&parser, line);
 	va_start(ap, line);
 
-	vassert_ast(line, ast, ap);
+	vassert_ast(line, parser.ast, ap);
 
 	va_end(ap);
-	ast_destroy(ast);
-	free(parser);
+	ast_destroy(parser.ast);
 }
 
-int main()
+int main(int argc, char *argv[], char **envp)
 {
+	env_init(&env, envp);
+
 	test_ast("test11 test12 test13", 
 		AST_ARG, "test11",
 		AST_ARG, "test12",
@@ -249,6 +252,18 @@ int main()
 		AST_ARG, "EOF",
 		AST_GRT, ">",
 		AST_ARG, "test"
+	);
+
+	test_ast("$?",
+		AST_ARG, "42"
+	);
+
+	test_ast("\"hello $? world\"",
+		AST_ARG, "hello 42 world"
+	);
+
+	test_ast("\"hello $ASJDLKJADKhKJHSAKJDH world\"",
+		AST_ARG, "hello  world"
 	);
 
 	ft_printf("All tests passed!\n");
