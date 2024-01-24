@@ -52,7 +52,7 @@ int	pipex(t_ast *ast, int infd, t_list *hdoc_fd, t_mini *ms)
 	pid_t	pid[2];
 	int		status[2];
 
-	fds[3] = infd;
+	fds[2] = infd;
 	display_error(pipe(fds), "pipe");
 	pid[0] = fork();
 	display_error(pid[0], "fork");
