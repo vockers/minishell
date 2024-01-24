@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+#include "execute.h"
+
 int	gl_sig = -1;
 
 int	main(int ac, char *argv[], char **envp)
@@ -13,21 +15,20 @@ int	main(int ac, char *argv[], char **envp)
 	suppress_output();
 	parser.status = 0;
 	parser.env = &(ms.env);
-	while (1)
+	while (!ms.exit)
 	{
 		signal_handler();
 		rl_catch_signals = 0;
 		line = readline("msh> ");
 		if (!line)
-			return (0);
+			return (mini_cleanup(&ms), 0);
 		if (ft_strcmp(line, "") == 0)
 		{
 			free(line);
 			continue;
 		}
-		parser.next_token = get_next_token(line);	
-		parser_parse(&parser);
-		parser.status = exe_line(parser.ast);
+		parser_parse(&parser, line);
+		parser.status = exe_line(parser.ast, &ms);
 		ast_destroy(parser.ast);
 		free(line);
 	}

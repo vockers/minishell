@@ -152,7 +152,8 @@ static t_ast	*parse_pipe(t_parser *parser)
 	return (ret);
 }
 
-void	parser_parse(t_parser *parser)
+void	parser_parse(t_parser *parser, char *line)
 {
+	parser->next_token = get_next_token(line);	
 	parser->ast = parse_pipe(parser);
 }

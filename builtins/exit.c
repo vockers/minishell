@@ -2,8 +2,9 @@
 
 #include "libft.h"
 
-int	run_exit(char **args)
+int	run_exit(char **args, int *exit)
 {
+	*exit = true;
 	ft_putstr_fd("exit", STDERR_FILENO);
 	if (args[1] && !ft_strisnum(args[1]))
 	{

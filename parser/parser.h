@@ -13,7 +13,7 @@ typedef struct s_parser
 	int		status;
 }	t_parser;
 
-void	parser_parse(t_parser *parser);
+void	parser_parse(t_parser *parser, char *line);
 char	*expand_argument(char *str, int status, t_env *env);
 
 #endif
