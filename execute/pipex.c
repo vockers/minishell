@@ -1,25 +1,25 @@
 #include "execute.h"
 
-static void	child_process_left(t_ast *ast, int *fds, int infd, t_list *hdoc_fd, t_mini *ms)
+static void	child_process_left(t_ast *ast, int *fds, t_list *hdoc_fd, t_mini *ms)
 {
 	close(fds[0]);
 	if (redirec_heredoc(ast->right, hdoc_fd))
 	{
-		if (infd != STDIN_FILENO)
-			close(infd);
+		if (fds[3] != STDIN_FILENO)
+			close(fds[3]);
 	}
-	else if (infd != STDIN_FILENO)
+	else if (fds[3] != STDIN_FILENO)
 	{
-		dup2(infd, STDIN_FILENO);
-		close(infd);
+		dup2(fds[3], STDIN_FILENO);
+		close(fds[3]);
 	}
 	infile_handler(ast->right);
 	dup2(fds[1], STDOUT_FILENO);
 	close(fds[1]);
 	if (is_builtin(ast->value))
-		builtin_exec(ast, 0, ms);
+		exit(builtin_exec(ast, ms));
 	else
-		execute(ast);
+		execute(ast, ms);
 }
 
 static void	child_process_right(t_ast *ast, int *fds, t_list *hdoc_fd, t_mini *ms)
@@ -34,9 +34,9 @@ static void	child_process_right(t_ast *ast, int *fds, t_list *hdoc_fd, t_mini *m
 	{
 		outfile_handler(ast->right);
 		if (is_builtin(ast->value))
-			builtin_exec(ast, 1, ms);
+			exit(builtin_exec(ast, ms));
 		else
-			execute(ast);
+			execute(ast, ms);
 	}
 	else if (ast->type == AST_PIPE)
 	{
@@ -48,15 +48,16 @@ static void	child_process_right(t_ast *ast, int *fds, t_list *hdoc_fd, t_mini *m
 
 int	pipex(t_ast *ast, int infd, t_list *hdoc_fd, t_mini *ms)
 {
-	int		fds[2];
+	int		fds[3];
 	pid_t	pid[2];
 	int		status[2];
 
+	fds[3] = infd;
 	display_error(pipe(fds), "pipe");
 	pid[0] = fork();
 	display_error(pid[0], "fork");
 	if (pid[0] == 0)
-		child_process_left(ast->left, fds, infd, hdoc_fd, ms);
+		child_process_left(ast->left, fds, hdoc_fd, ms);
 	pid[1] = fork();
 	display_error(pid[1], "fork");
 	if (pid[1] == 0)

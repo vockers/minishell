@@ -51,17 +51,19 @@ char	**get_args(t_ast *ast)
 	return (args);
 }
 
-void	execute(t_ast *ast)
+void	execute(t_ast *ast, t_mini *ms)
 {
 	char	**args;
 	char	*cmd_path;
 	char	*msg;
+	t_env	env;
 
 	args = get_args(ast);
 	if (!args)
 		exit(EXIT_FAILURE);
+	env = ms->env;
 	cmd_path = pathname(args[0]);
-	if (execve(cmd_path, args, NULL) == -1)
+	if (execve(cmd_path, args, env.strs) == -1)
 	{
 		msg = error_msg(args[0]);
 		if (msg)
