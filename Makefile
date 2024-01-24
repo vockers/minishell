@@ -21,8 +21,12 @@ SRCS = 	parser/ast.c \
 		signals/signal_handlers.c \
 		signals/signal_utils.c \
 		builtins/echo.c \
-		builtins/exit.c \
+		builtins/cd.c \
 		builtins/pwd.c \
+		builtins/export.c \
+		builtins/unset.c \
+		builtins/env.c \
+		builtins/exit.c \
 		env/env.c \
 		env/env_utils.c \
 		main/main.c \

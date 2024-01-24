@@ -28,10 +28,7 @@ int	single_cmdx(t_ast *ast, t_mini *ms)
 		here_doc_handler(ast->right);
 		if (gl_sig == SIGINT)
 			exit(130);
-		if (is_builtin(ast->value))
-			builtin_exec(ast, 1, ms);
-		else
-			execute(ast);
+		execute(ast, ms);
 	}
 	close(fd[0]);
 	close(fd[1]);
@@ -59,7 +56,10 @@ int	exe_line(t_ast *ast, t_mini *ms)
 	}
 	else if (ast->type == AST_ARG)
 	{
-		return (single_cmdx(ast, ms));
+		if (is_builtin(ast->value))
+			return (builtin_exec(ast, ms));
+		else
+			return (single_cmdx(ast, ms));
 	}
 	return (0);
 }

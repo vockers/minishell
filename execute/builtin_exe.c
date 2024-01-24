@@ -21,22 +21,32 @@ int	is_builtin(char *cmd)
 		return (0);
 }
 
-void	builtin_exec(t_ast *ast, int last, t_mini *ms)
+int	builtin_exec(t_ast *ast, t_mini *ms)
 {
 	int		status;
 	char	**args;
+	t_env	env;
 
 	args = get_args(ast);
 	if (!args)
 		exit(EXIT_FAILURE);
+	env = ms->env;
 	status = EXIT_SUCCESS;
 	if (!ft_strcmp("echo", ast->value))
 		status = run_echo(args);
+	else if (!ft_strcmp("cd", ast->value))
+		status = run_cd(args, &env);
 	else if (!ft_strcmp("pwd", ast->value))
 		status = run_pwd();
-	else if (last && !ft_strcmp("exit", ast->value))
+	else if (!ft_strcmp("export", ast->value))
+		status = run_export(&env, args);
+	else if (!ft_strcmp("unset", ast->value))
+		status = run_unset(args, &env);
+	else if (!ft_strcmp("env", ast->value))
+		status = run_env(env.strs);
+	else if (!ft_strcmp("exit", ast->value))
 		status = run_exit(args, ms);
 	printf("%d\n", ms->exit);
 	free(args);
-	exit(status);
+	return (exit_handler(status));
 }
