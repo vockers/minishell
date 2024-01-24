@@ -2,10 +2,10 @@
 
 #include "libft.h"
 
-int	run_exit(char **args, int *exit)
+int	run_exit(char **args, t_mini *ms)
 {
-	*exit = true;
-	ft_putstr_fd("exit", STDERR_FILENO);
+	ms->exit = true;
+	ft_putendl_fd("exit", STDERR_FILENO);
 	if (args[1] && !ft_strisnum(args[1]))
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: exit: "

@@ -12,7 +12,7 @@ int	exit_handler(int status)
 		return (status);
 }
 
-int	single_cmdx(t_ast *ast)
+int	single_cmdx(t_ast *ast, t_mini *ms)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -29,7 +29,7 @@ int	single_cmdx(t_ast *ast)
 		if (gl_sig == SIGINT)
 			exit(130);
 		if (is_builtin(ast->value))
-			builtin_exec(ast, 1);
+			builtin_exec(ast, 1, ms);
 		else
 			execute(ast);
 	}
@@ -39,7 +39,7 @@ int	single_cmdx(t_ast *ast)
 	return (exit_handler(status));
 }
 
-int	exe_line(t_ast *ast)
+int	exe_line(t_ast *ast, t_mini *ms)
 {
 	t_list	*hdoc_fd;
 	int		status;
@@ -53,13 +53,13 @@ int	exe_line(t_ast *ast)
 			gl_sig = -1;
 			return (130);
 		}
-		status = pipex(ast, STDIN_FILENO, hdoc_fd);
+		status = pipex(ast, STDIN_FILENO, hdoc_fd, ms);
 		ft_lstclear(&hdoc_fd, free);
 		return (status);
 	}
 	else if (ast->type == AST_ARG)
 	{
-		return (single_cmdx(ast));
+		return (single_cmdx(ast, ms));
 	}
 	return (0);
 }

@@ -29,7 +29,7 @@ SRCS = 	parser/ast.c \
 		main/minishell.c \
 
 OBJS = ${SRCS:%.c=$(OBJ_DIR)/%.o}
-CFLAGS = -Imain -Ilibft -Iparser -Ienv -Ibuiltins -Iexecute -Isignals -fsanitize=address -g
+CFLAGS = -Imain -Ilibft -Iparser -Ienv -Ibuiltins -Iexecute -Isignals -g
 CC = cc
 
 all: $(NAME)

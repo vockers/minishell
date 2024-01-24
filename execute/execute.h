@@ -10,11 +10,13 @@
 # include <readline/readline.h>
 # include "../signals/signals.h"
 
+# include "../main/minishell.h"
+
 # include "../parser/parser.h"
 
-int		exe_line(t_ast *ast);
+int		exe_line(t_ast *ast, t_mini *ms);
 int		exit_handler(int status);
-int		pipex(t_ast *ast, int infd, t_list *hdoc_fd);
+int		pipex(t_ast *ast, int infd, t_list *hdoc_fd, t_mini *ms);
 void	display_error(int fd, char *error);
 char	*pathname(char *cmd);
 char	**get_args(t_ast *ast);
@@ -33,6 +35,6 @@ t_list	**add_fd(t_list **fds, char *file_name);
 char	*create_file_name(int i);
 void	delete_files(t_list **hdoc_fd);
 int		is_builtin(char *cmd);
-void	builtin_exec(t_ast *ast, int last);
+void	builtin_exec(t_ast *ast, int last, t_mini *ms);
 
 #endif

@@ -1,10 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "builtins.h"
 # include "env.h"
-# include "parser.h"
-# include "signals.h"
 
 typedef struct s_mini
 {

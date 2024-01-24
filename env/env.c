@@ -5,6 +5,7 @@
 void	env_init(t_env *env, char **envp)
 {
 	env->head = NULL;
+	env->strs = NULL;
 	while (*envp)
 	{
 		env_append(&(env->head), *envp);
