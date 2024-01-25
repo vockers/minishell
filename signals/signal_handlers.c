@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:11:36 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/25 17:18:50 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/25 18:15:15 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	sigint_handler(int signum)
 {
 	write(STDOUT_FILENO, "\n", 1);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }

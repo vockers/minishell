@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:10:19 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/25 17:10:20 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/25 18:09:33 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,9 @@ void	execute(t_ast *ast, t_mini *ms)
 			ft_putstr_fd(msg, STDERR_FILENO);
 			free(msg);
 		}
+		if (cmd_path[0] != '/')
+			free(cmd_path);
 		free_arr(args);
-		free(cmd_path);
 		exit(127);
 	}
 }
