@@ -29,7 +29,10 @@ int	main(int ac, char *argv[], char **envp)
 		else
 			add_history(line);
 		parser_parse(&parser, line);
-		parser.status = exe_line(parser.ast, &ms);
+		if (parser.ast != NULL)
+			parser.status = exe_line(parser.ast, &ms);
+		else
+			parser.status = 2;
 		ast_destroy(parser.ast);
 		free(line);
 	}
