@@ -46,7 +46,6 @@ int	builtin_exec(t_ast *ast, t_mini *ms)
 		status = run_env(env.strs);
 	else if (!ft_strcmp("exit", ast->value))
 		status = run_exit(args, ms);
-	printf("%d\n", ms->exit);
 	free(args);
 	return (exit_handler(status));
 }
