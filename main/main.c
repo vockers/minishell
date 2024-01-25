@@ -1,5 +1,4 @@
 #include "minishell.h"
-
 #include "execute.h"
 
 int	gl_sig = -1;
@@ -27,11 +26,13 @@ int	main(int ac, char *argv[], char **envp)
 			free(line);
 			continue;
 		}
+		else
+			add_history(line);
 		parser_parse(&parser, line);
 		parser.status = exe_line(parser.ast, &ms);
 		ast_destroy(parser.ast);
 		free(line);
 	}
 	mini_cleanup(&ms);
-	return (0);
+	return (parser.status);
 }
