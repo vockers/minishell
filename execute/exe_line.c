@@ -2,8 +2,10 @@
 
 int	exit_handler(int status)
 {
-	if (status == 2 || status == 131)
+	if (status == 2)
 		write(STDOUT_FILENO, "\n", 1);
+	else if (status == 131)
+		write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
 	if (status == 2 || status == 33280)
 		return (130);
 	else if (status == 32512)
@@ -36,7 +38,7 @@ int	single_cmdx(t_ast *ast, t_mini *ms)
 	return (exit_handler(status));
 }
 
-int	no_cmdx(t_ast *ast, t_mini *ms)
+static int	no_cmdx(t_ast *ast, t_mini *ms)
 {
 	int		fd[2];
 	pid_t	pid;
