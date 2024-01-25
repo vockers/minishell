@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal_handlers.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/25 17:11:36 by jcaro             #+#    #+#             */
+/*   Updated: 2024/01/25 17:18:50 by jcaro            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "signals.h"
 
 static void	sigint_handler(int signum)
@@ -21,7 +33,7 @@ void	signal_handler_child(void)
 
 static void	sigint_heredoc(int signum)
 {
-	gl_sig = signum;
+	g_sig = signum;
 	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 }
 

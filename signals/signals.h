@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/25 17:11:49 by jcaro             #+#    #+#             */
+/*   Updated: 2024/01/25 17:18:50 by jcaro            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SIGNALS_H
 
 # define SIGNALS_H
@@ -10,7 +22,7 @@
 # include <stdlib.h>
 # include <sys/ioctl.h>
 
-extern int gl_sig;
+extern int	g_sig;
 
 void	signal_handler(void);
 void	signal_handler_child(void);
