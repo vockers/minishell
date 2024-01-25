@@ -49,7 +49,14 @@ static char	*expand_status(char *str, size_t i, int status)
 	return (new_str);
 }
 
-char	*expand_argument(char *str, int status, t_env *env)
+static char	*expand_var(char *str, size_t i, t_parser *parser)
+{
+	if (str[i] == '?')
+		return (expand_status(str, i, parser->status));
+	return (expand_env(str, i, parser->env));
+}
+
+char	*expand_argument(char *str, t_parser *parser)
 {
 	bool	inside_quote;
 	bool	inside_dquote;
@@ -58,7 +65,7 @@ char	*expand_argument(char *str, int status, t_env *env)
 	inside_quote = false;
 	inside_dquote = false;
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == '\'' && !inside_dquote)
 		{
@@ -70,14 +77,8 @@ char	*expand_argument(char *str, int status, t_env *env)
 			inside_dquote = !inside_dquote;
 			ft_strcpy(str + i, str + i + 1);
 		}
-		else
-			if (str[i++] == '$' && !inside_quote)
-			{
-				if (str[i] == '?')
-					str = expand_status(str, i, status);
-				else
-					str = expand_env(str, i, env);
-			}
+		else if (str[i++] == '$' && !inside_quote)
+			str = expand_var(str, i, parser);
 	}
 	return (str);
 }

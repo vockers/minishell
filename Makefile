@@ -7,6 +7,7 @@ SRCS = 	parser/ast.c \
 		parser/lexer_utils.c \
 		parser/lexer.c \
 		parser/parser.c \
+		parser/parser_cmd.c \
 		parser/expansion.c \
 		execute/builtin_exe.c \
 		execute/exe_line.c \

@@ -14,6 +14,10 @@ typedef struct s_parser
 }	t_parser;
 
 void	parser_parse(t_parser *parser, char *line);
-char	*expand_argument(char *str, int status, t_env *env);
+t_token	parser_eat(t_parser *parser, enum e_token token_type);
+
+t_ast	*parse_command(t_parser *parser);
+
+char	*expand_argument(char *str, t_parser *parser);
 
 #endif
