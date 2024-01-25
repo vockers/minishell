@@ -10,7 +10,7 @@
  *	| ARG Arguments
  * 	;
 */
-static t_ast	*parse_arguments(t_parser *parser)
+static t_ast	*parse_arguments(t_parser *parser, int status, t_env *env)
 {
 	t_ast	*node;
 	t_token	token;
@@ -21,10 +21,16 @@ static t_ast	*parse_arguments(t_parser *parser)
 	node = ast_new(AST_ARG);
 	if (node == NULL)
 		return (NULL);
-	token.str = expand_argument(token.str, parser);
+	token.str = expand_argument(token.str, status, env);
+	if (token.str == NULL)
+		return (ast_destroy(node), NULL);
 	node->value = token.str;
 	if (parser->next_token.type == T_ARG)
-		node->left = parse_arguments(parser);
+	{
+		node->left = parse_arguments(parser, status, env);
+		if (node->left == NULL)
+			return (ast_destroy(node), NULL);
+	}
 	return (node);
 }
 
@@ -98,7 +104,7 @@ static t_ast	*parse_redirect(t_parser *parser)
  * 	| Redirect Arguments Redirect
  * 	;
 */
-t_ast	*parse_command(t_parser *parser)
+t_ast	*parse_command(t_parser *parser, int status, t_env *env)
 {
 	t_ast	*node;
 	t_ast	*redirect_node;
@@ -112,7 +118,7 @@ t_ast	*parse_command(t_parser *parser)
 	}
 	if (parser->next_token.type != T_ARG)
 		return (redirect_node);
-	node = parse_arguments(parser);
+	node = parse_arguments(parser, status, env);
 	node->right = redirect_node;
 	if (token_is_redirect(parser->next_token.type))
 	{

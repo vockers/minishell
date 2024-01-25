@@ -19,7 +19,7 @@ static char	*expand_env(char *str, size_t i, t_env *env)
 	new_len = ft_strlen(str) - name_len + ft_strlen(value);
 	new_str = ft_calloc(new_len + 1, sizeof(char));
 	if (new_str == NULL)
-		return (NULL);
+		return (free(str), NULL);
 	ft_strlcpy(new_str, str, i);
 	if (value != NULL)
 		ft_strlcat(new_str, value, new_len);
@@ -36,11 +36,11 @@ static char	*expand_status(char *str, size_t i, int status)
 
 	arg = ft_itoa(status);
 	if (arg == NULL)
-		return (str);
+		return (free(str), NULL);
 	new_len = ft_strlen(str) - 1 + ft_strlen(arg);
 	new_str = (char *)ft_calloc(new_len, sizeof(char));
 	if (new_str == NULL)
-		return (NULL);
+		return (free(arg), free(str), NULL);
 	ft_strlcpy(new_str, str, i);
 	ft_strlcat(new_str, arg, new_len);
 	ft_strlcat(new_str, str + i + 1, new_len);
@@ -49,14 +49,14 @@ static char	*expand_status(char *str, size_t i, int status)
 	return (new_str);
 }
 
-static char	*expand_var(char *str, size_t i, t_parser *parser)
+static char	*expand_var(char *str, size_t i, int status, t_env *env)
 {
 	if (str[i] == '?')
-		return (expand_status(str, i, parser->status));
-	return (expand_env(str, i, parser->env));
+		return (expand_status(str, i, status));
+	return (expand_env(str, i, env));
 }
 
-char	*expand_argument(char *str, t_parser *parser)
+char	*expand_argument(char *str, int status, t_env *env)
 {
 	bool	inside_quote;
 	bool	inside_dquote;
@@ -78,7 +78,7 @@ char	*expand_argument(char *str, t_parser *parser)
 			ft_strcpy(str + i, str + i + 1);
 		}
 		else if (str[i++] == '$' && !inside_quote)
-			str = expand_var(str, i, parser);
+			str = expand_var(str, i, status, env);
 	}
 	return (str);
 }

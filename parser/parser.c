@@ -31,13 +31,13 @@ t_token	parser_eat(t_parser *parser, enum e_token token_type)
  * 	| Command '|' Pipe
  * 	;
 */
-static t_ast	*parse_pipe(t_parser *parser)
+static t_ast	*parse_pipe(t_parser *parser, int status, t_env *env)
 {
 	t_ast	*ret;
 	t_ast	*node;
 	t_token	token;
 
-	ret = parse_command(parser);
+	ret = parse_command(parser, status, env);
 	if (ret == NULL)
 		return (NULL);
 	if (parser->next_token.type == T_PIPE)
@@ -49,15 +49,15 @@ static t_ast	*parse_pipe(t_parser *parser)
 		ret->left = node;
 		token = parser_eat(parser, T_PIPE);
 		ret->value = token.str;
-		ret->right = parse_pipe(parser);
+		ret->right = parse_pipe(parser, status, env);
 		if (ret->right == NULL)
 			return (ast_destroy(ret), NULL);
 	}
 	return (ret);
 }
 
-void	parser_parse(t_parser *parser, char *line)
+void	parser_parse(t_parser *parser, char *line, int status, t_env *env)
 {
 	parser->next_token = get_next_token(line);
-	parser->ast = parse_pipe(parser);
+	parser->ast = parse_pipe(parser, status, env);
 }

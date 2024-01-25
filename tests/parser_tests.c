@@ -47,9 +47,7 @@ void test_ast(char *line, ...)
 	va_list		ap;
 	t_parser	parser;
 
-	parser.status = 42;
-	parser.env = &env;
-	parser_parse(&parser, line);
+	parser_parse(&parser, line, 42, &env);
 	va_start(ap, line);
 
 	vassert_ast(line, parser.ast, ap);

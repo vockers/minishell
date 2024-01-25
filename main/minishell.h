@@ -6,11 +6,14 @@
 # include <readline/history.h>
 
 # include "env.h"
+# include "parser.h"
 
 typedef struct s_mini
 {
-	t_env	env;
-	bool	exit;
+	t_env		env;
+	bool		exit;
+	t_parser	parser;
+	int			status;
 }	t_mini;
 
 int		mini_init(t_mini *ms, char **envp);

@@ -21,6 +21,8 @@ char	*get_env_value(t_env *env, char *name)
 	t_envlst	*iter;
 	size_t		value_len;
 
+	if (env == NULL || name == NULL)
+		return (NULL);
 	iter = env->head;
 	while (iter)
 	{
