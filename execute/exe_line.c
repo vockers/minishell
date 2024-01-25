@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exe_line.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/25 17:10:08 by jcaro             #+#    #+#             */
+/*   Updated: 2024/01/25 17:18:50 by jcaro            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "execute.h"
 
 int	exit_handler(int status)
@@ -28,7 +40,7 @@ int	single_cmdx(t_ast *ast, t_mini *ms)
 		infile_handler(ast->right);
 		outfile_handler(ast->right);
 		here_doc_handler(ast->right);
-		if (gl_sig == SIGINT)
+		if (g_sig == SIGINT)
 			exit(130);
 		execute(ast, ms);
 	}
@@ -71,7 +83,7 @@ int	exe_line(t_ast *ast, t_mini *ms)
 		hdoc_fd = NULL;
 		if (!heredoc_pipe_read(ast, &hdoc_fd, 0))
 		{
-			gl_sig = -1;
+			g_sig = -1;
 			return (130);
 		}
 		status = pipex(ast, STDIN_FILENO, hdoc_fd, ms);

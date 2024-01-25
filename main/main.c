@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: vockers <vockers@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/01/25 16:22:12 by vockers       #+#    #+#                 */
-/*   Updated: 2024/01/25 16:22:12 by vockers       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/25 16:22:12 by vockers           #+#    #+#             */
+/*   Updated: 2024/01/25 17:18:50 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execute.h"
 
-int	gl_sig = -1;
+int	g_sig = -1;
 
 static void	process_line(char *line, t_mini *ms)
 {

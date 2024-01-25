@@ -1,21 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file_handler.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/25 17:10:34 by jcaro             #+#    #+#             */
+/*   Updated: 2024/01/25 17:18:50 by jcaro            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "execute.h"
 
 void	outfile_handler(t_ast *ast)
 {
-	int	fd_outfile;
+	int	fd;
 
 	if (ast && (ast->type == AST_GRT || ast->type == AST_APPEND))
 	{
-		fd_outfile = -1;
+		fd = -1;
 		outfile_error(ast->left->value);
 		if (ast->type == AST_GRT)
-			fd_outfile = open(ast->left->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			fd = open(ast->left->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (ast->type == AST_APPEND)
-			fd_outfile = open(ast->left->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (fd_outfile == -1)
+			fd = open(ast->left->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd == -1)
 			exit(EXIT_FAILURE);
-		dup2(fd_outfile, STDOUT_FILENO);
-		close(fd_outfile);
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
 	}
 	else if (ast)
 		outfile_handler(ast->right);
@@ -48,10 +60,10 @@ int	read_loop(char *delimiter, int fd, char *msg)
 	line = readline(msg);
 	while (line && ft_strcmp(line, delimiter))
 	{
-		if (gl_sig != -1)
+		if (g_sig != -1)
 		{
 			status = 0;
-			break;
+			break ;
 		}
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
@@ -73,7 +85,7 @@ static int	write_temp_file(char *delimiter)
 		printf("msh: parse error near `\\n'\n");
 		return (-1);
 	}
-	fd = open("tmp_file", O_WRONLY|O_CREAT|O_EXCL|O_TRUNC, 0600);
+	fd = open("tmp_file", O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600);
 	if (fd == -1)
 		return (-1);
 	read_loop(delimiter, fd, "heredoc> ");

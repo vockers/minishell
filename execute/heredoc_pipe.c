@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_pipe.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/25 17:10:59 by jcaro             #+#    #+#             */
+/*   Updated: 2024/01/25 17:15:01 by jcaro            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "execute.h"
 
 static char	*write_temp_file(char *delimiter, int i)
@@ -13,7 +25,7 @@ static char	*write_temp_file(char *delimiter, int i)
 	name = create_file_name(i);
 	if (!name)
 		return (NULL);
-	fd = open(name, O_WRONLY|O_CREAT|O_EXCL|O_TRUNC, 0600);
+	fd = open(name, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600);
 	if (fd == -1)
 	{
 		free(name);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/25 17:11:17 by jcaro             #+#    #+#             */
+/*   Updated: 2024/01/25 17:15:56 by jcaro            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "execute.h"
 
 static void	no_cmdx_pipe(t_ast *ast, t_mini *ms, t_list *hdoc_fd)
@@ -8,10 +20,10 @@ static void	no_cmdx_pipe(t_ast *ast, t_mini *ms, t_list *hdoc_fd)
 	exit(EXIT_SUCCESS);
 }
 
-static void	child_process_left(t_ast *ast, int *fds, t_list *hdoc_fd, t_mini *ms)
+static void	child_process_left(t_ast *ast, int *fds, t_list *hd_fd, t_mini *ms)
 {
 	close(fds[0]);
-	if (redirec_heredoc(ast->right, hdoc_fd))
+	if (redirec_heredoc(ast->right, hd_fd))
 	{
 		if (fds[3] != STDIN_FILENO)
 			close(fds[3]);
@@ -33,13 +45,13 @@ static void	child_process_left(t_ast *ast, int *fds, t_list *hdoc_fd, t_mini *ms
 			execute(ast, ms);
 	}
 	else
-		no_cmdx_pipe(ast, ms, hdoc_fd);
+		no_cmdx_pipe(ast, ms, hd_fd);
 }
 
-static void	child_process_right(t_ast *ast, int *fds, t_list *hdoc_fd, t_mini *ms)
+static void	child_process_right(t_ast *ast, int *fds, t_list *hd_fd, t_mini *ms)
 {
 	close(fds[1]);
-	if (!redirec_heredoc(ast->right, hdoc_fd))
+	if (!redirec_heredoc(ast->right, hd_fd))
 	{
 		dup2(fds[0], STDIN_FILENO);
 		close(fds[0]);
@@ -55,12 +67,12 @@ static void	child_process_right(t_ast *ast, int *fds, t_list *hdoc_fd, t_mini *m
 	}
 	else if (ast->type == AST_PIPE)
 	{
-		pipex(ast, fds[0], hdoc_fd, ms);
+		pipex(ast, fds[0], hd_fd, ms);
 		close(STDIN_FILENO);
 		close(STDOUT_FILENO);
 	}
 	else
-		no_cmdx_pipe(ast, ms, hdoc_fd);
+		no_cmdx_pipe(ast, ms, hd_fd);
 }
 
 int	pipex(t_ast *ast, int infd, t_list *hdoc_fd, t_mini *ms)
