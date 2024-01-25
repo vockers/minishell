@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   ast.c                                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vockers <vockers@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/25 16:21:51 by vockers       #+#    #+#                 */
+/*   Updated: 2024/01/25 16:21:51 by vockers       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 #include <stdlib.h>
@@ -6,13 +18,10 @@ t_ast	*ast_new(enum e_ast type)
 {
 	t_ast	*ast;
 
-	ast = (t_ast *)malloc(sizeof(t_ast));
+	ast = (t_ast *)ft_calloc(1, sizeof(t_ast));
 	if (ast == NULL)
 		return (NULL);
-	ast->value = NULL;
 	ast->type = type;
-	ast->left = NULL;
-	ast->right = NULL;
 	return (ast);
 }
 

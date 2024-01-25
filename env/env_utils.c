@@ -1,6 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   env_utils.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vockers <vockers@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/25 16:32:50 by vockers       #+#    #+#                 */
+/*   Updated: 2024/01/25 16:32:50 by vockers       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "env.h"
 
 #include "libft.h"
+
+size_t	env_len(t_env *env)
+{
+	t_envlst	*iter;
+	size_t		i;
+
+	if (env == NULL)
+		return (0);
+	iter = env->head;
+	i = 0;
+	while (iter)
+	{
+		i++;
+		iter = iter->next;
+	}
+	return (i);
+}
 
 bool	is_valid_env(const char *env)
 {
@@ -21,6 +50,8 @@ char	*get_env_value(t_env *env, char *name)
 	t_envlst	*iter;
 	size_t		value_len;
 
+	if (env == NULL || name == NULL)
+		return (NULL);
 	iter = env->head;
 	while (iter)
 	{
@@ -37,24 +68,17 @@ char	*get_env_value(t_env *env, char *name)
 	return (NULL);
 }
 
-void	env_to_strs(t_env *env)
+int	env_to_strs(t_env *env)
 {
 	t_envlst	*iter;
 	size_t		i;
 	char		**new;
 
 	if (env == NULL)
-		return ;
-	iter = env->head;
-	i = 0;
-	while (iter)
-	{
-		i++;
-		iter = iter->next;
-	}
-	new = (char **)ft_calloc(i + 1, sizeof(char *));
+		return (0);
+	new = (char **)ft_calloc(env_len(env) + 1, sizeof(char *));
 	if (new == NULL)
-		return ;
+		return (0);
 	iter = env->head;
 	i = 0;
 	while (iter)
@@ -64,4 +88,5 @@ void	env_to_strs(t_env *env)
 	}
 	free(env->strs);
 	env->strs = new;
+	return (1);
 }

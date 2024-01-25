@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   expansion.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vockers <vockers@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/25 16:21:43 by vockers       #+#    #+#                 */
+/*   Updated: 2024/01/25 16:21:43 by vockers       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 static char	*expand_env(char *str, size_t i, t_env *env)
@@ -19,7 +31,7 @@ static char	*expand_env(char *str, size_t i, t_env *env)
 	new_len = ft_strlen(str) - name_len + ft_strlen(value);
 	new_str = ft_calloc(new_len + 1, sizeof(char));
 	if (new_str == NULL)
-		return (NULL);
+		return (free(str), NULL);
 	ft_strlcpy(new_str, str, i);
 	if (value != NULL)
 		ft_strlcat(new_str, value, new_len);
@@ -36,17 +48,24 @@ static char	*expand_status(char *str, size_t i, int status)
 
 	arg = ft_itoa(status);
 	if (arg == NULL)
-		return (str);
+		return (free(str), NULL);
 	new_len = ft_strlen(str) - 1 + ft_strlen(arg);
 	new_str = (char *)ft_calloc(new_len, sizeof(char));
 	if (new_str == NULL)
-		return (NULL);
+		return (free(arg), free(str), NULL);
 	ft_strlcpy(new_str, str, i);
 	ft_strlcat(new_str, arg, new_len);
 	ft_strlcat(new_str, str + i + 1, new_len);
 	free(str);
 	free(arg);
 	return (new_str);
+}
+
+static char	*expand_var(char *str, size_t i, int status, t_env *env)
+{
+	if (str[i] == '?')
+		return (expand_status(str, i, status));
+	return (expand_env(str, i, env));
 }
 
 char	*expand_argument(char *str, int status, t_env *env)
@@ -58,7 +77,7 @@ char	*expand_argument(char *str, int status, t_env *env)
 	inside_quote = false;
 	inside_dquote = false;
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == '\'' && !inside_dquote)
 		{
@@ -70,14 +89,8 @@ char	*expand_argument(char *str, int status, t_env *env)
 			inside_dquote = !inside_dquote;
 			ft_strcpy(str + i, str + i + 1);
 		}
-		else
-			if (str[i++] == '$' && !inside_quote)
-			{
-				if (str[i] == '?')
-					str = expand_status(str, i, status);
-				else
-					str = expand_env(str, i, env);
-			}
+		else if (str[i++] == '$' && !inside_quote)
+			str = expand_var(str, i, status, env);
 	}
 	return (str);
 }

@@ -1,38 +1,57 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vockers <vockers@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/25 16:22:12 by vockers       #+#    #+#                 */
+/*   Updated: 2024/01/25 16:22:12 by vockers       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "execute.h"
 
 int	gl_sig = -1;
 
+static void	process_line(char *line, t_mini *ms)
+{
+	if (ft_strcmp(line, "") == 0)
+	{
+		free(line);
+		return ;
+	}
+	add_history(line);
+	parser_parse(&(ms->parser), line, ms->status, &(ms->env));
+	if (ms->parser.ast != NULL)
+		ms->status = exe_line(ms->parser.ast, ms);
+	else
+		ms->status = 2;
+	ast_destroy(ms->parser.ast);
+	free(line);
+}
+
 int	main(int ac, char *argv[], char **envp)
 {
-	t_mini		ms;
-	t_parser	parser;
-	char		*line;
+	t_mini	ms;
+	char	*line;
 
 	if (!mini_init(&ms, envp))
 		return (1);
 	suppress_output();
-	parser.status = 0;
-	parser.env = &(ms.env);
 	while (!ms.exit)
 	{
 		signal_handler();
 		rl_catch_signals = 0;
 		line = readline("msh> ");
 		if (!line)
-			return (mini_cleanup(&ms), 0);
-		if (ft_strcmp(line, "") == 0)
 		{
-			free(line);
-			continue;
+			ms.status = 1;
+			break ;
 		}
-		else
-			add_history(line);
-		parser_parse(&parser, line);
-		parser.status = exe_line(parser.ast, &ms);
-		ast_destroy(parser.ast);
-		free(line);
+		process_line(line, &ms);
 	}
 	mini_cleanup(&ms);
-	return (parser.status);
+	return (ms.status);
 }

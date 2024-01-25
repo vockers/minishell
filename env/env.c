@@ -1,17 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   env.c                                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vockers <vockers@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/25 16:32:43 by vockers       #+#    #+#                 */
+/*   Updated: 2024/01/25 16:32:43 by vockers       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "env.h"
 
 #include "libft.h"
 
-void	env_init(t_env *env, char **envp)
+int	env_init(t_env *env, char **envp)
 {
+	size_t	i;
+
 	env->head = NULL;
 	env->strs = NULL;
-	while (*envp)
+	i = 0;
+	while (envp[i])
 	{
-		env_append(&(env->head), *envp);
-		envp++;
+		env_append(&(env->head), envp[i]);
+		i++;
 	}
-	env_to_strs(env);
+	if (env_len(env) != i)
+		return (0);
+	if (!env_to_strs(env))
+		env_free(env->head);
+	return (1);
 }
 
 void	env_free(t_envlst *env)
