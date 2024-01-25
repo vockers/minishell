@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vockers <vockers@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/25 16:22:12 by vockers       #+#    #+#                 */
+/*   Updated: 2024/01/25 16:22:12 by vockers       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "execute.h"
 
@@ -34,7 +46,10 @@ int	main(int ac, char *argv[], char **envp)
 		rl_catch_signals = 0;
 		line = readline("msh> ");
 		if (!line)
+		{
+			ms.status = 1;
 			break ;
+		}
 		process_line(line, &ms);
 	}
 	mini_cleanup(&ms);
