@@ -36,6 +36,28 @@ int	single_cmdx(t_ast *ast, t_mini *ms)
 	return (exit_handler(status));
 }
 
+int	no_cmdx(t_ast *ast, t_mini *ms)
+{
+	int		fd[2];
+	pid_t	pid;
+	int		status;
+
+	display_error(pipe(fd), "pipe");
+	pid = fork();
+	display_error(pid, "fork");
+	if (pid == 0)
+	{
+		infile_handler(ast);
+		outfile_handler(ast);
+		here_doc_handler(ast);
+		exit(EXIT_SUCCESS);
+	}
+	close(fd[0]);
+	close(fd[1]);
+	waitpid(pid, &status, 0);
+	return (exit_handler(status));
+}
+
 int	exe_line(t_ast *ast, t_mini *ms)
 {
 	t_list	*hdoc_fd;
@@ -61,5 +83,6 @@ int	exe_line(t_ast *ast, t_mini *ms)
 		else
 			return (single_cmdx(ast, ms));
 	}
-	return (0);
+	else
+		return (no_cmdx(ast, ms));
 }
