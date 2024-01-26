@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:11:43 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/25 17:11:45 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/26 14:48:42 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,13 @@ void	signal_handler_init(void (*f)(int), int sig_type)
 
 void	ft_empty(int signum)
 {
+}
+
+void	status_signal(t_mini *ms)
+{
+	if (g_sig == SIGINT)
+	{
+		ms->status = 130;
+		g_sig = -1;
+	}
 }

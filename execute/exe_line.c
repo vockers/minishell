@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:10:08 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/25 17:18:50 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/26 14:58:01 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ int	exit_handler(int status)
 		write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
 	if (status == 2 || status == 33280)
 		return (130);
-	else if (status == 32512)
+	else if (status == 139 || status == 32512 || status == 35584)
 		return (127);
+	else if (status == 256)
+		return (1);
 	else
 		return (status);
 }

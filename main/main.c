@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:22:12 by vockers           #+#    #+#             */
-/*   Updated: 2024/01/25 17:18:50 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/26 14:58:09 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ int	main(int ac, char *argv[], char **envp)
 	suppress_output();
 	while (!ms.exit)
 	{
-		signal_handler();
-		rl_catch_signals = 0;
+		signal_handler(&ms);
 		line = readline("msh> ");
 		if (!line)
 		{

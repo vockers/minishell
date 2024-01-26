@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:11:17 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/25 17:15:56 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/26 13:40:06 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ static void	child_process_right(t_ast *ast, int *fds, t_list *hd_fd, t_mini *ms)
 	}
 	else if (ast->type == AST_PIPE)
 	{
-		pipex(ast, fds[0], hd_fd, ms);
-		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
+		exit(pipex(ast, fds[0], hd_fd, ms));
 	}
 	else
 		no_cmdx_pipe(ast, ms, hd_fd);

@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:09:45 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/25 17:09:48 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/26 15:05:11 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_builtin(char *cmd)
 {
 	if (ft_strcmp("echo", cmd) == 0)
 		return (1);
-	else if (ft_strcmp("cd", cmd) == 0)
+	if (ft_strcmp("cd", cmd) == 0)
 		return (1);
 	else if (ft_strcmp("pwd", cmd) == 0)
 		return (1);
