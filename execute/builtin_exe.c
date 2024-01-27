@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   builtin_exe.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/25 17:09:45 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/25 17:09:48 by jcaro            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   builtin_exe.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jcaro <jcaro@student.42.fr>                  +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/25 17:09:45 by jcaro         #+#    #+#                 */
+/*   Updated: 2024/01/25 17:09:48 by jcaro         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,23 @@ int	builtin_exec(t_ast *ast, t_mini *ms)
 {
 	int		status;
 	char	**args;
-	t_env	env;
 
 	args = get_args(ast);
 	if (!args)
 		exit(EXIT_FAILURE);
-	env = ms->env;
 	status = EXIT_SUCCESS;
 	if (!ft_strcmp("echo", ast->value))
 		status = run_echo(args);
 	else if (!ft_strcmp("cd", ast->value))
-		status = run_cd(args, &env);
+		status = run_cd(args, &(ms->env));
 	else if (!ft_strcmp("pwd", ast->value))
 		status = run_pwd();
 	else if (!ft_strcmp("export", ast->value))
-		status = run_export(&env, args);
+		status = run_export(&(ms->env), args);
 	else if (!ft_strcmp("unset", ast->value))
-		status = run_unset(args, &env);
+		status = run_unset(args, &(ms->env));
 	else if (!ft_strcmp("env", ast->value))
-		status = run_env(env.strs);
+		status = run_env(ms->env.strs);
 	else if (!ft_strcmp("exit", ast->value))
 		status = run_exit(args, ms);
 	free(args);

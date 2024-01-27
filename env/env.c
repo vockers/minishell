@@ -84,6 +84,7 @@ void	env_update(t_env *env, char *value)
 			{
 				free(iter->value);
 				iter->value = ft_strdup(value);
+				env_to_strs(env);
 			}
 			return ;
 		}

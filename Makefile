@@ -1,5 +1,5 @@
 NAME	= minishell
-LIBFT	= libft.a
+LIBFT	= ./libft/build/libft.a
 
 OBJ_DIR	= .obj
 
@@ -34,13 +34,13 @@ SRCS = 	parser/ast.c \
 		main/minishell.c \
 
 OBJS = ${SRCS:%.c=$(OBJ_DIR)/%.o}
-CFLAGS = -Imain -Ilibft -Iparser -Ienv -Ibuiltins -Iexecute -Isignals -g
+CFLAGS = -Imain -Ilibft -Iparser -Ienv -Ibuiltins -Iexecute -Isignals -fsanitize=address -g
 CC = cc
 
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L./libft/build -lft
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
