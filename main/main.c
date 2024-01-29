@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:22:12 by vockers           #+#    #+#             */
-/*   Updated: 2024/01/26 14:58:09 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/29 13:23:34 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ int	main(int ac, char *argv[], char **envp)
 		if (!line)
 		{
 			ms.status = 1;
+			printf("exit\n");
 			break ;
 		}
+		status_signal(&ms);
 		process_line(line, &ms);
 	}
 	mini_cleanup(&ms);

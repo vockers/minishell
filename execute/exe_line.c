@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:10:08 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/26 14:58:01 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/29 13:13:35 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,12 @@
 
 int	exit_handler(int status)
 {
-	if (status == 2)
-		write(STDOUT_FILENO, "\n", 1);
-	else if (status == 131)
-		write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
-	if (status == 2 || status == 33280)
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (status == SIGINT)
 		return (130);
-	else if (status == 139 || status == 32512 || status == 35584)
-		return (127);
-	else if (status == 256)
-		return (1);
+	else if (status == 131)
+		return (status);
 	else
 		return (status);
 }
@@ -49,6 +45,7 @@ int	single_cmdx(t_ast *ast, t_mini *ms)
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid, &status, 0);
+	exit_handler_signal(status);
 	return (exit_handler(status));
 }
 
@@ -71,6 +68,7 @@ static int	no_cmdx(t_ast *ast, t_mini *ms)
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid, &status, 0);
+	exit_handler_signal(status);
 	return (exit_handler(status));
 }
 
@@ -90,7 +88,7 @@ int	exe_line(t_ast *ast, t_mini *ms)
 		}
 		status = pipex(ast, STDIN_FILENO, hdoc_fd, ms);
 		ft_lstclear(&hdoc_fd, free);
-		return (status);
+		return (exit_handler_signal(status));
 	}
 	else if (ast->type == AST_ARG)
 	{
