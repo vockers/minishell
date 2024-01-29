@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:10:19 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/29 12:36:55 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/29 16:12:10 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@ char	*error_msg(char *cmd)
 	size_t	len;
 	char	*msg;
 
-	len = ft_strlen("msh: command not found: \n");
+	len = ft_strlen(": command not found: \n");
 	len += ft_strlen(cmd);
 	msg = (char *)malloc(len + 1);
 	if (!msg)
 		return (NULL);
-	ft_strlcpy(msg, "msh: command not found: ", len + 1);
-	ft_strlcat(msg, cmd, len + 1);
-	ft_strlcat(msg, "\n", len + 1);
+	ft_strlcpy(msg, cmd, len + 1);
+	ft_strlcat(msg, ": command not found\n", len + 1);
 	return (msg);
 }
 
@@ -63,6 +62,33 @@ char	**get_args(t_ast *ast)
 	return (args);
 }
 
+static void	check_if_dir(char *path, char **args)
+{
+	struct stat	stats;
+	size_t		len;
+	char		*msg;
+
+	stat(path, &stats);
+	if (S_ISDIR(stats.st_mode))
+	{
+		len = ft_strlen("msh: ./signals: Is a directory\n");
+		len += ft_strlen(path);
+		msg = (char *)malloc(len + 1);
+		if (!msg)
+		{
+			free_arr(args);
+			exit(EXIT_FAILURE);
+		}
+		ft_strlcpy(msg, "msh: ", len + 1);
+		ft_strlcat(msg, path, len + 1);
+		ft_strlcat(msg, ": Is a directory\n", len + 1);
+		ft_putstr_fd(msg, STDERR_FILENO);
+		free(msg);
+		free_arr(args);
+		exit(126);
+	}
+}
+
 void	execute(t_ast *ast, t_mini *ms)
 {
 	char	**args;
@@ -75,6 +101,7 @@ void	execute(t_ast *ast, t_mini *ms)
 		exit(EXIT_FAILURE);
 	env = ms->env;
 	cmd_path = pathname(args[0]);
+	check_if_dir(cmd_path, args);
 	if (execve(cmd_path, args, env.strs) == -1)
 	{
 		msg = error_msg(args[0]);
