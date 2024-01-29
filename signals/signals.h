@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:11:49 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/25 17:18:50 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/29 13:21:08 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,17 @@
 # include <readline/readline.h>
 # include <stdlib.h>
 # include <sys/ioctl.h>
+# include "minishell.h"
 
 extern int	g_sig;
 
-void	signal_handler(void);
+void	signal_handler(t_mini *ms);
 void	signal_handler_child(void);
 void	signal_handler_heredoc(void);
 void	suppress_output(void);
 void	signal_handler_init(void (*f)(int), int sig_type);
 void	ft_empty(int signum);
+void	status_signal(t_mini *ms);
+int		exit_handler_signal(int status);
 
 #endif
