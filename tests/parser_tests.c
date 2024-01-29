@@ -53,7 +53,7 @@ void test_ast(char *line, ...)
 	vassert_ast(line, parser.ast, ap);
 
 	va_end(ap);
-	ast_destroy(parser.ast);
+	parser_cleanup(&parser);
 }
 
 void test_error(char *line)
@@ -64,7 +64,7 @@ void test_error(char *line)
 
 	assert(parser.ast == NULL);
 
-	ast_destroy(parser.ast);
+	parser_cleanup(&parser);
 
 }
 
@@ -278,6 +278,7 @@ int main(int argc, char *argv[], char **envp)
 
 	test_error("hello ><");
 	test_error("hello >");
+	test_error("|");
 
 	ft_printf("All tests passed!\n");
 	

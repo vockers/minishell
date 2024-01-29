@@ -26,6 +26,7 @@ typedef struct s_parser
 
 void	parser_parse(t_parser *parser, char *line, int status, t_env *env);
 t_token	parser_eat(t_parser *parser, enum e_token token_type);
+void	parser_cleanup(t_parser *parser);
 
 t_ast	*parse_command(t_parser *parser, int status, t_env *env);
 
