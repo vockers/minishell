@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:11:36 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/25 17:18:50 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/29 12:10:45 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 
 static void	sigint_handler(int signum)
 {
+	g_sig = signum;
 	write(STDOUT_FILENO, "\n", 1);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
 
-void	signal_handler(void)
+void	signal_handler(t_mini *ms)
 {
+	rl_catch_signals = 0;
 	signal_handler_init(&sigint_handler, SIGINT);
 	signal_handler_init(&ft_empty, SIGQUIT);
 }
