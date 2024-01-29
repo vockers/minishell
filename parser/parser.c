@@ -31,6 +31,7 @@ t_token	parser_eat(t_parser *parser, enum e_token token_type)
 		ft_dprintf(STDERR_FILENO, \
 			"minishell: syntax error near unexpected token `%s'\n", \
 			current_token.str);
+		free(current_token.str);
 		return ((t_token){T_NONE, NULL});
 	}
 	parser->next_token = get_next_token(NULL);

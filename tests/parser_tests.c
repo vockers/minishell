@@ -56,6 +56,18 @@ void test_ast(char *line, ...)
 	ast_destroy(parser.ast);
 }
 
+void test_error(char *line)
+{
+	t_parser	parser;
+
+	parser_parse(&parser, line, 42, &env);
+
+	assert(parser.ast == NULL);
+
+	ast_destroy(parser.ast);
+
+}
+
 int main(int argc, char *argv[], char **envp)
 {
 	env_init(&env, envp);
@@ -263,6 +275,9 @@ int main(int argc, char *argv[], char **envp)
 	test_ast("\"hello $ASJDLKJADKhKJHSAKJDH world\"",
 		AST_ARG, "hello  world"
 	);
+
+	test_error("hello ><");
+	test_error("hello >");
 
 	ft_printf("All tests passed!\n");
 	
