@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:10:08 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/29 13:13:35 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/29 15:16:27 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	exit_handler(int status)
 {
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
-	else if (status == SIGINT)
+	else if (status == 2 && g_sig == SIGINT)
 		return (130);
 	else if (status == 131)
 		return (status);
