@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   builtin_exe.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jcaro <jcaro@student.42.fr>                  +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/01/25 17:09:45 by jcaro         #+#    #+#                 */
-/*   Updated: 2024/01/25 17:09:48 by jcaro         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   builtin_exe.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/25 17:09:45 by jcaro             #+#    #+#             */
+/*   Updated: 2024/01/29 13:43:13 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ int	builtin_exec(t_ast *ast, t_mini *ms)
 		status = run_env(ms->env.strs);
 	else if (!ft_strcmp("exit", ast->value))
 		status = run_exit(args, ms);
-	free(args);
+	free_arr(args);
 	return (exit_handler(status));
 }

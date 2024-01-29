@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:11:10 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/25 18:06:14 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/29 13:53:39 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*pathname(char *cmd)
 	char	**path_list;
 	char	*pathname;
 
-	if (cmd[0] == '/')
+	if (cmd[0] == '/' || cmd[0] == '.')
 		return (cmd);
 	path_list = get_path_list(getenv("PATH"));
 	if (!path_list)
