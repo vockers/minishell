@@ -18,18 +18,18 @@
 
 #include "libft.h"
 
-static void	update_oldpwd(t_env *env)
+static void	update_pwdenv(t_env *env, char *name)
 {
 	char	cwd[PATH_MAX];
-	char	*old_pwd;
+	char	*value;
 
 	if (getcwd(cwd, PATH_MAX) == NULL)
 		return ;
-	old_pwd = ft_strjoin("OLDPWD=", cwd);
-	if (old_pwd == NULL)
+	value = ft_strjoin(name, cwd);
+	if (value == NULL)
 		return ;
-	env_update(env, old_pwd);
-	free(old_pwd);
+	env_update(env, value);
+	free(value);
 }
 
 static int	go_to_env(t_env *env, char *name)
@@ -42,7 +42,7 @@ static int	go_to_env(t_env *env, char *name)
 		ft_dprintf(STDERR_FILENO, "minishell: cd: %s not set\n", name);
 		return (1);
 	}
-	update_oldpwd(env);
+	update_pwdenv(env, "OLDPWD=");
 	return (chdir(path));
 }
 
@@ -54,7 +54,7 @@ int	run_cd(char **args, t_env *env)
 		return (go_to_env(env, "HOME"));
 	if (ft_strcmp(args[1], "-") == 0)
 		return (go_to_env(env, "OLDPWD"));
-	update_oldpwd(env);
+	update_pwdenv(env, "OLDPWD=");
 	ret = chdir(args[1]);
 	if (ret != 0)
 	{
@@ -65,5 +65,6 @@ int	run_cd(char **args, t_env *env)
 			ft_dprintf(STDERR_FILENO, "minishell: cd: %s: %s\n", \
 				strerror(errno), args[1]);
 	}
+	update_pwdenv(env, "PWD=");
 	return (ret);
 }
