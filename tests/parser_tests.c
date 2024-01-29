@@ -60,6 +60,7 @@ void test_error(char *line)
 {
 	t_parser	parser;
 
+	ft_printf("%s: ", line);
 	parser_parse(&parser, line, 42, &env);
 
 	assert(parser.ast == NULL);
@@ -279,6 +280,7 @@ int main(int argc, char *argv[], char **envp)
 	test_error("hello ><");
 	test_error("hello >");
 	test_error("|");
+	test_error("a | a |");
 
 	ft_printf("All tests passed!\n");
 	

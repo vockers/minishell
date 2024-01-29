@@ -134,11 +134,11 @@ t_ast	*parse_command(t_parser *parser, int status, t_env *env)
 	if (token_is_redirect(parser->next_token.type))
 	{
 		redirect_node = parse_redirect(parser);
-		if (redirect_node == NULL)
-			return (NULL);
+		if (redirect_node == NULL || \
+			(parser->next_token.type != T_ARG && \
+			parser->next_token.type != T_PIPE))
+			return (redirect_node);
 	}
-	if (parser->next_token.type != T_ARG && parser->next_token.type != T_PIPE)
-		return (redirect_node);
 	node = parse_arguments(parser, status, env);
 	if (node == NULL)
 		return (ast_destroy(redirect_node), NULL);
