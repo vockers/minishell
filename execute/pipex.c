@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:11:17 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/26 13:40:06 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/29 17:32:57 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ static void	child_process_left(t_ast *ast, int *fds, t_list *hd_fd, t_mini *ms)
 	close(fds[0]);
 	if (redirec_heredoc(ast->right, hd_fd))
 	{
-		if (fds[3] != STDIN_FILENO)
-			close(fds[3]);
+		if (fds[2] != STDIN_FILENO)
+			close(fds[2]);
 	}
-	else if (fds[3] != STDIN_FILENO)
+	else if (fds[2] != STDIN_FILENO)
 	{
-		dup2(fds[3], STDIN_FILENO);
-		close(fds[3]);
+		dup2(fds[2], STDIN_FILENO);
+		close(fds[2]);
 	}
 	if (ast->type == AST_ARG)
 	{
