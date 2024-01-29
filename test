@@ -1,0 +1,14 @@
+a.out
+builtins
+compile_commands.json
+env
+execute
+libft
+main
+Makefile
+minishell
+parser
+signals
+test
+tests
+test.sh

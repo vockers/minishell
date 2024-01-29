@@ -16,6 +16,15 @@
 
 #include "libft.h"
 
+static t_ast	*last_redirect(t_ast *node)
+{
+	if (node == NULL)
+		return (NULL);
+	while (node->right)
+		node = node->right;
+	return (node);
+}
+
 /**
  * Arguments
  *	: ARG
@@ -128,15 +137,15 @@ t_ast	*parse_command(t_parser *parser, int status, t_env *env)
 		if (redirect_node == NULL)
 			return (NULL);
 	}
-	if (parser->next_token.type != T_ARG)
+	if (parser->next_token.type != T_ARG && parser->next_token.type != T_PIPE)
 		return (redirect_node);
 	node = parse_arguments(parser, status, env);
+	if (node == NULL)
+		return (ast_destroy(redirect_node), NULL);
 	node->right = redirect_node;
 	if (token_is_redirect(parser->next_token.type))
 	{
-		redirect_node = node;
-		while (redirect_node->right)
-			redirect_node = redirect_node->right;
+		redirect_node = last_redirect(node);
 		redirect_node->right = parse_redirect(parser);
 		if (redirect_node->right == NULL)
 			return (ast_destroy(node), NULL);
