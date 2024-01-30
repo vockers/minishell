@@ -47,7 +47,7 @@ int	main(int ac, char *argv[], char **envp)
 		if (!line)
 		{
 			ms.status = 0;
-			printf("exit\n");
+			ft_putendl_fd("exit", STDERR_FILENO);
 			break ;
 		}
 		status_signal(&ms);

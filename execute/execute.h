@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:10:26 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/25 17:10:28 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/29 15:35:17 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
+# include <sys/stat.h>
 # include "../signals/signals.h"
 
 # include "../main/minishell.h"
