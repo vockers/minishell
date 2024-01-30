@@ -16,9 +16,11 @@
 
 int	run_unset(char **args, t_env *env)
 {
-	if (!args[1])
-		return (EXIT_SUCCESS);
-	env_remove(env, args[1]);
-	env_to_strs(env);
+	while (args[1])
+	{
+		env_remove(env, args[1]);
+		env_to_strs(env);
+		args++;
+	}
 	return (EXIT_SUCCESS);
 }

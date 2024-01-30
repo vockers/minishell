@@ -33,12 +33,12 @@ size_t	env_len(t_env *env)
 
 bool	is_valid_env(const char *env)
 {
-	if (ft_isdigit(*env) || *env == '=')
+	if (env == NULL || ft_isdigit(*env) || *env == '=')
 		return (false);
 	env++;
 	while (*env && *env != '=')
 	{
-		if (!ft_isalnum(*env))
+		if (!ft_isalnum(*env) && *env != '_')
 			return (false);
 		env++;
 	}
@@ -49,16 +49,16 @@ char	*get_env_value(t_env *env, char *name)
 {
 	t_envlst	*iter;
 	size_t		value_len;
+	size_t		iter_len;
 
 	if (env == NULL || name == NULL)
 		return (NULL);
 	iter = env->head;
 	while (iter)
 	{
-		value_len = 0;
-		while (iter->value[value_len] && iter->value[value_len] != '=')
-			value_len++;
-		if (ft_strncmp(iter->value, name, value_len) == 0)
+		iter_len = env_name_len(iter->value);
+		value_len = env_name_len(name);
+		if (iter_len == value_len && !ft_strncmp(iter->value, name, value_len))
 		{
 			if (iter->value[value_len] == '=')
 				return (iter->value + value_len + 1);
@@ -89,4 +89,14 @@ int	env_to_strs(t_env *env)
 	free(env->strs);
 	env->strs = new;
 	return (1);
+}
+
+size_t	env_name_len(char *name)
+{
+	size_t	len;
+
+	len = 0;
+	while (name[len] && name[len] != '=')
+		len++;
+	return (len);
 }

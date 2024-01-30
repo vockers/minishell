@@ -38,5 +38,6 @@ bool	is_valid_env(const char *env);
 size_t	env_len(t_env *env);
 char	*get_env_value(t_env *env, char *name);
 int		env_to_strs(t_env *env);
+size_t	env_name_len(char *name);
 
 #endif

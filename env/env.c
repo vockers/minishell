@@ -69,16 +69,16 @@ void	env_update(t_env *env, char *value)
 {
 	t_envlst	*iter;
 	size_t		value_len;
+	size_t		iter_len;
 
 	if (env == NULL)
 		return ;
 	iter = env->head;
 	while (iter)
 	{
-		value_len = 0;
-		while (iter->value[value_len] && iter->value[value_len] != '=')
-			value_len++;
-		if (ft_strncmp(iter->value, value, value_len) == 0)
+		iter_len = env_name_len(iter->value);
+		value_len = env_name_len(value);
+		if (value_len == iter_len && !ft_strncmp(iter->value, value, value_len))
 		{
 			if (value[value_len] == '=')
 			{

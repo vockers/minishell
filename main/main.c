@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/25 16:22:12 by vockers           #+#    #+#             */
-/*   Updated: 2024/01/30 12:29:41 by jcaro            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jcaro <jcaro@student.42.fr>                  +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/25 16:22:12 by vockers       #+#    #+#                 */
+/*   Updated: 2024/01/29 13:55:07 by jcaro         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	process_line(char *line, t_mini *ms)
 		ms->status = exe_line(ms->parser.ast, ms);
 	else
 		ms->status = 2;
-	ast_destroy(ms->parser.ast);
+	parser_cleanup(&(ms->parser));
 	free(line);
 }
 

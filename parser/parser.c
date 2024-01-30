@@ -73,3 +73,9 @@ void	parser_parse(t_parser *parser, char *line, int status, t_env *env)
 	parser->next_token = get_next_token(line);
 	parser->ast = parse_pipe(parser, status, env);
 }
+
+void	parser_cleanup(t_parser *parser)
+{
+	free(parser->next_token.str);
+	ast_destroy(parser->ast);
+}

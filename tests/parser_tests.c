@@ -53,7 +53,20 @@ void test_ast(char *line, ...)
 	vassert_ast(line, parser.ast, ap);
 
 	va_end(ap);
-	ast_destroy(parser.ast);
+	parser_cleanup(&parser);
+}
+
+void test_error(char *line)
+{
+	t_parser	parser;
+
+	ft_printf("%s: ", line);
+	parser_parse(&parser, line, 42, &env);
+
+	assert(parser.ast == NULL);
+
+	parser_cleanup(&parser);
+
 }
 
 int main(int argc, char *argv[], char **envp)
@@ -263,6 +276,11 @@ int main(int argc, char *argv[], char **envp)
 	test_ast("\"hello $ASJDLKJADKhKJHSAKJDH world\"",
 		AST_ARG, "hello  world"
 	);
+
+	test_error("hello ><");
+	test_error("hello >");
+	test_error("|");
+	test_error("a | a |");
 
 	ft_printf("All tests passed!\n");
 	
