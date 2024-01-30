@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:09:58 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/25 17:10:01 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/30 12:22:14 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ static char	*create_msg(char *error, char *file)
 	char	*msg;
 	char	c[2];
 
-	len = ft_strlen("msh: : \n");
+	len = ft_strlen("minishell: : \n");
 	len += ft_strlen(error) + ft_strlen(file);
 	msg = (char *)malloc(len + 1);
 	if (!msg)
 		return (NULL);
-	ft_strlcpy(msg, "msh: ", len + 1);
+	ft_strlcpy(msg, "minishell: ", len + 1);
 	c[0] = ft_tolower(error[0]);
 	c[1] = '\0';
 	ft_strlcat(msg, c, len + 1);

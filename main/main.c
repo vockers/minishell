@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:22:12 by vockers           #+#    #+#             */
-/*   Updated: 2024/01/29 13:55:07 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/30 12:29:41 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	main(int ac, char *argv[], char **envp)
 		if (!line)
 		{
 			ms.status = 0;
-			printf("exit\n");
+			ft_putendl_fd("exit", STDERR_FILENO);
 			break ;
 		}
 		status_signal(&ms);
