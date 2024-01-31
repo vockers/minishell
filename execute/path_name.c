@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:11:10 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/29 14:07:38 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/31 16:52:03 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ static char	*get_pathname(char **path_list, char *cmd)
 	return (free_arr(path_list));
 }
 
-char	*pathname(char *cmd)
+char	*pathname(char *cmd, t_env *env)
 {
 	char	**path_list;
 	char	*pathname;
 
 	if (ft_strchr(cmd, '/') || cmd[0] == '.')
 		return (cmd);
-	path_list = get_path_list(getenv("PATH"));
+	path_list = get_path_list(get_env_value(env, "PATH"));
 	if (!path_list)
 		return (NULL);
 	pathname = get_pathname(path_list, cmd);

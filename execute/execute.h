@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:10:26 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/29 15:35:17 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/31 16:51:53 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		exe_line(t_ast *ast, t_mini *ms);
 int		exit_handler(int status);
 int		pipex(t_ast *ast, int infd, t_list *hdoc_fd, t_mini *ms);
 void	display_error(int fd, char *error);
-char	*pathname(char *cmd);
+char	*pathname(char *cmd, t_env *env);
 char	**get_args(t_ast *ast);
 void	execute(t_ast *ast, t_mini *ms);
 char	*free_arr(char **arr);
