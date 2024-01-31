@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:10:19 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/31 17:01:49 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/31 17:28:44 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ char	*error_msg(char *cmd)
 	msg = (char *)malloc(len + 1);
 	if (!msg)
 		return (NULL);
-	ft_strcpy(msg, cmd);
-	ft_strcat(msg, ": command not found\n");
+	ft_strlcpy(msg, cmd, len + 1);
+	ft_strlcat(msg, ": command not found\n", len + 1);
 	return (msg);
 }
 
