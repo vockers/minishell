@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:10:19 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/29 16:12:10 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/01/31 17:28:44 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*error_msg(char *cmd)
 	size_t	len;
 	char	*msg;
 
-	len = ft_strlen(": command not found: \n");
+	len = ft_strlen(": command not found\n");
 	len += ft_strlen(cmd);
 	msg = (char *)malloc(len + 1);
 	if (!msg)
@@ -100,7 +100,7 @@ void	execute(t_ast *ast, t_mini *ms)
 	if (!args)
 		exit(EXIT_FAILURE);
 	env = ms->env;
-	cmd_path = pathname(args[0]);
+	cmd_path = pathname(args[0], &(ms->env));
 	check_if_dir(cmd_path, args);
 	if (execve(cmd_path, args, env.strs) == -1)
 	{
