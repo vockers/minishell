@@ -12,7 +12,7 @@
 
 #include "parser.h"
 
-static char	*expand_env(char *str, size_t i, t_env *env)
+static char	*expand_env(char *str, size_t *i, t_env *env)
 {
 	char	*name;
 	char	*value;
@@ -20,23 +20,24 @@ static char	*expand_env(char *str, size_t i, t_env *env)
 	size_t	name_len;
 	size_t	new_len;
 
-	name_len = i;
+	name_len = *i;
 	while (str[name_len] && !lexer_is_delimiter(str[name_len]) && \
 		str[name_len] != '\'' && str[name_len] != '"')
 		name_len++;
-	name_len = name_len - i;
-	name = ft_strndup(str + i, name_len);
+	name_len = name_len - *i;
+	name = ft_strndup(str + *i, name_len);
 	value = get_env_value(env, name);
 	free(name);
 	new_len = ft_strlen(str) - name_len + ft_strlen(value);
 	new_str = ft_calloc(new_len + 1, sizeof(char));
 	if (new_str == NULL)
 		return (free(str), NULL);
-	ft_strlcpy(new_str, str, i);
+	ft_strlcpy(new_str, str, *i);
 	if (value != NULL)
 		ft_strlcat(new_str, value, new_len);
-	ft_strlcat(new_str, str + i + name_len, new_len);
+	ft_strlcat(new_str, str + *i + name_len, new_len);
 	free(str);
+	*i += ft_strlen(value);
 	return (new_str);
 }
 
@@ -61,10 +62,10 @@ static char	*expand_status(char *str, size_t i, int status)
 	return (new_str);
 }
 
-static char	*expand_var(char *str, size_t i, int status, t_env *env)
+static char	*expand_var(char *str, size_t *i, int status, t_env *env)
 {
-	if (str[i] == '?')
-		return (expand_status(str, i, status));
+	if (str[*i] == '?')
+		return (expand_status(str, *i, status));
 	return (expand_env(str, i, env));
 }
 
@@ -90,7 +91,7 @@ char	*expand_argument(char *str, int status, t_env *env)
 			ft_strcpy(str + i, str + i + 1);
 		}
 		else if (str[i++] == '$' && !inside_quote)
-			str = expand_var(str, i, status, env);
+			str = expand_var(str, &i, status, env);
 	}
 	return (str);
 }
