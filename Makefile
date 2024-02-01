@@ -16,6 +16,7 @@ SRCS = 	parser/ast.c \
 		execute/pipex.c \
 		execute/display_error.c \
 		execute/execute.c \
+		execute/exit_handler.c \
 		execute/free_arr.c \
 		execute/path_name.c \
 		execute/file_handler.c \
@@ -34,7 +35,7 @@ SRCS = 	parser/ast.c \
 		main/minishell.c \
 
 OBJS = ${SRCS:%.c=$(OBJ_DIR)/%.o}
-CFLAGS = -Imain -Ilibft -Iparser -Ienv -Ibuiltins -Iexecute -Isignals -fsanitize=address -g
+CFLAGS = -Wall -Werror -Wextra -Imain -Ilibft -Iparser -Ienv -Ibuiltins -Iexecute -Isignals -fsanitize=address -g
 CC = cc
 
 all: $(NAME)

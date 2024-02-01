@@ -6,13 +6,13 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:10:34 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/25 17:18:50 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/02/01 19:49:01 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-void	outfile_handler(t_ast *ast)
+void	outfile_handler(t_ast *ast, int out_fd)
 {
 	int	fd;
 
@@ -26,28 +26,28 @@ void	outfile_handler(t_ast *ast)
 			fd = open(ast->left->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
 			exit(EXIT_FAILURE);
-		dup2(fd, STDOUT_FILENO);
+		dup2(fd, out_fd);
 		close(fd);
 	}
-	else if (ast)
-		outfile_handler(ast->right);
+	if (ast)
+		outfile_handler(ast->right, out_fd);
 }
 
-int	infile_handler(t_ast *ast)
+void	infile_handler(t_ast *ast, int in_fd)
 {
-	int	fd_infile;
+	int	fd;
 
 	if (ast && ast->type == AST_LSR)
 	{
 		infile_error(ast->left->value);
-		fd_infile = open(ast->left->value, O_RDONLY, 0644);
-		if (fd_infile == -1)
+		fd = open(ast->left->value, O_RDONLY, 0644);
+		if (fd == -1)
 			exit(EXIT_FAILURE);
-		dup2(fd_infile, STDIN_FILENO);
-		close(fd_infile);
-		return (1);
+		dup2(fd, in_fd);
+		close(fd);
 	}
-	return (0);
+	if (ast)
+		infile_handler(ast->right, in_fd);
 }
 
 int	read_loop(char *delimiter, int fd, char *msg)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jcaro <jcaro@student.42.fr>                  +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/01/25 16:22:12 by vockers       #+#    #+#                 */
-/*   Updated: 2024/01/29 13:55:07 by jcaro         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/25 16:22:12 by vockers           #+#    #+#             */
+/*   Updated: 2024/02/01 19:07:04 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ int	main(int ac, char *argv[], char **envp)
 	t_mini	ms;
 	char	*line;
 
-	if (!mini_init(&ms, envp))
+	if (ac > 1 || !argv[0] || !mini_init(&ms, envp))
 		return (1);
 	suppress_output();
 	while (!ms.exit)
 	{
-		signal_handler(&ms);
+		signal_handler();
 		line = readline("msh> ");
 		if (!line)
 		{
