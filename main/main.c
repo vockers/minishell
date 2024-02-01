@@ -32,12 +32,12 @@ static void	process_line(char *line, t_mini *ms)
 	free(line);
 }
 
-int	main(int ac, char *argv[], char **envp)
+int	main(int argc, char *argv[], char **envp)
 {
 	t_mini	ms;
 	char	*line;
 
-	if (ac > 1 || !argv[0] || !mini_init(&ms, envp))
+	if (!mini_init(&ms, argc, argv, envp))
 		return (1);
 	suppress_output();
 	while (!ms.exit)

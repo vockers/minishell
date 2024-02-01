@@ -23,7 +23,7 @@ int	run_echo(char **args)
 	newline = true;
 	if (*(++args) != NULL)
 	{
-		while (*args && ft_strcmp(*args, "-n") == 0)
+		while (*args && ft_strncmp(*args, "-n", 2) == 0 && (*args)[2] != '-')
 		{
 			newline = false;
 			args++;

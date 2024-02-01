@@ -12,6 +12,17 @@
 
 #include "parser.h"
 
+static size_t	get_name_len(char *str)
+{
+	char	*begin;
+
+	begin = str;
+	while (*str && *str != '$' && !lexer_is_delimiter(*str) && \
+		*str != '\'' && *str != '"')
+		str++;
+	return (str - begin);
+}
+
 static char	*expand_env(char *str, size_t *i, t_env *env)
 {
 	char	*name;
@@ -20,11 +31,9 @@ static char	*expand_env(char *str, size_t *i, t_env *env)
 	size_t	name_len;
 	size_t	new_len;
 
-	name_len = *i;
-	while (str[name_len] && !lexer_is_delimiter(str[name_len]) && \
-		str[name_len] != '\'' && str[name_len] != '"')
-		name_len++;
-	name_len = name_len - *i;
+	name_len = get_name_len(str + *i);
+	if (name_len == 0)
+		return (str);
 	name = ft_strndup(str + *i, name_len);
 	value = get_env_value(env, name);
 	free(name);
@@ -37,7 +46,7 @@ static char	*expand_env(char *str, size_t *i, t_env *env)
 		ft_strlcat(new_str, value, new_len);
 	ft_strlcat(new_str, str + *i + name_len, new_len);
 	free(str);
-	*i += ft_strlen(value);
+	*i += ft_strlen(value) - 1;
 	return (new_str);
 }
 
