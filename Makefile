@@ -16,6 +16,7 @@ SRCS = 	parser/ast.c \
 		execute/pipex.c \
 		execute/display_error.c \
 		execute/execute.c \
+		execute/exit_handler.c \
 		execute/free_arr.c \
 		execute/path_name.c \
 		execute/file_handler.c \

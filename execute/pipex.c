@@ -14,8 +14,8 @@
 
 static void	no_cmdx_pipe(t_ast *ast, t_list *hdoc_fd)
 {
-	infile_handler(ast);
-	outfile_handler(ast);
+	infile_handler(ast, STDIN_FILENO);
+	outfile_handler(ast, STDOUT_FILENO);
 	redirec_heredoc(ast, hdoc_fd);
 	exit(EXIT_SUCCESS);
 }
@@ -35,10 +35,10 @@ static void	child_process_left(t_ast *ast, int *fds, t_list *hd_fd, t_mini *ms)
 	}
 	if (ast->type == AST_ARG)
 	{
-		infile_handler(ast->right);
+		infile_handler(ast->right, fds[2]);
 		dup2(fds[1], STDOUT_FILENO);
 		close(fds[1]);
-		outfile_handler(ast->right);
+		outfile_handler(ast->right, fds[1]);
 		if (is_builtin(ast->value))
 			exit(builtin_exec(ast, ms));
 		else
@@ -58,8 +58,8 @@ static void	child_process_right(t_ast *ast, int *fds, t_list *hd_fd, t_mini *ms)
 	}
 	if (ast->type == AST_ARG)
 	{
-		infile_handler(ast->right);
-		outfile_handler(ast->right);
+		infile_handler(ast->right, fds[0]);
+		outfile_handler(ast->right, STDOUT_FILENO);
 		if (is_builtin(ast->value))
 			exit(builtin_exec(ast, ms));
 		else
