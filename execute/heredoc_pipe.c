@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:10:59 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/25 17:15:01 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/02/01 18:34:26 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static char	*write_temp_file(char *delimiter, int i)
 
 int	heredoc_pipe_read(t_ast *ast, t_list **hdoc_fd, int i)
 {
-	int		fd;
 	char	*file_name;
 	int		status;
 

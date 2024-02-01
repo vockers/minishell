@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:10:26 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/31 16:51:53 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/02/01 19:45:26 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ char	*free_arr(char **arr);
 char	**free_arr_i(char **arr, int i);
 void	outfile_error(char *file);
 void	infile_error(char *file);
-void	outfile_handler(t_ast *ast);
-int		infile_handler(t_ast *ast);
+void	outfile_handler(t_ast *ast, int out_fd);
+void	infile_handler(t_ast *ast, int in_fd);
 void	here_doc_handler(t_ast *ast);
 int		read_loop(char *delimiter, int fd, char *msg);
 int		heredoc_pipe_read(t_ast *ast, t_list **hdoc_fd, int i);
