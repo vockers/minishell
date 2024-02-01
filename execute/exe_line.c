@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exe_line.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/25 17:10:08 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/29 15:16:27 by jcaro            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   exe_line.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jcaro <jcaro@student.42.fr>                  +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/25 17:10:08 by jcaro         #+#    #+#                 */
+/*   Updated: 2024/01/29 15:16:27 by jcaro         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	single_cmdx(t_ast *ast, t_mini *ms)
 	return (exit_handler(status));
 }
 
-static int	no_cmdx(t_ast *ast, t_mini *ms)
+static int	no_cmdx(t_ast *ast)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -98,5 +98,5 @@ int	exe_line(t_ast *ast, t_mini *ms)
 			return (single_cmdx(ast, ms));
 	}
 	else
-		return (no_cmdx(ast, ms));
+		return (no_cmdx(ast));
 }

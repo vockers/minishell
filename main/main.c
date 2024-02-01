@@ -32,17 +32,19 @@ static void	process_line(char *line, t_mini *ms)
 	free(line);
 }
 
-int	main(int ac, char *argv[], char **envp)
+int	main(int argc, char *argv[], char **envp)
 {
 	t_mini	ms;
 	char	*line;
 
+	argc = 0;
+	argv = NULL;
 	if (!mini_init(&ms, envp))
 		return (1);
 	suppress_output();
 	while (!ms.exit)
 	{
-		signal_handler(&ms);
+		signal_handler();
 		line = readline("msh> ");
 		if (!line)
 		{

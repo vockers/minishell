@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/25 17:11:17 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/29 17:32:57 by jcaro            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   pipex.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jcaro <jcaro@student.42.fr>                  +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/25 17:11:17 by jcaro         #+#    #+#                 */
+/*   Updated: 2024/01/29 17:32:57 by jcaro         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-static void	no_cmdx_pipe(t_ast *ast, t_mini *ms, t_list *hdoc_fd)
+static void	no_cmdx_pipe(t_ast *ast, t_list *hdoc_fd)
 {
 	infile_handler(ast);
 	outfile_handler(ast);
@@ -45,7 +45,7 @@ static void	child_process_left(t_ast *ast, int *fds, t_list *hd_fd, t_mini *ms)
 			execute(ast, ms);
 	}
 	else
-		no_cmdx_pipe(ast, ms, hd_fd);
+		no_cmdx_pipe(ast, hd_fd);
 }
 
 static void	child_process_right(t_ast *ast, int *fds, t_list *hd_fd, t_mini *ms)
@@ -70,7 +70,7 @@ static void	child_process_right(t_ast *ast, int *fds, t_list *hd_fd, t_mini *ms)
 		exit(pipex(ast, fds[0], hd_fd, ms));
 	}
 	else
-		no_cmdx_pipe(ast, ms, hd_fd);
+		no_cmdx_pipe(ast, hd_fd);
 }
 
 int	pipex(t_ast *ast, int infd, t_list *hdoc_fd, t_mini *ms)
