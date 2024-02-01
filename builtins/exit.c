@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/25 16:42:12 by vockers           #+#    #+#             */
-/*   Updated: 2024/01/30 12:41:00 by jcaro            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   exit.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jcaro <jcaro@student.42.fr>                  +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/25 16:42:12 by vockers       #+#    #+#                 */
+/*   Updated: 2024/01/30 12:41:00 by jcaro         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	run_exit(char **args, t_mini *ms)
 	}
 	else if (args[1] && args[2])
 	{
+		ms->exit = false;
 		if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
 			ft_dprintf(STDERR_FILENO, "minishell: exit: too many arguments\n");
 		else
