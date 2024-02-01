@@ -12,8 +12,14 @@
 
 #include "minishell.h"
 
-int	mini_init(t_mini *ms, char **envp)
+int	mini_init(t_mini *ms, int argc, char **argv, char **envp)
 {
+	if (argc != 1)
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: %s: too many arguments\n", \
+			argv[1]);
+		return (0);
+	}
 	if (!env_init(&(ms->env), envp))
 		return (0);
 	ms->exit = false;

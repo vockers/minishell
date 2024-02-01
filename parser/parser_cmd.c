@@ -16,15 +16,6 @@
 
 #include "libft.h"
 
-static t_ast	*last_redirect(t_ast *node)
-{
-	if (node == NULL)
-		return (NULL);
-	while (node->right)
-		node = node->right;
-	return (node);
-}
-
 /**
  * Arguments
  *	: ARG
@@ -116,6 +107,28 @@ static t_ast	*parse_redirect(t_parser *parser)
 	return (node);
 }
 
+int	parse_red_args(t_parser *parser, t_ast *parent_node, int status, t_env *env)
+{
+	t_ast	*last_node;
+
+	last_node = parent_node;
+	while (last_node->right != NULL)
+		last_node = last_node->right;
+	last_node->right = parse_redirect(parser);
+	if (last_node->right == NULL)
+		return (0);
+	if (parser->next_token.type == T_ARG)
+	{
+		last_node = parent_node;
+		while (last_node->left != NULL)
+			last_node = last_node->left;
+		last_node->left = parse_arguments(parser, status, env);
+		if (last_node->left == NULL)
+			return (0);
+	}
+	return (1);
+}
+
 /**
  * Command
  * 	: Arguments
@@ -135,19 +148,16 @@ t_ast	*parse_command(t_parser *parser, int status, t_env *env)
 	{
 		redirect_node = parse_redirect(parser);
 		if (redirect_node == NULL || \
-			(parser->next_token.type != T_ARG && \
-			parser->next_token.type != T_PIPE))
+			(parser->next_token.type != T_ARG))
 			return (redirect_node);
 	}
 	node = parse_arguments(parser, status, env);
 	if (node == NULL)
 		return (ast_destroy(redirect_node), NULL);
 	node->right = redirect_node;
-	if (token_is_redirect(parser->next_token.type))
+	while (token_is_redirect(parser->next_token.type))
 	{
-		redirect_node = last_redirect(node);
-		redirect_node->right = parse_redirect(parser);
-		if (redirect_node->right == NULL)
+		if (!parse_red_args(parser, node, status, env))
 			return (ast_destroy(node), NULL);
 	}
 	return (node);

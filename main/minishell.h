@@ -28,7 +28,7 @@ typedef struct s_mini
 	int			status;
 }	t_mini;
 
-int		mini_init(t_mini *ms, char **envp);
+int		mini_init(t_mini *ms, int argc, char **argv, char **envp);
 void	mini_cleanup(t_mini *ms);
 
 #endif

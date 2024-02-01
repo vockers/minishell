@@ -37,9 +37,7 @@ int	main(int argc, char *argv[], char **envp)
 	t_mini	ms;
 	char	*line;
 
-	argc = 0;
-	argv = NULL;
-	if (!mini_init(&ms, envp))
+	if (!mini_init(&ms, argc, argv, envp))
 		return (1);
 	suppress_output();
 	while (!ms.exit)
