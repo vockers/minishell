@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   pipex.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jcaro <jcaro@student.42.fr>                  +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/01/25 17:11:17 by jcaro         #+#    #+#                 */
-/*   Updated: 2024/01/29 17:32:57 by jcaro         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/25 17:11:17 by jcaro             #+#    #+#             */
+/*   Updated: 2024/02/03 14:35:53 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,6 @@ int	pipex(t_ast *ast, int infd, t_list *hdoc_fd, t_mini *ms)
 	close(fds[1]);
 	waitpid(pid[0], &status[0], 0);
 	waitpid(pid[1], &status[1], 0);
-	exit_handler(status[0]);
+	exit_handler_pipe(status[1], infd);
 	return (exit_handler(status[1]));
 }

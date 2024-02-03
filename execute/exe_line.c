@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   exe_line.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jcaro <jcaro@student.42.fr>                  +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/01/25 17:10:08 by jcaro         #+#    #+#                 */
-/*   Updated: 2024/01/29 15:16:27 by jcaro         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   exe_line.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/25 17:10:08 by jcaro             #+#    #+#             */
+/*   Updated: 2024/02/03 14:24:37 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	pipe_exe(t_ast *ast, t_mini *ms)
 	}
 	status = pipex(ast, STDIN_FILENO, hdoc_fd, ms);
 	ft_lstclear(&hdoc_fd, free);
-	return (exit_handler_signal(status));
+	return (status);
 }
 
 static int	single_cmdx_builtin(t_ast *ast, t_mini *ms)

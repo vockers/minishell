@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   signals.h                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jcaro <jcaro@student.42.fr>                  +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/01/25 17:11:49 by jcaro         #+#    #+#                 */
-/*   Updated: 2024/01/29 13:21:08 by jcaro         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   signals.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/25 17:11:49 by jcaro             #+#    #+#             */
+/*   Updated: 2024/02/03 14:30:19 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,5 @@ void	suppress_output(void);
 void	signal_handler_init(void (*f)(int), int sig_type);
 void	ft_empty(int signum);
 void	status_signal(t_mini *ms);
-int		exit_handler_signal(int status);
 
 #endif

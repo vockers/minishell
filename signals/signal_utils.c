@@ -6,7 +6,7 @@
 /*   By: jcaro <jcaro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:11:43 by jcaro             #+#    #+#             */
-/*   Updated: 2024/01/29 15:18:51 by jcaro            ###   ########.fr       */
+/*   Updated: 2024/02/03 14:38:15 by jcaro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,4 @@ void	status_signal(t_mini *ms)
 		ms->status = 130;
 		g_sig = -1;
 	}
-}
-
-int	exit_handler_signal(int status)
-{
-	if (status == SIGINT || status == 130)
-		write(STDOUT_FILENO, "\n", 1);
-	else if (status == 131)
-		write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
-	return (status);
 }
